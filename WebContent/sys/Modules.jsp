@@ -10,11 +10,11 @@
 $(function(){
 	$("#tre").tree({
 		lines:true,
-		url:"",
+		url:"/CRM/Allmodules",
 		onContextMenu:function(e,node){
 			e.preventDefault();
 			$("#tre").tree('select',node.target);
-			$("#mm").menu('',{
+			$("#mm").menu('show',{
 				left:e.pageX,
 				top:e.pageY
 			});
@@ -37,12 +37,11 @@ function subimtaddfm(){
 	var weight=$("#Moduleweight").val();
 	var path=$("#ModuleUrl").val();
 	if(flag){
-		$.post("http://stuapi.ysd3g.com/api/CreateModule", {
-		name:Modulename,
-		parentId:nodes.id,
+		$.post("/CRM/addmodules", {
+		module_name:Modulename,
+		parent_id:nodes.id,
 		path:path,
-		weight:weight,
-		token:glbalData.myToken
+		weight:weight
 	}, function(res) {
 		if(res.success){
 			$.messager.alert("提示", "添加成功!");
@@ -59,12 +58,11 @@ function exitfm(){
 function edit(){
 	var nodes = $('#tre').tree('getSelected');
 	if(nodes!=null){
-	$.post("http://stuapi.ysd3g.com/api/GetModuleById", {
-		id:nodes.id,
-		token:glbalData.myToken
+	$.post("/CRM/modulesById", {
+		module_id:nodes.id,
 	}, function(res) {
-		if(res.success){
-			var msg=eval("("+res.message+")");
+		if(res.success==true){
+			msg=res.message;
 			$("#edit-fm").form("load", msg)
 			$("#edit").window("open");
 		}
@@ -76,23 +74,24 @@ function edit(){
 function subimtEditfm(){
 	var nodes = $('#tre').tree('getSelected');
 	var flag=$("#edit-fm").form("validate");
-	var name=$("#name").val();
-	var path=$("#url").val();
+	var module_name=$("#module_name").val();
+	var path=$("#path").val();
 	var weight=$("#weight").val();
-	var parentId=$("#parentId").val();
+	var parent_id=$("#parent_id").val();
 	if(flag){
-		$.post("http://stuapi.ysd3g.com/api/UpdateModule", {
-		mId:nodes.id,
-		name:name,
-		parentId:parentId,
+		$.post("/CRM/setmodulesById", {
+		module_id:nodes.id,
+		module_name:module_name,
+		parent_id:parent_id,
 		path:path,
-		weight:weight,
-		token:glbalData.myToken
+		weight:weight
 	}, function(res) {
-		if(res.success){
+		if(res>0){
 			$.messager.alert("提示", "修改成功!");
 			$("#edit").window("close");
 			$("#tre").tree("reload");
+		}else{
+			$.messager.alert("提示", "修改失败!");
 		}
 	}, "json")
 	}
@@ -100,9 +99,8 @@ function subimtEditfm(){
 function del(){
 	var nodes = $('#tre').tree('getSelected');
 	if(nodes!=null){
-		$.post("http://stuapi.ysd3g.com/api/DeleteModule", {
-		mId:nodes.id,
-		token:glbalData.myToken
+		$.post("/CRM/delmodulesById", {
+		module_id:nodes.id
 	}, function(res) {
 		if(res.success){
 			$.messager.alert("提示", "删除成功!");
@@ -162,19 +160,20 @@ function del(){
 				</table>
 			</form>
 		</div>
-		<div id="edit" class="easyui-window" title="添加信息" style="width:400px;height:300px" data-options="iconCls:'icon-save',modal:true,closed:true">
+		<!-- 修改模块 -->
+		<div id="edit" class="easyui-window" title="修改模块信息" style="width:400px;height:300px" data-options="iconCls:'icon-save',modal:true,closed:true">
 			<form id="edit-fm" class="easyui-form" style="text-align: center;">
 				<table cellpadding="5">
 					<tr>
 						<td>父节点ID：</td>
 						<td>
-							<input type="text" class="easyui-textbox" id="parentId" name="parentId" style="width:120px" data-options="readonly:true" >
+							<input type="text" class="easyui-textbox" id="parent_id" name="parent_id" style="width:120px" data-options="readonly:true" >
 						</td>
 					</tr>
 					<tr>
 						<td>模块名称：</td>
 						<td>
-							<input type="text" class="easyui-textbox" id="name" name="name" style="width:120px"required="true" >
+							<input type="text" class="easyui-textbox" id="module_name" name="module_name" style="width:120px"required="true" >
 						</td>
 					</tr>
 					<tr>
@@ -186,7 +185,7 @@ function del(){
 					<tr>
 						<td>url：</td>
 						<td>
-						<input type="text" class="easyui-textbox" id="url" name="url" style="width:120px"required="true" >
+						<input type="text" class="easyui-textbox" id="path" name="path" style="width:120px"required="true" >
 						</td>
 					</tr>
 					<tr>

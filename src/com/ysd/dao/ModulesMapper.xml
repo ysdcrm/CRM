@@ -3,10 +3,53 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ysd.dao.ModulesMapper">
+	<!-- 查询登录用户的相应模块 -->
 	<select id="getModule" parameterType="string" resultType="modules">
 		SELECT * FROM modules WHERE module_id in (SELECT module_id from rolemodules  WHERE role_id in (select role_id from userroles WHERE user_id in(select user_id from users WHERE login_name=#{login_name})))
 	</select>
+	<!-- 查询登录用户的相应父模块 -->
 	<select id="getModules" parameterType="string" resultType="modules">
 		SELECT * FROM modules WHERE module_id in (SELECT module_id from rolemodules  WHERE role_id in (select role_id from userroles WHERE user_id in(select user_id from users WHERE login_name=#{login_name}))) and parent_id=0
 	</select>
+	<!-- 查询所有1级父模块 -->
+	<select id="getAllFaterModule" resultType="modules">
+		SELECT  * FROM modules WHERE parent_id=0
+	</select>
+	<!-- 查询所有模块 -->
+	<select id="getAllModule" resultType="modules">
+		SELECT  * FROM modules 
+	</select>
+	<!-- 根据ID查询模块信息 -->
+	<select id="getAModulesById" parameterType="int" resultType="modules">
+		SELECT  * FROM modules WHERE module_id=#{module_id}
+	</select>	
+	<!-- 根据ID修改模块信息 -->
+	<update id="setModulesById" parameterType="modules">
+		update modules 
+		<set>
+			<if test="module_name!=null and module_name!=''">
+				 module_name=#{module_name},
+			</if>
+			<if test="parent_id!=null and parent_id!=''">
+				parent_id=#{parent_id},
+			</if>
+			<if test="path!=null and path!=''">
+				 path=#{path},
+			</if>
+			<if test="weight!=null and weight!=''">
+				weight=#{weight}
+			</if>
+		</set>
+		<where>
+			module_id=#{module_id}
+		</where>
+	</update>
+	<!-- 添加模块信息 -->
+	<insert id="addModules" parameterType="modules">
+		insert into modules(module_name,parent_id,path,weight)values(#{module_name},#{parent_id},#{path},#{weight})
+	</insert>
+	<!-- 根据ID进行模块删除 -->
+	<delete id="delmodulesById" parameterType="int">
+		delete from modules where module_id=#{module_id}
+	</delete>
 </mapper>
