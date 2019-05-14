@@ -8,8 +8,20 @@ public class Roles {
 	private String role_name;//角色名称
 	
 	
-	
-	
+	private Modules modules;
+	public Modules getModules() {
+		return modules;
+	}
+	public void setModules(Modules modules) {
+		this.modules = modules;
+	}
+	public Rolemodules getRolemodules() {
+		return rolemodules;
+	}
+	public void setRolemodules(Rolemodules rolemodules) {
+		this.rolemodules = rolemodules;
+	}
+	private Rolemodules rolemodules;
 	
 	
 	

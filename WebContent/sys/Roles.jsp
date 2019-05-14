@@ -124,10 +124,10 @@ function setQXRoles(index) {
  						}
  					}
  					$.post(
- 						"",
+ 						"/CRM/selectRolesQX",
  						{
  							parentIds:n,
-							rId:data.role_id
+							rId:data.module_id
 						}, function(res){
 							if(res.success){
 								$.messager.alert("消息","保存权限成功！");
@@ -146,8 +146,8 @@ function setQXRoles(index) {
  				}
  			}]
  		});
- 		$.post("", {
-					roleId:id,
+ 		$.post("/CRM/", {
+					roleId:module_id
 				}, function(res) {
 					checked:true;
 					$("#tre").tree("loadData",res);
@@ -181,7 +181,7 @@ function setQXRoles(index) {
 				<tr>
 					<td>名称:</td>
 					<td><input class="easyui-textbox" type="text" id="role_names"
-						name="role_names" data-options="required:true"></input></td>
+						data-options="required:true"></input></td>
 				</tr>
 			</table>
 		</form>

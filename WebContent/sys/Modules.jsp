@@ -11,10 +11,10 @@ $(function(){
 	$("#tre").tree({
 		lines:true,
 		url:"",
-		,onContextMenu:function(e,node){
+		onContextMenu:function(e,node){
 			e.preventDefault();
 			$("#tre").tree('select',node.target);
-			$("#mm").menu('show',{
+			$("#mm").menu('',{
 				left:e.pageX,
 				top:e.pageY
 			});

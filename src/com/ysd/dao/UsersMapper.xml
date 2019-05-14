@@ -19,7 +19,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		<result property="roles.role_name" column="role_name"/>
  		<result property="userRoles.user_id" column="user_id"/>
  		<result property="userRoles.role_id" column="role_id"/>
- 	</resultMap> 
+ 	</resultMap>
+  <!-- 登录用户  -->
 	<select id="getLogin" parameterType="users" resultType="users">
 		select login_name,password,is_Lockout,psd_wrong_time from users
 		<where>
@@ -28,18 +29,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
+	<!--密码输入次数 -->
 	<update id="psdInsert" parameterType="users">
 		update users set psd_wrong_time=(#{psd_wrong_time}+1) where login_name=#{login_name}
 	</update>
+	<!-- 密码输入次数超过5次用户被锁定 -->
 	<update id="is_LockoutInsert" parameterType="users">
 		update users set is_Lockout=0,lock_time=#{lock_time} where login_name=#{login_name}
 	</update>
+	<!-- 登录成功查询该用户的相应角色 -->
 	<select id="getRolesAll" parameterType="users" resultType="Roles">
 		select * from userroles WHERE user_id in(select user_id from users WHERE login_name=#{login_name})
 	</select>
+	<!--查询当前登录用户的个人信息  -->
 	<select id="getUsersAll" parameterType="string" resultType="users">
 		SELECT * FROM users where login_name=#{login_name}
 	</select>
+	<!--登录成功记录登录时间  -->
 	<update id="updateUsersLast_time" parameterType="users">
 		update users set psd_wrong_time=0,last_time_login=#{last_time_login},lock_time=null where login_name=#{login_name}
 	</update>

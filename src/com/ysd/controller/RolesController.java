@@ -1,5 +1,7 @@
 package com.ysd.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ public class RolesController<T> {
 	private RolesService rolesService;
 	@Autowired	
 	private Fenye<Roles> fenye;
+ //所有
 	@RequestMapping(value="/show",method=RequestMethod.POST)
 	@ResponseBody
 	public Fenye<Roles> getRolesAll(Integer page,Integer rows,Roles roles){
@@ -25,20 +28,30 @@ public class RolesController<T> {
 		Fenye<Roles> selectshowAll = rolesService.selectshowAll(fenye);
 		return selectshowAll;
 	  }
+//删除	
 	@RequestMapping(value="/delRoles",method=RequestMethod.POST)
 	@ResponseBody
 	public Integer delRoles(int role_id){
 		Integer delRoles = rolesService.delRoles(role_id);
 		return delRoles;
 	  }
+//添加	
 	@RequestMapping(value="/addRoles",method=RequestMethod.POST)
 	@ResponseBody
 	public Integer addRoles(Roles roles){
 		return rolesService.addRoles(roles);
 	  }
+//修改	
 	@RequestMapping(value="/updateRoles",method=RequestMethod.POST)
 	@ResponseBody
 	public Integer updateRoles(Roles roles){
 		return rolesService.updateRoles(roles);
 	  }
+   //查询角色权限
+	  @RequestMapping(value="/selectRolesQX",method=RequestMethod.POST)
+	  @ResponseBody
+	  public List<Roles> selectRolesQX(String role_name){
+		  return rolesService.selectRolesQX(role_name);
+	  }
+	
 }

@@ -22,7 +22,7 @@ import com.ysd.service.UsersService;
 public class UsersController {
 	@Autowired
 	private UsersService usersService;
-	//用户登录
+  //用户登录
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getLogin(Users users,HttpServletRequest request) {
@@ -33,7 +33,7 @@ public class UsersController {
 		session.setAttribute("user", usersAll);
 		return login;
 	}
-	//安全退出
+  //安全退出
 	@RequestMapping(value="/loginTo",method=RequestMethod.POST)
 	@ResponseBody
 	public Integer  getLogintTO(HttpServletRequest request) {
@@ -43,6 +43,7 @@ public class UsersController {
 	}
 	@Autowired
 	private Fenye<Users> fenye;
+//所有
     @RequestMapping(value="/showUsers",method=RequestMethod.POST)
 	@ResponseBody
     public Fenye<Users> selectAll(Integer page,Integer rows,Users users){
@@ -52,52 +53,55 @@ public class UsersController {
 		  Fenye<Users> selectAllUsers = usersService.selectAllUsers(fenye);
     	return selectAllUsers;
     }
+ //删除   
     @RequestMapping(value="/delUsers",method=RequestMethod.POST)
 	@ResponseBody
 	public Integer delUsers(int user_id){
 		return usersService.delUsers(user_id);
 	  }
+ //添加   
 	@RequestMapping(value="/addUsers",method=RequestMethod.POST)
 	@ResponseBody
 	public Integer addUsers(Users users){
 		return usersService.addUsers(users);
 	  }
+//修改	
 	@RequestMapping(value="/updateUsers",method=RequestMethod.POST)
 	@ResponseBody
 	public Integer UpdateUsers(Users users){
 		return usersService.UpdateUsers(users);
 	  }
-	//重置密码
+ //重置密码
 	  @RequestMapping(value="/Setpassword",method=RequestMethod.POST)
 	  @ResponseBody
 	  public Integer Setpassword(String login_name){
 		  return usersService.Setpassword(login_name);
 	  }
-	  //锁定
+ //锁定
 	  @RequestMapping(value="/YesSouDing",method=RequestMethod.POST)
 	  @ResponseBody
 	  public Integer YesSouDing(String login_name){
 		  return usersService.YesSoudingUser(login_name);
 	  }
-	  //解除锁定
+  //解除锁定
 	  @RequestMapping(value="/NoSouding",method=RequestMethod.POST)
 	  @ResponseBody
 	  public Integer NoSouding(String login_name){
 		  return usersService.NoSoudingUser(login_name);
 	  }
-	  //查询当前用户的角色
+   //查询当前用户的角色
 	  @RequestMapping(value="/selectRoles",method=RequestMethod.POST)
 	  @ResponseBody
 	  public List<Roles> selectRoles(String login_name){
 		  return usersService.selectRoles(login_name);
 	  }  
-	  //设置用户角色
+  //设置用户角色
 	  @RequestMapping(value="/addUserRoles",method=RequestMethod.POST)
 	  @ResponseBody
 	  public Integer addUserRoles(Userroles userRoles){
 		  return usersService.addUserRoles(userRoles);
 	  }
-	  //移除用户角色
+	//移除用户角色
 	  @RequestMapping(value="/delUserRoles",method=RequestMethod.POST)
 	  @ResponseBody
 	  public Integer delUserRoles (Integer role_id) {

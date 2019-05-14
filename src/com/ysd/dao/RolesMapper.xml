@@ -3,6 +3,17 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	<mapper namespace="com.ysd.dao.RolesMapper">
+	   <resultMap type="Roles" id="selectRole">
+ 		<id property="role_id" column="role_id"/>
+ 		<result property="role_name" column="role_name"/>
+ 		<result property="modules.module_id" column="module_id"/>
+ 		<result property="modules.module_name" column="module_name"/>
+ 		<result property="modules.parent_id" column="parent_id"/>
+ 		<result property="modules.path" column="path"/>
+ 		<result property="modules.weight" column="weight"/>
+ 		<result property="rolemodules.role_id" column="role_id"/>
+ 		<result property="rolemodules.module_id" column="module_id"/>
+ 	</resultMap> 
 	<!-- 查询总条数 -->
 	<select id="selectCountRoles" parameterType="fenye" resultType="int">
 	  select count(*) from roles
@@ -35,5 +46,14 @@
 		role_id=#{role_id}
 		</where>
 	</update>
+	<!-- 根据角色名查询当前角色的权限 -->
+ <select id="selectRolesQX" parameterType="string" resultMap="selectRole">
+  SELECT * from modules m,roles r,rolemodules ur
+		WHERE m.module_id=ur.role_id and r.role_id=ur.role_id 
+	 and r.role_name=#{role_name}
+</select> 
+	
+	
+	
 	
 	</mapper>
