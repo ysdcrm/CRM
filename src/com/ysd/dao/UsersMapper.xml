@@ -75,8 +75,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	<!-- 添加 -->
 	<insert id="addUsers" parameterType="users">
-	 insert into users(login_name,password,is_Lockout,last_time_login,create_time,lock_time,protect_email,protect_tel,weight,sign_in_state)
-	 values(#{login_name},#{password},#{is_Lockout},#{last_time_login},#{create_time},#{lock_time},#{protect_email},#{protect_tel},#{weight},#{sign_in_state});
+	 insert into users(login_name,password,create_time,protect_email,protect_tel,weight)
+	 values(#{login_name},#{password},#{create_time},#{protect_email},#{protect_tel},#{weight});
 	</insert>
 	<!-- 修改 -->
 	<update id="UpdateUsers" parameterType="users">
@@ -88,17 +88,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <if test="password!=null and password!=''">
 	   password=#{password},
 	  </if>
-	   <if test="is_Lockout!=null and is_Lockout!=''">
-	   is_Lockout=#{is_Lockout},
-	  </if>
-	   <if test="last_time_login!=null and last_time_login!=''">
-	   last_time_login=#{last_time_login},
-	  </if>
 	   <if test="create_time!=null and create_time!=''">
 	   create_time=#{create_time},
-	  </if>
-	   <if test="lock_time!=null and lock_time!=''">
-	   lock_time=#{lock_time},
 	  </if>
 	   <if test="protect_email!=null and protect_email!=''">
 	   protect_email=#{protect_email},
@@ -108,9 +99,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  </if>
 	  <if test="weight!=null and weight!=''">
 	   weight=#{weight},
-	  </if>
-	  <if test="sign_in_state!=null and sign_in_state!=''">
-	   sign_in_state=#{sign_in_state},
 	  </if>
 	</set>
 	<where>

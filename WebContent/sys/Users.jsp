@@ -62,30 +62,20 @@
 			 var flag=$("#addForm").form("validate");//验证
 		     var login_name=$("#login_names").val();
 		     var password=$("#passwords").val();
-			var is_Lockout=$('#is_Lockouts').combobox('getValue');
-			var last_time_login=$('#last_time_logins').datetimebox('getValue');
 			var create_time=$('#create_times').datetimebox('getValue');
-			var lock_time=$('#lock_times').datetimebox('getValue');
-			var sign_in_state=$('#sign_in_states').combobox('getValue');
 			var protect_email=$("#protect_emails").val();
 			var protect_tel=$("#protect_tels").val();
 			var weight=$("#weights").val();
-			var sign_in_state=$('#sign_in_states').combobox('getValue');
 	     if(flag){
 	    	 $.post(
 	    		'/CRM/addUsers',
 	    		{
 	    			login_name:login_name,
 	    			password:password,
-	    			is_Lockout:is_Lockout,
-	    			last_time_login:last_time_login,
 	    			create_time:create_time,
-	    			lock_time:lock_time,
-	    			sign_in_state:sign_in_state,
 	    			protect_email:protect_email,
 	    			protect_tel:protect_tel,
 	    			weight:weight,
-	    			sign_in_state:sign_in_state
 	    		},function(res){
 	    			 if(res>0){
 	 	                 $.messager.alert("提示","添加成功");
@@ -110,15 +100,10 @@
 		 var data = $("#dg").datagrid("getSelected");//获取选中行
 		 var login_name=$("#login_namess").val();
 	     var password=$("#passwordss").val();
-		var is_Lockout=$('#is_Lockoutss').combobox('getValue');
-		var last_time_login=$('#last_time_loginss').datetimebox('getValue');
 		var create_time=$('#create_timess').datetimebox('getValue');
-		var lock_time=$('#lock_timess').datetimebox('getValue');
-		var sign_in_state=$('#sign_in_statess').combobox('getValue');
 		var protect_email=$("#protect_emailss").val();
 		var protect_tel=$("#protect_telss").val();
 		var weight=$("#weightss").val();
-		var sign_in_state=$('#sign_in_statess').combobox('getValue');
 		 if(flag){
 		     $.post(
 		    	'/CRM/updateUsers',
@@ -126,15 +111,10 @@
 		    		user_id:data.user_id,
 		    		login_name:login_name,
 	    			password:password,
-	    			is_Lockout:is_Lockout,
-	    			last_time_login:last_time_login,
 	    			create_time:create_time,
-	    			lock_time:lock_time,
-	    			sign_in_state:sign_in_state,
 	    			protect_email:protect_email,
 	    			protect_tel:protect_tel,
 	    			weight:weight,
-	    			sign_in_state:sign_in_state
 	    	},function(res){
 	    		if(res>0){
 					$('#dg').datagrid('reload'); //刷新
@@ -350,28 +330,9 @@
 						name="passwords" data-options="required:true"></input></td>
 				</tr>
 				<tr>
-					<td>是否锁定:</td>
-					<td>
-						<select id="is_Lockouts" class="easyui-combobox" name="is_Lockout">   
-						    <option value="">----请选择-----</option>   
-						    <option value="0">0(是)</option>   
-						   <option value="1">1(否)</option>  
-						 </select></td>
-				  </tr>
-				<tr>
-					<td>最后一次登录时间:</td>
-					<td><input class="easyui-datetimebox" type="text" id="last_time_logins"
-						name="last_time_logins" data-options="required:true"></input></td>
-				</tr>
-				<tr>
 					<td>创建时间:</td>
 					<td><input class="easyui-datetimebox" type="text" id="create_times"
 						name="create_times" data-options="required:true"></input></td>
-				</tr>
-				<tr>
-					<td>被锁定时间:</td>
-					<td><input class="easyui-datetimebox" type="text" id="lock_times"
-						name="lock_times" data-options="required:true"></input></td>
 				</tr>
 				<tr>
 					<td>邮箱:</td>
@@ -387,14 +348,6 @@
 					<td>权重:</td>
 					<td><input class="easyui-textbox" type="text" id="weights"
 						name="weights" data-options="required:true"></input></td>
-				</tr>
-				<tr>
-					<td>签到状态:</td>
-					<td><select id="sign_in_states" class="easyui-combobox" name="sign_in_state">   
-						    <option value="">----请选择-----</option>   
-						    <option value="0">0(签到)</option>   
-						   <option value="1">1(签退)</option>  
-					       </select></td>
 				</tr>
 			</table>
 		</form>
@@ -418,28 +371,9 @@
 						name="password" data-options="required:true"></input></td>
 				</tr>
 				<tr>
-					<td>是否锁定:</td>
-					<td>
-						<select id="is_Lockoutss" class="easyui-combobox" name="is_Lockout">   
-						    <option value="">----请选择-----</option>   
-						    <option value="0">0</option>   
-						   <option value="1">1</option>  
-						 </select></td>
-				  </tr>
-				<tr>
-					<td>最后一次登录时间:</td>
-					<td><input class="easyui-datetimebox" type="text" id="last_time_loginss"
-						name="last_time_login" data-options="required:true"></input></td>
-				</tr>
-				<tr>
 					<td>创建时间:</td>
 					<td><input class="easyui-datetimebox" type="text" id="create_timess"
 						name="create_time" data-options="required:true"></input></td>
-				</tr>
-				<tr>
-					<td>被锁定时间:</td>
-					<td><input class="easyui-datetimebox" type="text" id="lock_timess"
-						name="lock_time" data-options="required:true"></input></td>
 				</tr>
 				<tr>
 					<td>邮箱:</td>
@@ -455,14 +389,6 @@
 					<td>权重:</td>
 					<td><input class="easyui-textbox" type="text" id="weightss"
 						name="weight" data-options="required:true"></input></td>
-				</tr>
-				<tr>
-					<td>签到状态:</td>
-					<td><select id="sign_in_statess" class="easyui-combobox" name="sign_in_state">   
-						    <option value="">----请选择-----</option>   
-						    <option value="0">0</option>   
-						   <option value="1">1</option>  
-					       </select></td>
 				</tr>
 			</table>
 		</form>
