@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysd.dao.UsersMapper">
+   <resultMap type="users" id="selectUser">
+ 		<id property="user_id" column="user_id"/>
+ 		<result property="login_name" column="login_name"/>
+ 		<result property="password" column="password"/>
+ 		<result property="is_Lockout" column="is_Lockout"/>
+ 		<result property="last_time_login" column="last_time_login"/>
+ 		<result property="create_time" column="create_time"/>
+ 		<result property="lock_time" column="lock_time"/>
+ 		<result property="protect_email" column="protect_email"/>
+ 		<result property="protect_tel" column="protect_tel"/>
+ 		<result property="weight" column="weight"/>
+ 		<result property="sign_in_state" column="sign_in_state"/>
+ 		<result property="roles.role_id" column="role_id"/>
+ 		<result property="roles.role_name" column="role_name"/>
+ 		<result property="userRoles.user_id" column="user_id"/>
+ 		<result property="userRoles.role_id" column="role_id"/>
+ 	</resultMap> 
+	<select id="getLogin" parameterType="users" resultType="users">
+		select login_name,password,is_Lockout,psd_wrong_time from users
+		<where>
+			<if test="login_name!=null and login_name!=''">
+				and login_name=#{login_name}
+			</if>
+		</where>
+	</select>
+	<update id="psdInsert" parameterType="users">
+		update users set psd_wrong_time=(#{psd_wrong_time}+1) where login_name=#{login_name}
+	</update>
+	<update id="is_LockoutInsert" parameterType="users">
+		update users set is_Lockout=0,lock_time=#{lock_time} where login_name=#{login_name}
+	</update>
+	<select id="getRolesAll" parameterType="users" resultType="Roles">
+		select * from userroles WHERE user_id in(select user_id from users WHERE login_name=#{login_name})
+	</select>
+	<select id="getUsersAll" parameterType="string" resultType="users">
+		SELECT * FROM users where login_name=#{login_name}
+	</select>
+	<update id="updateUsersLast_time" parameterType="users">
+		update users set psd_wrong_time=0,last_time_login=#{last_time_login},lock_time=null where login_name=#{login_name}
+	</update>
+	<!-- 查询总条数 -->
+	<select id="selectUsersCounts" parameterType="fenye" resultType="int">
+	select count(*) from users
+	</select>
+	<!-- 查询总数据 -->
+	<select id="selectShowAllUsers" parameterType="fenye" resultType="users"> 
+	select * from users 
+	<where>
+	  <if test="users.login_name!=null and users.login_name!=''">
+	    and users.login_name like "%"#{users.login_name}"%"
+	  </if>
+	   <if test="users.is_Lockout!=null and users.is_Lockout!=''">
+	    and users.is_Lockout = #{users.is_Lockout}
+	   </if>
+	     <if test="users.sign_in_state!=null and users.sign_in_state!=''">
+	     and users.sign_in_state = #{users.sign_in_state}
+	    </if>
+	   <if test="users.startcreat_time>0">
+	    and users.create_time &gt;=#{users.startcreat_time}
+	   </if>
+	    <if test="users.endcreat_time>0">
+	    and users.create_time &lt;=#{users.endcreat_time}
+	  </if>
+	</where>
+	limit #{page},#{pageSize}
+	</select>
+	<!-- 删除 -->
+	<delete id="delUsers" parameterType="int">
+	 delete from users where user_id=#{user_id}
+	</delete>
+	<!-- 添加 -->
+	<insert id="addUsers" parameterType="users">
+	 insert into users(login_name,password,is_Lockout,last_time_login,create_time,lock_time,protect_email,protect_tel,weight,sign_in_state)
+	 values(#{login_name},#{password},#{is_Lockout},#{last_time_login},#{create_time},#{lock_time},#{protect_email},#{protect_tel},#{weight},#{sign_in_state});
+	</insert>
+	<!-- 修改 -->
+	<update id="UpdateUsers" parameterType="users">
+	update users 
+	<set>
+	  <if test="login_name!=null and login_name!=''">
+	   login_name=#{login_name},
+	  </if>
+	 <if test="password!=null and password!=''">
+	   password=#{password},
+	  </if>
+	   <if test="is_Lockout!=null and is_Lockout!=''">
+	   is_Lockout=#{is_Lockout},
+	  </if>
+	   <if test="last_time_login!=null and last_time_login!=''">
+	   last_time_login=#{last_time_login},
+	  </if>
+	   <if test="create_time!=null and create_time!=''">
+	   create_time=#{create_time},
+	  </if>
+	   <if test="lock_time!=null and lock_time!=''">
+	   lock_time=#{lock_time},
+	  </if>
+	   <if test="protect_email!=null and protect_email!=''">
+	   protect_email=#{protect_email},
+	  </if>
+	   <if test="protect_tel!=null and protect_tel!=''">
+	   protect_tel=#{protect_tel},
+	  </if>
+	  <if test="weight!=null and weight!=''">
+	   weight=#{weight},
+	  </if>
+	  <if test="sign_in_state!=null and sign_in_state!=''">
+	   sign_in_state=#{sign_in_state},
+	  </if>
+	</set>
+	<where>
+	user_id=#{user_id}
+	</where>
+	</update>
+	<!-- 重置密码 -->
+	<update id="Setpassword" parameterType="users">
+	      update users password set password='ysd123' where login_name=#{login_name}
+	</update>
+	<!-- 锁定用户 -->
+	<update id="YesSoudingUser" parameterType="users">
+	 update users is_Lockout set is_Lockout='0',lock_time=#{lock_time} where is_Lockout= '1' AND login_name=#{login_name}
+	</update>
+	<!-- 解锁用户 -->
+	<update id="NoSoudingUser" parameterType="users">
+	   update users is_Lockout set is_Lockout='1',lock_time=null where is_Lockout= '0' AND login_name=#{login_name}
+	</update>
+ <!-- 根据用户名查询当前用户的角色 -->
+ <select id="selectRoles" parameterType="string" resultMap="selectUser">
+    SELECT * from users u,roles r,userroles ur
+		WHERE u.user_id=ur.user_id and r.role_id=ur.role_id 
+	 and u.login_name=#{login_name}
+</select> 
+<!-- 为用户设置角色 -->
+<insert id="addUserRoles" parameterType="userRoles" >
+    INSERT INTO userroles(user_id,role_id) VALUES(#{user_id},#{role_id})
+</insert> 
+<!-- 移除用户角色 -->
+<delete id="delUserRoles" parameterType="int">
+   delete from userroles where role_id=#{role_id}
+</delete>
+	
+	
+</mapper>
