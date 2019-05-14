@@ -43,7 +43,7 @@ function subimtaddfm(){
 		path:path,
 		weight:weight
 	}, function(res) {
-		if(res.success){
+		if(res>0){
 			$.messager.alert("提示", "添加成功!");
 			$("#add").window("close");
 			$("#tre").tree("reload");
@@ -102,7 +102,7 @@ function del(){
 		$.post("/CRM/delmodulesById", {
 		module_id:nodes.id
 	}, function(res) {
-		if(res.success){
+		if(res>0){
 			$.messager.alert("提示", "删除成功!");
 			$("#edit").window("close");
 			$("#tre").tree("reload");

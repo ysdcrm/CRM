@@ -8,6 +8,7 @@ public class SingleTree {
 	private Integer id;
 	private String text;
 	private String path;
+	private Integer p_id;
 	private List<SingleTree> children;
 	public Integer getId() {
 		return id;
@@ -27,6 +28,12 @@ public class SingleTree {
 	public void setPath(String path) {
 		this.path = path;
 	}
+	public Integer getP_id() {
+		return p_id;
+	}
+	public void setP_id(Integer p_id) {
+		this.p_id = p_id;
+	}
 	public List<SingleTree> getChildren() {
 		return children;
 	}
@@ -35,9 +42,10 @@ public class SingleTree {
 	}
 	@Override
 	public String toString() {
-		return "SingleTree [id=" + id + ", text=" + text + ", path=" + path + ", children=" + children + "]";
+		return "SingleTree [id=" + id + ", text=" + text + ", path=" + path + ", p_id=" + p_id + ", children="
+				+ children + "]";
 	}
-
+	
 	
 
 }

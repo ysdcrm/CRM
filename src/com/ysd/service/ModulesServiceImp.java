@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ysd.dao.ModulesMapper;
 import com.ysd.entity.Modules;
 import com.ysd.entity.SingleTree;
+import com.ysd.util.CommonUtil;
 
 @Service
 public class ModulesServiceImp implements ModulesService {
@@ -20,28 +21,17 @@ public class ModulesServiceImp implements ModulesService {
 		// TODO Auto-generated method stub
 		//当前登录的用户的所有模块
 		List<Modules> modules = modulesMapper.getModule(login_name);
-		//当前登录的用户的所有父模块
-		List<Modules> module2 = modulesMapper.getModules(login_name);
 		List<SingleTree> trees=new ArrayList<SingleTree>();
-		for(int i=0;i<module2.size();i++) {
-			SingleTree tree = new SingleTree();
-			tree.setId(module2.get(i).getModule_id());
-			tree.setText(module2.get(i).getModule_name());
-			tree.setPath(module2.get(i).getPath());
-			List<SingleTree> trees1=new ArrayList<SingleTree>();
-			for(int j=0;j<modules.size();j++) {
-				if(module2.get(i).getModule_id()==modules.get(j).getParent_id()) {
-					SingleTree singleTree = new SingleTree();
-					singleTree.setId(modules.get(j).getModule_id());
-					singleTree.setText(modules.get(j).getModule_name());
-					singleTree.setPath(modules.get(j).getPath());
-					trees1.add(singleTree);
-				}
-			}
-			tree.setChildren(trees1);
+		for(Modules module:modules) {
+			SingleTree tree=new SingleTree();
+			tree.setId(module.getModule_id());
+			tree.setText(module.getModule_name());
+			tree.setP_id(module.getParent_id());
+			tree.setPath(module.getPath());
 			trees.add(tree);
 		}
-		return trees;
+		List<SingleTree> singleTrees=CommonUtil.changeSingleTototal(trees, 0);
+		return singleTrees;
 	}
 	//所有模块信息
 	@Override
@@ -49,28 +39,18 @@ public class ModulesServiceImp implements ModulesService {
 		// TODO Auto-generated method stub
 		//所有模块
 		List<Modules> allModule = modulesMapper.getAllModule();
-		//所有1级父模块
-		List<Modules> allFaterModule = modulesMapper.getAllFaterModule();
-		List<SingleTree> tree=new ArrayList<SingleTree>();
-		for(int i=0;i<allFaterModule.size();i++) {
-			SingleTree tree1 = new SingleTree();
-			tree1.setId(allFaterModule.get(i).getModule_id());
-			tree1.setText(allFaterModule.get(i).getModule_name());
-			tree1.setPath(allFaterModule.get(i).getPath());
-			List<SingleTree> tree2=new ArrayList<SingleTree>();
-			for(int j=0;j<allModule.size();j++) {
-				if(allFaterModule.get(i).getModule_id()==allModule.get(j).getParent_id()) {
-					SingleTree tree3 = new SingleTree();
-					tree3.setId(allModule.get(j).getModule_id());
-					tree3.setText(allModule.get(j).getModule_name());
-					tree3.setPath(allModule.get(j).getPath());
-					tree2.add(tree3);
-				}
-			}
-			tree1.setChildren(tree2);
-			tree.add(tree1);
+		
+		List<SingleTree> trees=new ArrayList<SingleTree>();
+		for(Modules module:allModule) {
+			SingleTree tree=new SingleTree();
+			tree.setId(module.getModule_id());
+			tree.setText(module.getModule_name());
+			tree.setP_id(module.getParent_id());
+			tree.setPath(module.getPath());
+			trees.add(tree);
 		}
-		return tree;
+		List<SingleTree> singleTrees=CommonUtil.changeSingleTototal(trees, 0);
+		return singleTrees;
 	}
 	//根据ID查询模块信息
 	@Override

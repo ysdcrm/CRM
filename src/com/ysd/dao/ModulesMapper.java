@@ -12,7 +12,7 @@ public interface ModulesMapper {
 	 */
 	List<Modules> getModules(String login_name);
 	/**
-	 * 	查询登录用户的相应模块
+	 * 	查询登录用户的相应子模块
 	 * @param login_name
 	 * @return
 	 */
