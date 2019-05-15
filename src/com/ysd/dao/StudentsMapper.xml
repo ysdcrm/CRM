@@ -3,5 +3,36 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ysd.dao.StudentsMapper">
-	
+  <select id="selectCountStu" parameterType="fenye" resultType="int">
+       select count(student_id) from students
+  </select>
+  
+  <select id="selectAllStu" parameterType="fenye" resultType="students">
+     select * from students
+  </select>
+  
+  <insert id="addStu" parameterType="students">
+    insert into students(name,age,sex,phone,education,qq,we_chat,area)values(#{name},#{age},#{sex},#{phone},#{education},#{qq},#{we_chat},#{area})
+  </insert>
+  
+ 
+   <!--  根据学生id修改跟踪表里跟踪方式 -->
+  <!-- <update id="updateStu" parameterType="students">
+      update students s,Tracking t
+      <where>
+          <set>
+             <if test="t.tracking_way!=null and tracking_way!=''">
+               t.tracking_way=#{t.tracking_way}
+             </if>
+          </set>
+           s.student_id=t.student_id
+      </where>
+     
+  </update>  -->
+  
+  <delete id="delStu" parameterType="int">
+  
+     delete from students where student_id=#{student_id}
+  
+  </delete>
 </mapper>
