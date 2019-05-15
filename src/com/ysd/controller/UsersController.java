@@ -17,6 +17,7 @@ import com.ysd.entity.Roles;
 import com.ysd.entity.Userroles;
 import com.ysd.entity.Users;
 import com.ysd.service.UsersService;
+import com.ysd.util.Md5;
 
 @Controller
 public class UsersController {
@@ -26,9 +27,13 @@ public class UsersController {
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getLogin(Users users,HttpServletRequest request) {
+		String buildTreeEncryption = Md5.buildTreeEncryption(users.getPassword());
+		users.setPassword(buildTreeEncryption);
 		Map<String, Object> login = usersService.getLogin(users);
 		HttpSession session = request.getSession();
 		session.setAttribute("login_name", users.getLogin_name());
+		
+		
 		List<Users> usersAll = usersService.getUsersAll(users.getLogin_name());
 		session.setAttribute("user", usersAll);
 		return login;
@@ -63,6 +68,8 @@ public class UsersController {
 	@RequestMapping(value="/addUsers",method=RequestMethod.POST)
 	@ResponseBody
 	public Integer addUsers(Users users){
+		String buildTreeEncryption = Md5.buildTreeEncryption(users.getPassword());
+		users.setPassword(buildTreeEncryption);
 		return usersService.addUsers(users);
 	  }
 //修改	
