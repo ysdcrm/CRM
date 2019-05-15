@@ -3,6 +3,8 @@ package com.ysd.dao;
 import java.util.List;
 
 import com.ysd.entity.Fenye;
+import com.ysd.entity.Modules;
+import com.ysd.entity.Rolemodules;
 import com.ysd.entity.Roles;
 
 public interface RolesMapper {
@@ -17,5 +19,5 @@ public interface RolesMapper {
 	  //删除角色
 	  Integer delRoles(int role_id);
 	  //根据角色名设置角色权限
-	  List<Roles> selectRolesQX(String role_name);
+	  List<Modules> selectRolesByIdQX(Integer role_id);
 }

@@ -10,6 +10,7 @@ public class SingleTree {
 	private String path;
 	private Integer p_id;
 	private List<SingleTree> children;
+	private boolean checked;
 	public Integer getId() {
 		return id;
 	}
@@ -40,12 +41,18 @@ public class SingleTree {
 	public void setChildren(List<SingleTree> children) {
 		this.children = children;
 	}
+	public boolean isChecked() {
+		return checked;
+	}
+	
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
 	@Override
 	public String toString() {
 		return "SingleTree [id=" + id + ", text=" + text + ", path=" + path + ", p_id=" + p_id + ", children="
-				+ children + "]";
+				+ children + ", checked=" + checked + "]";
 	}
-	
 	
 
 }

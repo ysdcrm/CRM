@@ -105,6 +105,20 @@ function setQXRoles(index) {
 	var row = data.rows[index];
  	var Name=row.role_name;
  	var id=row.role_id;
+ 	
+		/* $("#tre").tree({
+			url:"/CRM/selectRolesByIdQX",
+			checked:true,
+			queryParams:{
+				role_id:id
+			}
+		}); */
+		$.post("/CRM/selectRolesByIdQX", {
+ 			role_id:id
+ 			}, function(res) {
+ 				checked:true;
+ 				$("#tre").tree("loadData",res);
+ 		}, "json")
  		$("#quqnxian").dialog({
  			closed:false,
  			title:"您正在设置："+Name,
@@ -129,7 +143,7 @@ function setQXRoles(index) {
  							parentIds:n,
 							rId:data.module_id
 						}, function(res){
-							if(res.success){
+							if(res>0){
 								$.messager.alert("消息","保存权限成功！");
 								$("#quqnxian").window("close");
 								$("#dg").datagrid("reload");
@@ -146,12 +160,6 @@ function setQXRoles(index) {
  				}
  			}]
  		});
- 		$.post("/CRM/", {
-					roleId:module_id
-				}, function(res) {
-					checked:true;
-					$("#tre").tree("loadData",res);
-			}, "json")
 	} 
 </script>
 </head>

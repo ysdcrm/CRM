@@ -47,10 +47,11 @@
 		</where>
 	</update>
 	<!-- 根据角色名查询当前角色的权限 -->
- <select id="selectRolesQX" parameterType="string" resultMap="selectRole">
-  SELECT * from modules m,roles r,rolemodules ur
+ <select id="selectRolesByIdQX" parameterType="int" resultType="modules">
+ <!--  SELECT * from modules m,roles r,rolemodules ur
 		WHERE m.module_id=ur.role_id and r.role_id=ur.role_id 
-	 and r.role_name=#{role_name}
+	 and r.role_name=#{role_name} -->
+	 SELECT * from  rolemodules WHERE role_id=#{role_id}
 </select> 
 	
 	

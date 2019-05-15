@@ -29,6 +29,8 @@ public class CommonUtil {
 			  tree.setId(st.getId());
 			  tree.setText(st.getText()); 
 			  tree.setPath(st.getPath());
+			  tree.setP_id(st.getP_id());
+			  tree.setChecked(st.isChecked());
 			  if(id==st.getP_id()){
 				  tree.setChildren(CommonUtil.changeSingleTototal(list, st.getId()));
 				  list1.add(tree); 

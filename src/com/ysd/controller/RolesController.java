@@ -1,5 +1,6 @@
 package com.ysd.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ysd.entity.Fenye;
+import com.ysd.entity.Rolemodules;
 import com.ysd.entity.Roles;
+import com.ysd.entity.SingleTree;
+import com.ysd.service.ModulesService;
 import com.ysd.service.RolesService;
+import com.ysd.util.CommonUtil;
 
 @Controller
 public class RolesController<T> {
@@ -18,7 +23,7 @@ public class RolesController<T> {
 	private RolesService rolesService;
 	@Autowired	
 	private Fenye<Roles> fenye;
- //所有
+ //所有角色
 	@RequestMapping(value="/show",method=RequestMethod.POST)
 	@ResponseBody
 	public Fenye<Roles> getRolesAll(Integer page,Integer rows,Roles roles){
@@ -48,10 +53,12 @@ public class RolesController<T> {
 		return rolesService.updateRoles(roles);
 	  }
    //查询角色权限
-	  @RequestMapping(value="/selectRolesQX",method=RequestMethod.POST)
+	  @RequestMapping(value="/selectRolesByIdQX",method=RequestMethod.POST)
 	  @ResponseBody
-	  public List<Roles> selectRolesQX(String role_name){
-		  return rolesService.selectRolesQX(role_name);
+	  public List<SingleTree> selectRolesQX(Integer role_id){
+		  List<SingleTree> selectRolesByIdQX = rolesService.selectRolesByIdQX(role_id);
+		  System.out.println(selectRolesByIdQX);
+		  return selectRolesByIdQX;
 	  }
 	
 }
