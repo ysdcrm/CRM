@@ -20,4 +20,7 @@ public interface RolesMapper {
 	  Integer delRoles(int role_id);
 	  //根据角色名设置角色权限
 	  List<Modules> selectRolesByIdQX(Integer role_id);
+	  //保存角色权限
+	  Integer addRolesQX(Rolemodules rolemodules);
+	  
 }

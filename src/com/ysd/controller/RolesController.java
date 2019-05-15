@@ -1,7 +1,7 @@
 package com.ysd.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ysd.entity.Fenye;
-import com.ysd.entity.Rolemodules;
 import com.ysd.entity.Roles;
 import com.ysd.entity.SingleTree;
-import com.ysd.service.ModulesService;
 import com.ysd.service.RolesService;
 import com.ysd.util.CommonUtil;
 
@@ -57,8 +55,19 @@ public class RolesController<T> {
 	  @ResponseBody
 	  public List<SingleTree> selectRolesQX(Integer role_id){
 		  List<SingleTree> selectRolesByIdQX = rolesService.selectRolesByIdQX(role_id);
-		  System.out.println(selectRolesByIdQX);
 		  return selectRolesByIdQX;
 	  }
-	
+	//保存权限
+		@RequestMapping(value="/addRolesQX",method=RequestMethod.POST)
+		@ResponseBody
+		public Integer addRolesQX(Integer role_id,String module_id){
+			Map<String, Object> map = CommonUtil.getResultMap();
+			String[] pp = module_id.split(",");
+			for(int i=0;i<pp.length;i++) {
+				Integer qq=Integer.parseInt(pp[i]);
+				Integer addRolesQX = rolesService.addRolesQX(role_id,qq);
+			}
+			
+			return 1;
+		  }
 }

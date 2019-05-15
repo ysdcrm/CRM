@@ -105,14 +105,6 @@ function setQXRoles(index) {
 	var row = data.rows[index];
  	var Name=row.role_name;
  	var id=row.role_id;
- 	
-		/* $("#tre").tree({
-			url:"/CRM/selectRolesByIdQX",
-			checked:true,
-			queryParams:{
-				role_id:id
-			}
-		}); */
 		$.post("/CRM/selectRolesByIdQX", {
  			role_id:id
  			}, function(res) {
@@ -138,10 +130,10 @@ function setQXRoles(index) {
  						}
  					}
  					$.post(
- 						"/CRM/selectRolesQX",
+ 						"/CRM/addRolesQX",
  						{
- 							parentIds:n,
-							rId:data.module_id
+ 							module_id:n,
+ 							role_id:id
 						}, function(res){
 							if(res>0){
 								$.messager.alert("消息","保存权限成功！");

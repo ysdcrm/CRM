@@ -45,13 +45,6 @@ public class RolesServiceImp implements RolesService {
 	public Integer updateRoles(Roles roles) {
 		return rolesMapper.UpdateRoles(roles);
 	}
-	/*
-	 * //根据角色名设置角色权限
-	 * 
-	 * @Override public List<Roles> selectRolesQX(String role_name) { List<Roles>
-	 * selectRolesQX = rolesMapper.selectRolesQX(role_name);
-	 * System.out.println(selectRolesQX); return null;
-	 */
 	@Override
 	public List<SingleTree> selectRolesByIdQX(Integer role_id) {
 		// TODO Auto-generated method stub
@@ -79,9 +72,14 @@ public class RolesServiceImp implements RolesService {
 			}
 			singleTrees.add(tree);
 		}
-		System.out.println(singleTrees);
 		List<SingleTree> singleTree=CommonUtil.changeSingleTototal(singleTrees, 0);
-		System.out.println(singleTree);
 		return singleTree;
+	}
+	@Override
+	public Integer addRolesQX(Integer role_id,Integer qq){
+		Rolemodules rolemodules=new Rolemodules();
+		rolemodules.setModule_id(qq);
+		rolemodules.setRole_id(role_id);
+		return rolesMapper.addRolesQX(rolemodules);
 	}
 }

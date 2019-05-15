@@ -14,4 +14,6 @@ public interface RolesService {
   Integer addRoles(Roles roles);
   Integer updateRoles(Roles roles);
   List<SingleTree> selectRolesByIdQX(Integer role_id);
+  //保存角色权限
+  Integer addRolesQX(Integer module_id,Integer role_id);
 }
