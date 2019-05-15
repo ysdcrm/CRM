@@ -76,12 +76,13 @@ public class UsersServiceImp implements UsersService {
 	}
 	@Override
 	public Integer addUsers(Users users) {
+		users.setCreate_time(last_time_login);
 		Integer addUsers = usersMapper.addUsers(users);
 		return addUsers;
 	}
-
 	@Override
 	public Integer UpdateUsers(Users users) {
+		users.setCreate_time(last_time_login);
 		Integer updateUsers = usersMapper.UpdateUsers(users);
 		return updateUsers;
 	}
