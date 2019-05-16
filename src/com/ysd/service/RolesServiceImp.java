@@ -57,29 +57,40 @@ public class RolesServiceImp implements RolesService {
 		}
 		for(Modules M:allModule) {
 			SingleTree tree=new SingleTree();
-			if(tre.contains(M.getModule_id())) {
-				  tree.setId(M.getModule_id());
-				  tree.setText(M.getModule_name());
-				  tree.setPath(M.getPath());
-				  tree.setP_id(M.getParent_id());
-				  tree.setChecked(true);
-			}else {
-				  tree.setId(M.getModule_id());
-				  tree.setText(M.getModule_name());
-				  tree.setPath(M.getPath());
-				  tree.setP_id(M.getParent_id());
-				  tree.setChecked(false);
-			}
-			singleTrees.add(tree);
+				if(tre.contains(M.getModule_id())&&M.getParent_id()!=0) {
+					  tree.setId(M.getModule_id());
+					  tree.setText(M.getModule_name());
+					  tree.setPath(M.getPath());
+					  tree.setP_id(M.getParent_id());
+					  tree.setChecked(true);
+				}else {
+					  tree.setId(M.getModule_id());
+					  tree.setText(M.getModule_name());
+					  tree.setPath(M.getPath());
+					  tree.setP_id(M.getParent_id());
+					  tree.setChecked(false);
+				}
+					
+				singleTrees.add(tree);
 		}
 		List<SingleTree> singleTree=CommonUtil.changeSingleTototal(singleTrees, 0);
 		return singleTree;
 	}
 	@Override
-	public Integer addRolesQX(Integer role_id,Integer qq){
-		Rolemodules rolemodules=new Rolemodules();
-		rolemodules.setModule_id(qq);
-		rolemodules.setRole_id(role_id);
-		return rolesMapper.addRolesQX(rolemodules);
+	public Integer addRolesQX(Integer role_id,String module_id){
+		
+		rolesMapper.delRolesQX(role_id);
+		String[] pp = module_id.split(",");
+		Integer j = 0;
+		for(int i=0;i<pp.length;i++) {
+			Rolemodules rolemodules=new Rolemodules();
+			Integer qq=Integer.parseInt(pp[i]);
+			rolemodules.setModule_id(qq);
+			rolemodules.setRole_id(role_id);
+			j=rolesMapper.addRolesQX(rolemodules);
+		}
+		
+		
+		return j;
 	}
 }

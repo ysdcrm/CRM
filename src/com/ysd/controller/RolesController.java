@@ -1,7 +1,6 @@
 package com.ysd.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import com.ysd.entity.Fenye;
 import com.ysd.entity.Roles;
 import com.ysd.entity.SingleTree;
 import com.ysd.service.RolesService;
-import com.ysd.util.CommonUtil;
 
 @Controller
 public class RolesController<T> {
@@ -61,13 +59,6 @@ public class RolesController<T> {
 		@RequestMapping(value="/addRolesQX",method=RequestMethod.POST)
 		@ResponseBody
 		public Integer addRolesQX(Integer role_id,String module_id){
-			Map<String, Object> map = CommonUtil.getResultMap();
-			String[] pp = module_id.split(",");
-			for(int i=0;i<pp.length;i++) {
-				Integer qq=Integer.parseInt(pp[i]);
-				Integer addRolesQX = rolesService.addRolesQX(role_id,qq);
-			}
-			
-			return 1;
+			return rolesService.addRolesQX(role_id, module_id);
 		  }
 }

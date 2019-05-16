@@ -53,4 +53,7 @@
 	<insert id="addRolesQX" parameterType="rolemodules">
 	  INSERT INTO rolemodules(role_id,module_id)VALUES(#{role_id},#{module_id})
 	</insert>
+	<insert id="delRolesQX" parameterType="int">
+		delete from rolemodules where role_id=#{role_id}
+	</insert>
 	</mapper>
