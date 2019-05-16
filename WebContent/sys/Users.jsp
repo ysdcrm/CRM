@@ -101,10 +101,8 @@
 		 var flag=$("#updateForm").form("validate");
 		 var data = $("#dg").datagrid("getSelected");//获取选中行
 		 var dataRow = $("#dg").datagrid("getData");
-		 var create_time=dataRow.create_time;
 		 var login_name=$("#login_namess").val();
 	     var password=$("#passwordss").val();
-		/* var create_time=$('#create_timess').datetimebox('getValue'); */
 		var protect_email=$("#protect_emailss").val();
 		var protect_tel=$("#protect_telss").val();
 		var weight=$("#weightss").val();
@@ -115,7 +113,6 @@
 		    		user_id:data.user_id,
 		    		login_name:login_name,
 	    			password:password,
-	    			create_time:create_time,
 	    			protect_email:protect_email,
 	    			protect_tel:protect_tel,
 	    			weight:weight,
@@ -308,7 +305,7 @@
              <th data-options="field:'password'">密码</th>
               <th data-options="field:'is_Lockout',formatter:formatterSD">是否锁定</th> 
               <th data-options="field:'last_time_login'">最后一次登录时间</th> 
-              <th data-options="field:'create_time'">记录系统时间</th> 
+              <th data-options="field:'create_time'">创建时间</th> 
                <th data-options="field:'lock_time'">被锁定时间</th> 
                 <th data-options="field:'protect_email'">注册邮箱</th> 
                  <th data-options="field:'protect_tel'">手机号</th> 
