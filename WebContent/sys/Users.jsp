@@ -60,9 +60,11 @@
 	}
 	function submitAdd(){
 			 var flag=$("#addForm").form("validate");//验证
+			  var data = $("#dg").datagrid("getData"); 
+			 var create_time=data.create_time;
 		     var login_name=$("#login_names").val();
 		     var password=$("#passwords").val();
-			var create_time=$('#create_times').datetimebox('getValue');
+		     /* var create_time=$('#create_times').datetimebox('getValue'); */
 			var protect_email=$("#protect_emails").val();
 			var protect_tel=$("#protect_tels").val();
 			var weight=$("#weights").val();
@@ -98,9 +100,9 @@
 	function submitUpdate(){
 		 var flag=$("#updateForm").form("validate");
 		 var data = $("#dg").datagrid("getSelected");//获取选中行
+		 var dataRow = $("#dg").datagrid("getData");
 		 var login_name=$("#login_namess").val();
 	     var password=$("#passwordss").val();
-		var create_time=$('#create_timess').datetimebox('getValue');
 		var protect_email=$("#protect_emailss").val();
 		var protect_tel=$("#protect_telss").val();
 		var weight=$("#weightss").val();
@@ -111,7 +113,6 @@
 		    		user_id:data.user_id,
 		    		login_name:login_name,
 	    			password:password,
-	    			create_time:create_time,
 	    			protect_email:protect_email,
 	    			protect_tel:protect_tel,
 	    			weight:weight,
@@ -329,11 +330,11 @@
 					<td><input class="easyui-textbox" type="password" id="passwords"
 						name="passwords" data-options="required:true"></input></td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td>创建时间:</td>
 					<td><input class="easyui-datetimebox" type="text" id="create_times"
-						name="create_times" data-options="required:true"></input></td>
-				</tr>
+						name="create_time" data-options="required:true"></input></td>
+				</tr> -->
 				<tr>
 					<td>邮箱:</td>
 					<td><input class="easyui-textbox" type="text" id="protect_emails"
@@ -370,11 +371,11 @@
 					<td><input class="easyui-textbox" type="password" id="passwordss"
 						name="password" data-options="required:true"></input></td>
 				</tr>
-				<tr>
-					<td>创建时间:</td>
+				<!-- <tr>
+					<td>修改时系统时间:</td>
 					<td><input class="easyui-datetimebox" type="text" id="create_timess"
 						name="create_time" data-options="required:true"></input></td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td>邮箱:</td>
 					<td><input class="easyui-textbox" type="text" id="protect_emailss"
