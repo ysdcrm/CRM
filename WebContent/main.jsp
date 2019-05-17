@@ -53,13 +53,70 @@
 			alert(res.usersAll);
 		},"json") */
 	}
+	//签到
+	function qiandao(){
+		$.post("/CRM/signon",{},function(res){
+			if(res>0){
+				 $.messager.show({
+						title : '提示信息',	
+						msg : "签到成功",
+						showType : 'show'
+					});
+				 $("#qiandaodiv").html("<a href='javascript:void(0)' onclick='qiantui()' class='easyui-linkbutton' data-options='iconCls:'icon-cut''>签退</a>");
+			}else if(res<0){
+				$.messager.show({
+					title : '提示信息',	
+					msg : "亲，你今天已经签到过啦！",
+					showType : 'show'
+				});
+				$("#qiandaodiv").html("<a href='javascript:void(0)' onclick='qiantui()' class='easyui-linkbutton' data-options='iconCls:'icon-cut''>签退</a>");
+			}else{
+				 $.messager.show({
+						title : '提示信息',	
+						msg : "签到失败",
+						showType : 'show'
+					});
+			}
+		},"json")
+	}
+	//签退
+	function qiantui(){
+		$.post("/CRM/signback",{},function(res){
+			if(res>0){
+				 $.messager.show({
+						title : '提示信息',	
+						msg : "签退成功",
+						showType : 'show'
+					});
+				 $("#qiandaodiv").html("<a href='javascript:void(0)' onclick='yiqiantui()' class='easyui-linkbutton' data-options='iconCls:'icon-cut''>已签退</a>");
+			}else if(res<0){
+				 $.messager.show({
+						title : '提示信息',	
+						msg : "亲，你今天已经签退过啦",
+						showType : 'show'
+					});
+				 $("#qiandaodiv").html("<a href='javascript:void(0)' onclick='yiqiantui()' class='easyui-linkbutton' data-options='iconCls:'icon-cut''>已签退</a>");
+			}else{
+				 $.messager.show({
+						title : '提示信息',	
+						msg : "签到十分钟内不能签退！",
+						showType : 'show'
+					});
+			}
+		},"json")
+	}
+	//已签退
+	function yiqiantui(){
+		$.messager.alert("温馨提示","亲，你今天已经签到签退过啦！")
+	}	
 </script>
 </head>
 <body>
 		<div data-option="region:'north'" style="height: 50px;">
 			CRM系统&nbsp;&nbsp;&nbsp;	欢迎您：&nbsp;<span id="UName"></span>&nbsp;&nbsp;
 			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearTuichu()" data-options="iconCls:'icon-cancel'">安全退出</a>
-			<a href="javascript:void(0)" style="float:content;" class="easyui-linkbutton" onclick="personal()" data-options="iconCls:'icon-man'">个人中心</a>    
+			<a href="javascript:void(0)" style="float:content;" class="easyui-linkbutton" onclick="personal()" data-options="iconCls:'icon-man'">个人中心</a> 
+			<div id="qiandaodiv"><a href="javascript:void(0)" class="easyui-linkbutton" onclick="qiandao()" data-options="iconCls:'icon-sum'">签到</a></div>
 		</div>
 		<div id="" style="margin:20px 0;">
 		</div>

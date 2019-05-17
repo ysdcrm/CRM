@@ -335,11 +335,11 @@
 					<td><input class="easyui-datetimebox" type="text" id="create_times"
 						name="create_time" data-options="required:true"></input></td>
 				</tr> -->
-				<tr>
+				 <tr>
 					<td>邮箱:</td>
 					<td><input class="easyui-textbox" type="text" id="protect_emails"
 						name="protect_emails" data-options="required:true"></input></td>
-				</tr>
+				</tr> 
 				<tr>
 					<td>手机号:</td>
 					<td><input class="easyui-textbox" type="text" id="protect_tels"
