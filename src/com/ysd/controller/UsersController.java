@@ -35,6 +35,7 @@ public class UsersController {
 		
 		
 		List<Users> usersAll = usersService.getUsersAll(users.getLogin_name());
+		session.setAttribute("user_id", usersAll.get(0).getUser_id());
 		session.setAttribute("user", usersAll);
 		session.setAttribute("user_id", usersAll.get(0).getUser_id());
 		return login;

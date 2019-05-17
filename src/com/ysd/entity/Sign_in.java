@@ -8,6 +8,15 @@ public class Sign_in {
 	private Integer user_id;//用户id
 	private String create_time;//用户签到时间
 	private String sign_in_end_time;//用户签退时间
+	private String sign_state;//用户签到状态
+	
+	
+	public String getSign_state() {
+		return sign_state;
+	}
+	public void setSign_state(String sign_state) {
+		this.sign_state = sign_state;
+	}
 	public Integer getSign_in_id() {
 		return sign_in_id;
 	}
