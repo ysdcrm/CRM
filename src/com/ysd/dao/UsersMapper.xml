@@ -91,9 +91,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <if test="login_name!=null and login_name!=''">
 	   login_name=#{login_name},
 	  </if>
-	 <if test="password!=null and password!=''">
-	   password=#{password},
-	  </if>
 	   <if test="protect_email!=null and protect_email!=''">
 	   protect_email=#{protect_email},
 	  </if>
@@ -110,7 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	<!-- 重置密码 -->
 	<update id="Setpassword" parameterType="users">
-	      update users password set password='ysd123' where login_name=#{login_name}
+	      update users password set password='D776BE771E34293953D66EBC052D0524' where login_name=#{login_name}
 	</update>
 	<!-- 锁定用户 -->
 	<update id="YesSoudingUser" parameterType="users">

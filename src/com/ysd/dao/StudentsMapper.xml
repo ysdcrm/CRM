@@ -31,8 +31,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </update>  -->
   
   <delete id="delStu" parameterType="int">
-  
      delete from students where student_id=#{student_id}
-  
   </delete>
+  <!-- 查询我得学生总数量 -->
+  <select id="selectCountMyStu" parameterType="fenye" resultType="int">
+  	select count(*) from students
+  	<where>
+  		<if test="students.name!=null and students.name!=''">
+  			and name like "%"#{students.name}"%"
+  		</if> 
+  		<if test="students.sex!=null and students.sex!=''">
+  			and sex =#{students.sex}
+  		</if>
+  		<if test="students.startcreat_time!=null and students.startcreat_time!=''">
+  			and create_time &gt;=#{students.startcreat_time}
+  		</if>
+  		<if test="students.endcreat_time!=null and students.endcreat_time!=''">
+  			and create_time &lt;=#{students.endcreat_time}
+  		</if>
+  		and user_id=#{students.user_id}
+  	</where>
+  </select>
+  <!-- 查询我得所有学生集合 -->
+  <select id="selectAllMyStu" parameterType="fenye" resultType="students">
+	  select * from students
+	  	<where>
+	  		<if test="students.name!=null and students.name!=''">
+  			and name like "%"#{students.name}"%"
+	  		</if> 
+	  		<if test="students.sex!=null and students.sex!=''">
+	  			and sex =#{students.sex}
+	  		</if>
+	  		<if test="students.startcreat_time!=null and students.startcreat_time!=''">
+	  			and create_time &gt;=#{students.startcreat_time}
+	  		</if>
+	  		<if test="students.endcreat_time!=null and students.endcreat_time!=''">
+	  			and create_time &lt;=#{students.endcreat_time}
+	  		</if>
+	  		and user_id=#{students.user_id}
+	  	</where>
+	  	limit #{page},#{pageSize}
+  </select>
 </mapper>

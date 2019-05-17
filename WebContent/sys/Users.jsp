@@ -102,7 +102,6 @@
 		 var data = $("#dg").datagrid("getSelected");//获取选中行
 		 var dataRow = $("#dg").datagrid("getData");
 		 var login_name=$("#login_namess").val();
-	     var password=$("#passwordss").val();
 		var protect_email=$("#protect_emailss").val();
 		var protect_tel=$("#protect_telss").val();
 		var weight=$("#weightss").val();
@@ -112,7 +111,6 @@
 		    	{ 
 		    		user_id:data.user_id,
 		    		login_name:login_name,
-	    			password:password,
 	    			protect_email:protect_email,
 	    			protect_tel:protect_tel,
 	    			weight:weight,
@@ -366,10 +364,6 @@
 					<td>用户名:</td>
 					<td><input class="easyui-textbox" type="text" id="login_namess"
 						name="login_name" data-options="required:true"></input></td>
-				</tr><tr>
-					<td>密码:</td>
-					<td><input class="easyui-textbox" type="password" id="passwordss"
-						name="password" data-options="required:true"></input></td>
 				</tr>
 				<!-- <tr>
 					<td>修改时系统时间:</td>

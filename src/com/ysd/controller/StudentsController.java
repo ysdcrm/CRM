@@ -1,5 +1,8 @@
 package com.ysd.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,41 +18,30 @@ public class StudentsController {
 	@Autowired
 	private StudentsService studentsService;
 	@Autowired
-	private Fenye fenye;
+	private Fenye<Students> fenye;
 	
 	@RequestMapping(value="/showStu",method=RequestMethod.POST)
 	@ResponseBody
-	public Fenye showStu(Integer page,Integer rows) {
+	public Fenye<Students> showStu(Integer page,Integer rows) {
 		fenye.setPage((page-1)*rows);
 		fenye.setPageSize(rows);
-		Fenye selectAllStu = studentsService.selectAllStu(fenye);
+		Fenye<Students> selectAllStu = studentsService.selectAllStu(fenye);
 		return selectAllStu;
-		
 	}
-	/*
-	 * @RequestMapping(value="/addStu",method=RequestMethod.POST)
-	 * 
-	 * @ResponseBody public Integer addStu(Students students) {
-	 * 
-	 * Integer i = studentsService.addStu(students); return i;
-	 * 
-	 * }
-	 * 
-	 * @RequestMapping(value="/addStu",method=RequestMethod.POST)
-	 * 
-	 * @ResponseBody public Integer updatetu(Students students) {
-	 * 
-	 * Integer i = studentsService.updateStu(students); return i;
-	 * 
-	 * }
-	 * 
-	 * @RequestMapping(value="/delStu",method=RequestMethod.POST)
-	 * 
-	 * @ResponseBody public Integer delStu(Integer student_id) {
-	 * 
-	 * Integer i = studentsService.delStu(student_id); return i;
-	 * 
-	 * }
-	 */
+	
+	
+	@RequestMapping(value="/getMyStu",method=RequestMethod.POST)
+	@ResponseBody
+	public Fenye<Students> getMyStu(Integer page,Integer rows,Students students,HttpSession session) {
+		Integer user_id=(Integer) session.getAttribute("user_id");
+		students.setUser_id(user_id);
+		System.out.println();
+		fenye.setPage((page-1)*rows);
+		fenye.setPageSize(rows);
+		fenye.setStudents(students);
+		Fenye<Students> selectMyAllStu = studentsService.selectMyAllStu(fenye);
+		System.out.println(selectMyAllStu);
+		return selectMyAllStu;
+	}
 
 }

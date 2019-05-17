@@ -20,7 +20,7 @@ public class Students {
 	private String is_report;//是否报道
 	private String course;//课程
 	private String remark;//备注
-	private String user_id;//咨询师ID
+	private Integer user_id;//咨询师ID
 	//创建时间搜索区间
 	private String create_time;//创建时间
 	private String startcreat_time;//创建开始时间
@@ -141,10 +141,10 @@ public class Students {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public String getUser_id() {
+	public Integer getUser_id() {
 		return user_id;
 	}
-	public void setUser_id(String user_id) {
+	public void setUser_id(Integer user_id) {
 		this.user_id = user_id;
 	}
 	public String getCreate_time() {
@@ -294,6 +294,8 @@ public class Students {
 				+ class_entry_time + ", class_entry_remark=" + class_entry_remark + ", is_deposit=" + is_deposit
 				+ ", deposit_amount=" + deposit_amount + ", deposit_time=" + deposit_time + "]";
 	}
+
+	
 	
 	
 	

@@ -14,7 +14,7 @@ public class StudentsServiceImp implements StudentsService {
     @Autowired
 	private StudentsMapper studentsMapper;
 	@Override
-	public Fenye selectAllStu(Fenye fenye) {
+	public Fenye<Students> selectAllStu(Fenye<Students> fenye) {
 		Integer total = studentsMapper.selectCountStu(fenye);
 		List<Students> selectAllStu = studentsMapper.selectAllStu(fenye);
 		
@@ -22,17 +22,17 @@ public class StudentsServiceImp implements StudentsService {
 		fenye.setRows(selectAllStu);
 		return fenye;
 	}
+	//查询我的所有学生
+	@Override
+	public Fenye<Students> selectMyAllStu(Fenye<Students> fenye) {
+		// TODO Auto-generated method stub
+		List<Students> selectAllMyStu = studentsMapper.selectAllMyStu(fenye);
+		Integer selectCountMyStu = studentsMapper.selectCountMyStu(fenye);
+		fenye.setRows(selectAllMyStu);
+		fenye.setTotal(selectCountMyStu);
+		return fenye;
+	}
 
-	/*
-	 * @Override public Integer addStu(Students students) { Integer i =
-	 * studentsMapper.addStu(students); return i; }
-	 * 
-	 * @Override public Integer updateStu(Students students) { Integer i =
-	 * studentsMapper.updateStu(students); return i; }
-	 * 
-	 * @Override public Integer delStu(Integer student_id) { Integer i =
-	 * studentsMapper.delStu(student_id); return i; }
-	 */
 
 
 }

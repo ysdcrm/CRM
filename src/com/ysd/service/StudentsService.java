@@ -5,14 +5,11 @@ import com.ysd.entity.Students;
 
 public interface StudentsService {
 	
-    Fenye selectAllStu(Fenye fenye);
-	
-	/*
-	 * Integer addStu(Students students);
-	 * 
-	 * Integer updateStu(Students students);
-	 * 
-	 * Integer delStu(Integer student_id);
-	 */
-
+    Fenye<Students> selectAllStu(Fenye<Students> fenye);
+    /**
+     * 	查询我得学生
+     * @param fenye
+     * @return
+     */
+    Fenye<Students> selectMyAllStu(Fenye<Students> fenye);
 }
