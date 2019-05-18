@@ -26,6 +26,7 @@ function initMyStu(){
 		method:'post',
 		pagination:true,
 		singleSelects:true,
+		columns : columns,
 		queryParams:{
 			name:$("#name").textbox('getValue'),
 			sex:$("#sexs").combobox('getValue'),
@@ -35,16 +36,6 @@ function initMyStu(){
 		}
 	});
 	$("#usertabfrm").form("reset");
-}
-//操作列
-function formatterOPUser(value, row, index) {
-	return "<a href='javascript:void(0)' style='cursor: pointer;' onclick='updateInfo(" + index + ")'>编辑</a>";
-}
-function formattersex(value, row, index) {
-	return value==1? "男":"女";
-}
-function formatterUsers(value, row, index) {
-	return row.users.login_name;
 }
 function btnExport() {
 	var rows = $("#dg").datagrid("getSelections");
@@ -161,6 +152,115 @@ function qrdaochu() {
 		$.messager.alert("系统信息", "请填写Excel标题");
 	}
 }
+/* 设置tab-dongtai里面复选框的值为已显示列 */
+var columns = [ [
+			{
+				field : 'xz',
+				checkbox : true
+			},
+			{
+				field : 'student_id',
+				title : 'ID'
+			},
+			{
+				field : 'name',
+				title : '姓名'
+			},
+			{
+				field : 'age',
+				title : '年龄'
+			},
+			{
+				field : 'sex',
+				title : '性别',
+				formatter:function(value, row, index) {
+					return value==1? "男":"女";
+				}
+			},
+			{
+				field : 'phone',
+				title : '手机号'
+			},
+			{
+				field : 'education',
+				title : '学历'
+			},
+			{
+				field : 'state',
+				title : '个人状态'
+			},
+			{
+				field : 'sources',
+				title : '来源渠道'
+			},
+			{
+				field : 'source_site',
+				title : '来源网址'
+			},
+			{
+				field : 'sourcekeyword',
+				title : '来源关键词'
+			},
+			{
+				field : 'qq',
+				title : '学员QQ'
+			},
+			{
+				field : 'we_chat',
+				title : '微信'
+			},
+			{
+				field : 'users',
+				title : '咨询师',
+				formatter:function(value, row, index) {
+					return row.users.login_name;
+				}
+			},
+			{
+				field : 'cz',
+				title : '操作',
+				formatter : function(value, row, index) {
+					return "<span onclick='update(" + index
+							+ ")'>修改</span>&nbsp;&nbsp;"
+							+ "<span onclick='del(" + index + ")'>删除</span>&nbsp;&nbsp;"+"<span onclick='detail(" + index + ")'>查看</span>&nbsp;&nbsp;"+"<span onclick='TailAfter(" + index + ")'>跟踪</span>&nbsp;&nbsp";
+				}
+			} ] ]; 
+function dongtai() {
+	var html = new Array()
+	for (var i = 1; i < columns[0].length - 1; i++) {
+		if (columns[0][i].hidden !== true) {
+			html[i - 1] = columns[0][i].title;
+		}
+	}
+	var che = $("#tab-dongtai :checkbox");
+
+	for (var i = 0; i < che.length; i++) {
+		for (var k = 0; k < html.length; k++) {
+			if (che[i].value == html[k]) {
+				var name = che[i].name;//已显示的列名
+				$("#tab-dongtai :checkbox[name='" + name + "']").attr("checked", "checked");//设置为已选中
+				break;
+			}
+		}
+	}
+	$("#win-dongtai").window("open");
+}
+/* 根据tab-dongtai里面复选框的选中值显示列 */
+function dongtai2() {
+	var che = $("#tab-dongtai :checkbox");
+	var columns = [[{field : "xz",checkbox : true}]];
+	for (var i = 0; i < che.length; i++) {
+		if (che[i].checked) {
+			columns[0][columns[0].length] = {field : che[i].name ,title : che[i].value};
+		}
+	}
+	columns[0][columns[0].length] = {field : "users",title : "咨询师",formatter:function(value, row, index) {return row.users.login_name;}};
+	columns[0][columns[0].length] = {field : "sex",title : "性别",formatter:function(value, row, index) {return value==1? "男":"女";}};
+	columns[0][columns[0].length] = {field : "cz",title : "操作",formatter : function(value, row, index) {return "<span onclick='update(" + index+ ")'>修改</span>&nbsp;&nbsp;"+ "<span onclick='del(" + index + ")'>删除</span>&nbsp;&nbsp;&nbsp;"+"<span onclick='detail(" + index + ")'>查看</span>&nbsp;&nbsp;"+"<span onclick='TailAfter(" + index + ")'>跟踪</span>&nbsp;&nbsp"}};
+	$("#dg").datagrid({
+		columns : columns
+	});
+}
 </script>
 </head>
 <body>
@@ -178,34 +278,11 @@ function qrdaochu() {
 				 </select><br/>
         	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="initMyStu()" data-options="iconCls:'icon-search'">搜索</a> 
 			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="addMyStu()" data-options="iconCls:'icon-add'">添加</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="btnExport()" data-options="iconCls:'icon-print'">导出Excel</a>    
+			<a href="javascript:void(0)" style="float: right;" class="easyui-linkbutton" onclick="btnExport()" data-options="iconCls:'icon-print'">导出Excel</a>    
+			<a href="javascript:void(0)" style="float: right;" class="easyui-linkbutton" onclick="dongtai()" data-options="iconCls:'icon-cut'">动态显示列</a> 
 		</form>
 	</div>
 <table id="dg" class="easyui-datagrid" style="width:100%;height:480px" data-options="toolbar:'#usertab'">   
-    <thead>   
-        <tr>   
-        	<th data-options="field:'checkbox',checkbox:true">学生id</th>   
-            <th data-options="field:'student_id'">学生id</th>   
-            <th data-options="field:'name'">学生姓名</th>   
-            <th data-options="field:'age'">年龄</th>
-            <th data-options="field:'sex',formatter:formattersex">性别</th> 
-            <th data-options="field:'phone'">手机号</th> 
-            <th data-options="field:'education'">学历</th> 
-            <th data-options="field:'state'">状态</th> 
-            <th data-options="field:'qq'">qq号</th> 
-            <th data-options="field:'we_chat'">微信号</th> 
-            <th data-options="field:'area'">地区</th> 
-            <th data-options="field:'create_time'">创建时间</th> 
-            <th data-options="field:'sources'">来源渠道</th> 
-            <th data-options="field:'source_site'">来源网站</th> 
-            <th data-options="field:'sourcekeyword'">来源关键词</th> 
-            <th data-options="field:'is_report'">是否报道</th> 
-            <th data-options="field:'course'">课程</th> 
-            <th data-options="field:'remark'">备注</th>
-            <th data-options="field:'users',formatter:formatterUsers">咨询师</th> 
-            <th data-options="field:'setUserAction',align:'center',formatter:formatterOPUser">操作</th>
-        </tr>   
-    </thead>   
 </table>
 	<%-- 导出EXCel窗口 --%>
 	<div class="easyui-window"
@@ -250,5 +327,75 @@ function qrdaochu() {
 			</tr>
 		</table> 
 	</div> 
+	<%-- 动态显示列窗口 --%>
+	<div class="easyui-window"
+		data-options="iconCls:'icon-save',closed:true,width:500,height:300"
+		id="win-dongtai" title="动态显示列">
+		<table cellpadding="10" id="tab-dongtai">
+			<tr>														
+				<td>
+					ID<input type="checkbox" onclick="dongtai2()" name="student_id" value="ID" />
+					姓名<input type="checkbox" onclick="dongtai2()" name="name" value="姓名" />
+					年龄<input type="checkbox" onclick="dongtai2()" name="age" value="年龄" />
+					性别<input type="checkbox" onclick="dongtai2()" name="sex" value="性别" />
+					手机号<input type="checkbox" onclick="dongtai2()" name="phone" value="手机号" />
+					学历<input type="checkbox" onclick="dongtai2()" name="education" value="学历" />
+					个人状态<input type="checkbox" onclick="dongtai2()" name="state" value="个人状态" />&nbsp;
+					来源渠道<input type="checkbox" onclick="dongtai2()" name="sources" value="来源渠道" />&nbsp;
+					来源网址<input type="checkbox" onclick="dongtai2()" name="source_site" value="来源网址" />
+					
+				</td>
+			</tr>
+			<tr>														
+				<td>
+					来源关键词<input type="checkbox" onclick="dongtai2()" name="sourcekeyword" value="来源关键词" />
+					学员QQ<input type="checkbox" onclick="dongtai2()" name="qq" value="学员QQ" />
+					微信<input type="checkbox" onclick="dongtai2()" name="we_chat" value="微信" />
+					是否报道 <input type="checkbox" onclick="dongtai2()" name="is_report" value="是否报道" />
+					备注<input type="checkbox" onclick="dongtai2()" name="remark" value="备注" />
+					咨询师<input type="checkbox" onclick="dongtai2()" name="refer_user_id" value="咨询师" />
+				</td>
+			</tr>
+			<tr>														
+				<td>
+					创建时间<input type="checkbox" onclick="dongtai2()" name="create_time" value="创建时间" />&nbsp;
+					地区<input type="checkbox" onclick="dongtai2()" name="area" value="地区" />&nbsp;&nbsp;
+					课程方向<input type="checkbox" onclick="dongtai2()" name="course" value="课程方向" />&nbsp;
+					是否有效<input type="checkbox" onclick="dongtai2()" name="is_effective" value="是否有效" />&nbsp;
+					打分<input type="checkbox" onclick="dongtai2()" name="scoring" value="打分" />&nbsp;
+					是否回访<input type="checkbox" onclick="dongtai2()" name="is_visit" value="是否回访" />&nbsp;
+				</td>
+			</tr>
+			<tr>														
+				<td>
+					首次回访时间<input type="checkbox" onclick="dongtai2()" name="first_visit_time" value="首次回访时间" />&nbsp;
+					是否上门<input type="checkbox" onclick="dongtai2()" name="is_door" value="是否上门" />
+					上门时间<input type="checkbox" onclick="dongtai2()" name="door_time" value="上门时间" />&nbsp;
+					无效原因<input type="checkbox" onclick="dongtai2()" name="invalid_reason" value="无效原因" />
+					是否缴费<input type="checkbox" onclick="dongtai2()" name="is_pay" value="是否缴费" />&nbsp;
+					缴费时间<input type="checkbox" onclick="dongtai2()" name="pay_time" value="缴费时间" />
+				</td>
+			</tr>
+			<tr>														
+				<td>
+					是否退费<input type="checkbox" onclick="dongtai2()" name="is_refund" value="是否退费" />&nbsp;&nbsp;
+					进班时间<input type="checkbox" onclick="dongtai2()" name="class_entry_time" value="进班时间" />&nbsp;&nbsp;
+					是否进班<input type="checkbox" onclick="dongtai2()" name="is_class_entry" value="是否进班" />&nbsp;&nbsp;
+					进班备注<input type="checkbox" onclick="dongtai2()" name="class_entry_remark" value="进班备注" />&nbsp;&nbsp;
+					退费原因<input type="checkbox" onclick="dongtai2()" name="refund_reason" value="退费原因" />&nbsp;
+					定金金额<input type="checkbox" onclick="dongtai2()" name="deposit_amount" value="定金金额" />
+					
+				</td>
+			</tr>
+			<tr>														
+				<td>
+					金额<input type="checkbox" onclick="dongtai2()" name="amount" value="金额" />
+					定金时间<input type="checkbox" onclick="dongtai2()" name="is_deposit" value="定金时间" />
+					<!-- 录入人<input type="checkbox" onclick="dongtai2()" name="enteringName" value="录入人" />
+					动态的<input type="checkbox" onclick="dongtai2()" name="dynamic" value="动态的" /> -->
+				</td>
+			</tr>
+		</table>
+	</div>
 </body>
 </html>
