@@ -113,7 +113,7 @@
 </head>
 <body>
 		<div data-option="region:'north'" style="height: 50px;">
-			CRM系统&nbsp;&nbsp;&nbsp;	欢迎您：&nbsp;<span id="UName"></span>&nbsp;&nbsp;
+			云时代教育管理系统&nbsp;&nbsp;&nbsp;	欢迎您：&nbsp;<span style="font-size: 20px" id="UName"></span>&nbsp;&nbsp;老师！&nbsp;&nbsp;
 			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearTuichu()" data-options="iconCls:'icon-cancel'">安全退出</a>
 			<a href="javascript:void(0)" style="float:content;" class="easyui-linkbutton" onclick="personal()" data-options="iconCls:'icon-man'">个人中心</a> 
 			<div id="qiandaodiv"><a href="javascript:void(0)" class="easyui-linkbutton" onclick="qiandao()" data-options="iconCls:'icon-sum'">签到</a></div>

@@ -14,7 +14,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <insert id="addStu" parameterType="students">
     insert into students(name,age,sex,phone,education,qq,we_chat,area)values(#{name},#{age},#{sex},#{phone},#{education},#{qq},#{we_chat},#{area})
   </insert>
-  
  
    <!--  根据学生id修改跟踪表里跟踪方式 -->
   <!-- <update id="updateStu" parameterType="students">
@@ -49,12 +48,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		<if test="students.endcreat_time!=null and students.endcreat_time!=''">
   			and create_time &lt;=#{students.endcreat_time}
   		</if>
-  		and user_id=#{students.user_id}
+  		<if test="students.refer_user_id!=null and students.refer_user_id!=''">
+	  		and refer_user_id=#{students.refer_user_id}
+	  	</if>
+  		and network_user_id=#{students.network_user_id}
   	</where>
   </select>
   <!-- 查询我得所有学生集合 -->
-  <select id="selectAllMyStu" parameterType="fenye" resultType="students">
-	  select * from students
+  <resultMap type="students" id="studentsUserList">
+  	<id column="student_id" property="student_id"/>
+  	<result column="name" property="name"/>
+  	<result column="age" property="age"/>
+  	<result column="sex" property="sex"/>
+  	<result column="phone" property="phone"/>
+  	<result column="education" property="education"/>
+  	<result column="state" property="state"/>
+  	<result column="qq" property="qq"/>
+  	<result column="area" property="area"/>
+  	<result column="sources" property="sources"/>
+  	<result column="source_site" property="source_site"/>
+  	<result column="sourcekeyword" property="sourcekeyword"/>
+  	<result column="is_report" property="is_report"/>
+  	<result column="course" property="course"/>
+  	<result column="remark" property="remark"/>
+  	<result column="refer_user_id" property="users.user_id"/>
+  	<result column="login_name" property="users.login_name"/>
+  </resultMap>
+  <select id="selectAllMyStu" parameterType="fenye" resultMap="studentsUserList">
+	  select * from students s,users u
 	  	<where>
 	  		<if test="students.name!=null and students.name!=''">
   			and name like "%"#{students.name}"%"
@@ -68,8 +89,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  		<if test="students.endcreat_time!=null and students.endcreat_time!=''">
 	  			and create_time &lt;=#{students.endcreat_time}
 	  		</if>
-	  		and user_id=#{students.user_id}
+	  		<if test="students.refer_user_id!=null and students.refer_user_id!=''">
+	  			and refer_user_id=#{students.refer_user_id}
+	  		</if>
+	  		and network_user_id=#{students.network_user_id} and s.refer_user_id=u.user_id
 	  	</where>
 	  	limit #{page},#{pageSize}
+  </select>
+  <!-- 查询所有的咨询师，注：是咨询师，别看错 -->
+  <select id="selectAllRolesUsers" resultType="users">
+  SELECT u.user_id,u.login_name FROM users u,roles s,userroles us WHERE u.user_id=us.user_id AND us.role_id=s.role_id AND s.role_name='咨询师'
   </select>
 </mapper>

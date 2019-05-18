@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ysd.dao.StudentsMapper;
 import com.ysd.entity.Fenye;
 import com.ysd.entity.Students;
+import com.ysd.entity.Users;
 
 @Service
 public class StudentsServiceImp implements StudentsService {
@@ -32,7 +33,11 @@ public class StudentsServiceImp implements StudentsService {
 		fenye.setTotal(selectCountMyStu);
 		return fenye;
 	}
-
-
-
+	//查询所有的咨询师
+		@Override
+		public List<Users> selectAllRolesUsers() {
+			// TODO Auto-generated method stub
+			List<Users> selectAllRolesUsers = studentsMapper.selectAllRolesUsers();
+			return selectAllRolesUsers;
+		}
 }

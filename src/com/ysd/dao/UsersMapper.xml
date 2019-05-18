@@ -132,5 +132,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    delete from userroles where role_id=#{role_id}
 </delete>
 	
-	
 </mapper>

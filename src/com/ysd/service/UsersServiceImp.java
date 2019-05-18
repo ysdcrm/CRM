@@ -120,4 +120,5 @@ public class UsersServiceImp implements UsersService {
 	public Integer delUserRoles(Integer role_id) {
 		return usersMapper.delUserRoles(role_id);
 	}
+	
 }

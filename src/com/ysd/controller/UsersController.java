@@ -37,7 +37,6 @@ public class UsersController {
 		List<Users> usersAll = usersService.getUsersAll(users.getLogin_name());
 		session.setAttribute("user_id", usersAll.get(0).getUser_id());
 		session.setAttribute("user", usersAll);
-		session.setAttribute("user_id", usersAll.get(0).getUser_id());
 		return login;
 	}
   //安全退出
@@ -116,4 +115,6 @@ public class UsersController {
 	  public Integer delUserRoles (Integer role_id) {
 		  return usersService.delUserRoles(role_id);
 	}
+	
+	  
 }

@@ -20,7 +20,14 @@ public class Students {
 	private String is_report;//是否报道
 	private String course;//课程
 	private String remark;//备注
-	private Integer user_id;//咨询师ID
+	private Integer refer_user_id;//咨询师ID
+	private Integer network_user_id;//网络咨询师id
+	public Integer getNetwork_user_id() {
+		return network_user_id;
+	}
+	public void setNetwork_user_id(Integer network_user_id) {
+		this.network_user_id = network_user_id;
+	}
 	//创建时间搜索区间
 	private String create_time;//创建时间
 	private String startcreat_time;//创建开始时间
@@ -45,6 +52,8 @@ public class Students {
 	private String is_deposit;//是否定金
 	private String deposit_amount;//定金金额
 	private String deposit_time;//定金时间
+	//链表引入用户角色//
+	private Users users;
 	public Integer getStudent_id() {
 		return student_id;
 	}
@@ -141,11 +150,11 @@ public class Students {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public Integer getUser_id() {
-		return user_id;
+	public Integer getRefer_user_id() {
+		return refer_user_id;
 	}
-	public void setUser_id(Integer user_id) {
-		this.user_id = user_id;
+	public void setRefer_user_id(Integer refer_user_id) {
+		this.refer_user_id = refer_user_id;
 	}
 	public String getCreate_time() {
 		return create_time;
@@ -279,23 +288,28 @@ public class Students {
 	public void setDeposit_time(String deposit_time) {
 		this.deposit_time = deposit_time;
 	}
+	public Users getUsers() {
+		return users;
+	}
+	public void setUsers(Users users) {
+		this.users = users;
+	}
 	@Override
 	public String toString() {
 		return "Students [student_id=" + student_id + ", name=" + name + ", age=" + age + ", sex=" + sex + ", phone="
 				+ phone + ", education=" + education + ", state=" + state + ", qq=" + qq + ", we_chat=" + we_chat
 				+ ", area=" + area + ", sources=" + sources + ", source_site=" + source_site + ", sourcekeyword="
 				+ sourcekeyword + ", is_report=" + is_report + ", course=" + course + ", remark=" + remark
-				+ ", user_id=" + user_id + ", create_time=" + create_time + ", startcreat_time=" + startcreat_time
-				+ ", endcreat_time=" + endcreat_time + ", is_effective=" + is_effective + ", scoring=" + scoring
-				+ ", is_visit=" + is_visit + ", first_visit_time=" + first_visit_time + ", is_door=" + is_door
-				+ ", door_time=" + door_time + ", Is_invalid=" + Is_invalid + ", invalid_reason=" + invalid_reason
-				+ ", is_pay=" + is_pay + ", pay_time=" + pay_time + ", amount=" + amount + ", is_refund=" + is_refund
-				+ ", refund_reason=" + refund_reason + ", is_class_entry=" + is_class_entry + ", class_entry_time="
-				+ class_entry_time + ", class_entry_remark=" + class_entry_remark + ", is_deposit=" + is_deposit
-				+ ", deposit_amount=" + deposit_amount + ", deposit_time=" + deposit_time + "]";
+				+ ", refer_user_id=" + refer_user_id + ", network_user_id=" + network_user_id + ", create_time="
+				+ create_time + ", startcreat_time=" + startcreat_time + ", endcreat_time=" + endcreat_time
+				+ ", is_effective=" + is_effective + ", scoring=" + scoring + ", is_visit=" + is_visit
+				+ ", first_visit_time=" + first_visit_time + ", is_door=" + is_door + ", door_time=" + door_time
+				+ ", Is_invalid=" + Is_invalid + ", invalid_reason=" + invalid_reason + ", is_pay=" + is_pay
+				+ ", pay_time=" + pay_time + ", amount=" + amount + ", is_refund=" + is_refund + ", refund_reason="
+				+ refund_reason + ", is_class_entry=" + is_class_entry + ", class_entry_time=" + class_entry_time
+				+ ", class_entry_remark=" + class_entry_remark + ", is_deposit=" + is_deposit + ", deposit_amount="
+				+ deposit_amount + ", deposit_time=" + deposit_time + ", users=" + users + "]";
 	}
-
-	
 	
 	
 	

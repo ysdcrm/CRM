@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ysd.entity.Fenye;
 import com.ysd.entity.Students;
+import com.ysd.entity.Users;
 
 public interface StudentsMapper {
 	
@@ -28,6 +29,10 @@ public interface StudentsMapper {
 	 * @return
 	 */
     List<Students> selectAllMyStu(Fenye<Students> fenye);
+    /**
+     * 查询所有的咨询师
+     * @return
+     */
+    List<Users> selectAllRolesUsers();
 	
-
 }

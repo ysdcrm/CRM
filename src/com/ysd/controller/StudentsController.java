@@ -1,6 +1,7 @@
 package com.ysd.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ysd.entity.Fenye;
 import com.ysd.entity.Students;
+import com.ysd.entity.Users;
 import com.ysd.service.StudentsService;
 
 @Controller
@@ -29,19 +31,24 @@ public class StudentsController {
 		return selectAllStu;
 	}
 	
-	
+	//查询网络学生
 	@RequestMapping(value="/getMyStu",method=RequestMethod.POST)
 	@ResponseBody
 	public Fenye<Students> getMyStu(Integer page,Integer rows,Students students,HttpSession session) {
-		Integer user_id=(Integer) session.getAttribute("user_id");
-		students.setUser_id(user_id);
-		System.out.println();
+		Integer network_user_id=(Integer) session.getAttribute("user_id");
+		students.setNetwork_user_id(network_user_id);
 		fenye.setPage((page-1)*rows);
 		fenye.setPageSize(rows);
 		fenye.setStudents(students);
 		Fenye<Students> selectMyAllStu = studentsService.selectMyAllStu(fenye);
-		System.out.println(selectMyAllStu);
 		return selectMyAllStu;
 	}
+	//所有的咨询师
+    @RequestMapping(value="/selectAllRolesUsers",method=RequestMethod.POST)
+	@ResponseBody
+    public  List<Users> selectAllRolesUsers(){
+    	List<Users> selectAllRolesUsers = studentsService.selectAllRolesUsers();
+		return selectAllRolesUsers;
+    }
 
 }
