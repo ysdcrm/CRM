@@ -120,5 +120,17 @@ public class UsersServiceImp implements UsersService {
 	public Integer delUserRoles(Integer role_id) {
 		return usersMapper.delUserRoles(role_id);
 	}
+	@Override
+	public Integer updatePerson(Users users) {
+		Integer updatePerson = usersMapper.updatePerson(users);
+		return updatePerson;
+	}
+	@Override
+	public Integer updatePw(Users users) {
+		return usersMapper.updatePw(users);
+	}
+
+
+	
 	
 }
