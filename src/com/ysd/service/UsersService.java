@@ -37,7 +37,12 @@ public interface UsersService {
 	Integer addUserRoles(Userroles userRoles);
 	//移除角色
 	Integer delUserRoles(Integer role_id);
-	
+	//修改个人资料
+	Integer updatePerson(Users users);	 
+	//修改密码
+	Integer updatePw(Users users);
+
+
 	
 	
 	

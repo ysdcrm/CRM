@@ -131,5 +131,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <delete id="delUserRoles" parameterType="int">
    delete from userroles where role_id=#{role_id}
 </delete>
+<!-- 修改个人信息 -->
+<update id="updatePerson" parameterType="users">
+ update users
+ <set>
+     <if test="protect_email!=null and protect_email!=''">
+	   protect_email=#{protect_email},
+	  </if>
+	   <if test="protect_tel!=null and protect_tel!=''">
+	   protect_tel=#{protect_tel}
+	  </if>
+ </set>
+ <where>
+  user_id=#{user_id}
+ </where>
+  <!-- 修改密码 -->
+</update>	
+	<update id="updatePw" parameterType="users">
+	 update users set password=#{password} where user_id=#{user_id}
+</update>
+	
 	
 </mapper>

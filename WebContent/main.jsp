@@ -108,6 +108,56 @@
 	//已签退
 	function yiqiantui(){
 		$.messager.alert("温馨提示","亲，你今天已经签到签退过啦！")
+	}
+	//修改个人资料
+	function UpdatePerson(){
+		$('#updateDialog').dialog("open");
+	}
+	 function submitUpdatePer() {
+	  var protect_email = $("#protect_email").val();
+	  var protect_tel = $("#protect_tel").val();
+		     $.post(
+		    	'/CRM/updatePersion',
+		    	{ 
+		 			protect_email:protect_email,
+		 			protect_tel:protect_tel
+	 	},function(res){
+	 		if(res>0){
+					$("#updateDialog").dialog("close");//关闭弹窗
+					$.messager.alert("提示","修改成功");//提示
+				}
+	  },'json')
+	 
+	 }
+	 
+	function closeUpdatePer() {
+		$('#updateDialog').dialog("close");
+	}	
+	//修改密码
+	function UpdatePassword() {
+		$('#updateMMDialog').dialog("open");
+	}
+	function submitUpdateMM() {
+		var password=$("#password").val();
+		var newPW=$("#newPW").val();
+		var querenPW=$("#querenPW").val();
+			$.post(
+			    	'/CRM/updatePersionMM',
+			    	{ 
+			    		password:password,
+			    		newPW:newPW,
+			    		querenPW:querenPW
+		 	},function(res){
+		 		 if(res>0){
+		 			$.messager.alert("提示","修改成功");//提示
+		 			$("#updateMMDialog").dialog("close");//关闭弹窗
+					}else{
+						$.messager.alert("提示","修改失败");//提示
+					} 
+		  },'json')
+	}
+	function closeUpdateMM() {
+		$('#updateMMDialog').dialog("close");
 	}	
 </script>
 </head>
@@ -171,20 +221,65 @@
 							</c:forEach>
 							<tr>
 								<td>
-									<a href="javascript:void(0)" class="easyui-linkbutton" onclick="" data-options="iconCls:'icon-edit'">编辑个人资料</a>
+									<a href="javascript:void(0)" class="easyui-linkbutton" onclick="UpdatePerson()" data-options="iconCls:'icon-edit'">编辑个人资料</a>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<a href="javascript:void(0)" class="easyui-linkbutton" onclick="" data-options="iconCls:'icon-edit'">修改密码</a>
+									<a href="javascript:void(0)" class="easyui-linkbutton" onclick="UpdatePassword()" data-options="iconCls:'icon-edit'">修改密码</a>
 								</td>
 							</tr>
-							<tr>
-								<td>
-									<a href="javascript:void(0)" class="easyui-linkbutton" onclick="" data-options="iconCls:'icon-edit'">编辑个人资料</a>
-								</td>
-							</tr>
+							
 						</table>
 			</div>
+	<!-- 修改 -->
+ <div id="updateDialog" id="UpdatePer" class="easyui-dialog" title="修改个人信息" style="width:400px;height:200px;"   
+        data-options="iconCls:'icon-save',resizable:true,closed:true,modal:false">   
+		<form id="updateForm" class="easyui-form">
+			<table cellpadding="5">
+			<c:forEach items="${user}" var="u">
+				 <tr>
+					<td>邮箱:</td>
+					<td><input type="text" id="protect_email" value="${u.protect_email}"></td>
+				</tr> 
+				<tr>
+					<td>手机号:</td>
+					<td><input type="text" id="protect_tel" value="${u.protect_tel}"></td>
+				</tr>
+				</c:forEach>
+			</table>
+		</form>
+		   <div style="text-align: center; padding: 5px">
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitUpdatePer()" data-options="iconCls:'icon-ok'">保存</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeUpdatePer()" data-options="iconCls:'icon-no'">取消</a>
+		</div>
+	</div>			
+<!-- 修改密码 -->
+ <div id="updateMMDialog" class="easyui-dialog" title="修改个人密码" style="width:400px;height:200px;"   
+        data-options="iconCls:'icon-save',resizable:true,closed:true,modal:false">   
+		<form id="updateMMForm" class="easyui-form">
+			<table cellpadding="5">
+			   <tr>
+					<td>原密码:</td>
+					<td><input class="easyui-textbox" id="password"
+						name="password" data-options="required:true"></input></td>
+				</tr>
+				<tr>
+					<td>新密码:</td>
+					<td><input class="easyui-textbox" id="newPW"
+						name="newPW" data-options="required:true"></input></td>
+				</tr>
+				<tr>
+					<td>确认密码:</td>
+					<td><input class="easyui-textbox" id="querenPW"
+						name="querenPW" data-options="required:true"></input></td>
+				</tr>
+			</table>
+		</form>
+		   <div style="text-align: center; padding: 5px">
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitUpdateMM()" data-options="iconCls:'icon-ok'">保存</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeUpdateMM()" data-options="iconCls:'icon-no'">取消</a>
+		</div>
+	</div>			
 </body>
 </html>

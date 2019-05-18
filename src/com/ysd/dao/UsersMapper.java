@@ -86,6 +86,8 @@ public interface UsersMapper {
 	 	 * @return
 	 	 */
 	 	Integer delUserRoles(Integer role_id);
-	 	
-	 
+	 	 //修改当前登陆的用户的个人信息
+	    Integer updatePerson(Users users);
+	    //修改密码
+	    Integer updatePw(Users users);
 }
