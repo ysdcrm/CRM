@@ -133,7 +133,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </insert> 
 
 <select id="selectUserrolesByName" parameterType="userroles" resultType="userroles">
- select * from userroles where role_id=#{role_id}
+ select * from userroles where role_id=#{role_id} and user_id=#{user_id}
 </select>
 <!-- 移除用户角色 -->
 <delete id="delUserRoles" parameterType="int">

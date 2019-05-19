@@ -1,6 +1,7 @@
 package com.ysd.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,8 +33,8 @@ public class RolesController<T> {
 //删除	
 	@RequestMapping(value="/delRoles",method=RequestMethod.POST)
 	@ResponseBody
-	public Integer delRoles(int role_id){
-		Integer delRoles = rolesService.delRoles(role_id);
+	public Map<String, Object> delRoles(int role_id){
+		Map<String, Object> delRoles = rolesService.delRoles(role_id);
 		return delRoles;
 	  }
 //添加	

@@ -18,4 +18,8 @@ public interface Sign_inMapper {
 			
 	//查询该用户当天签到信息
 	Sign_in selectSignByUserids(Sign_in sign_in);
+	//签到成功：修改用户签到状态
+	Integer UpdateUserSignstate(Sign_in sign_in);
+	//签退成功：修改用户签到状态
+	Integer UpdateUserSignstateIn(Sign_in sign_in);
 }

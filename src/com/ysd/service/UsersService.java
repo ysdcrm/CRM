@@ -3,7 +3,6 @@ package com.ysd.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 
 import com.ysd.entity.Fenye;
 import com.ysd.entity.Roles;
@@ -36,7 +35,7 @@ public interface UsersService {
 	 */
 	List<Roles> selectRoles(String login_name);
 	//添加角色
-	Integer addUserRoles(Userroles userRoles);
+	Map<String, Object> addUserRoles(Userroles userRoles);
 	//移除角色
 	Integer delUserRoles(Integer role_id);
 	//修改个人资料

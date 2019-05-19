@@ -123,15 +123,18 @@ public class UsersServiceImp implements UsersService {
 	}
 	//设置角色添加
 	@Override
-	public Integer addUserRoles(Userroles userroles) {
-		Integer addUserRoles=null;
+	public Map<String, Object> addUserRoles(Userroles userroles) {
+		Map<String, Object> map = CommonUtil.getResultMap();
 		List<Userroles> selectUserrolesByName = usersMapper.selectUserrolesByName(userroles);
-		if(selectUserrolesByName.size()==0) {
-			addUserRoles =usersMapper.addUserRoles(userroles);
+		if(selectUserrolesByName.size()!=0) {
+			map.put("success", false);
+			map.put("message", "该用户已存在该角色，不可添加！！！");
 		}else {
-			addUserRoles=-1;
+			usersMapper.addUserRoles(userroles);
+			map.put("success", true);
+			map.put("message", "添加成功！！！");
 		}
-		return addUserRoles;
+		return map;
 	}
 	//移除角色
 	@Override

@@ -34,12 +34,18 @@
 			if (r){
 				$.post("/CRM/delRoles",{
 					role_id:row.role_id,
-				},function(i){
-					if(i>0){
-						$.messager.alert("提示","删除成功！");
+				},function(res){
+					if(res.success==true){
+						$.messager.alert({
+							title:'提示信息',
+							msg:res.message
+						});
 						$("#dg").datagrid("reload");
 					}else{
-						$.messager.alert("提示","删除失败！");
+						$.messager.alert({
+							title:'提示信息',
+							msg:res.message
+						});
 					}
 				},"json")
 			}
@@ -77,7 +83,6 @@
 	function UpdateRoles(index){
 	      var data = $("#dg").datagrid("getData");
 		  var row = data.rows[index];
-		  /* $("#cidss").textbox("setValue",row.tushucogy.cid);  */
 		  $("#updateForm").form("load",row);//填充进表单
 		  $("#updateDialog").dialog("open"); 
 		}	
@@ -137,20 +142,26 @@ function setQXRoles(index) {
  							n += nodes[i].id;
  						}
  					}
- 					$.post(
- 						"/CRM/addRolesQX",
- 						{
- 							module_id:n,
- 							role_id:id
-						}, function(res){
-							if(res>0){
-								$.messager.alert("消息","保存权限成功！");
-								$("#quqnxian").window("close");
-								$("#dg").datagrid("reload");
-							}else{
-								$.messager.alert("消息",res.Message);
-							}
-					}, "json")
+ 					if(n!=null && n!=""){
+ 						$.post(
+ 		 						"/CRM/addRolesQX",
+ 		 						{
+ 		 							module_id:n,
+ 		 							role_id:id
+ 								}, function(res){
+ 									if(res>0){
+ 										$.messager.alert("消息","保存权限成功！");
+ 										$("#quqnxian").window("close");
+ 										$("#dg").datagrid("reload");
+ 									}else{
+ 										$.messager.alert("消息",res.Message);
+ 									}
+ 							}, "json")
+ 					}else{
+ 						$.messager.alert("提示","您未选择要提交的模块权限！");
+ 						$("#quqnxian").dialog("close");
+ 					}
+ 					
  				}
  			},{
  				text:"取消",

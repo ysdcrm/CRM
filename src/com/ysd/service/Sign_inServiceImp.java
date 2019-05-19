@@ -13,6 +13,7 @@ public class Sign_inServiceImp implements Sign_inService {
 //签到
 	@Override
 	public Integer addSign_in(Sign_in sign_in) {
+		sign_inMapper.UpdateUserSignstate(sign_in);
 		return sign_inMapper.addSign_in(sign_in);
 	}
 ////查询当天是否已经签到
@@ -23,6 +24,7 @@ public class Sign_inServiceImp implements Sign_inService {
 	//签退	
 	@Override
 	public Integer updateSign(Sign_in sign_in) {
+		sign_inMapper.UpdateUserSignstateIn(sign_in);
 		return sign_inMapper.updateSign(sign_in);
 	}
 	//根据id查询签到数据

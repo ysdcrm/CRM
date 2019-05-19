@@ -106,7 +106,7 @@ public class UsersController {
   //设置用户角色
 	  @RequestMapping(value="/addUserRoles",method=RequestMethod.POST)
 	  @ResponseBody
-	  public Integer addUserRoles(Userroles userRoles){
+	  public Map<String, Object> addUserRoles(Userroles userRoles){
 		  return usersService.addUserRoles(userRoles);
 	  }
 	//移除用户角色

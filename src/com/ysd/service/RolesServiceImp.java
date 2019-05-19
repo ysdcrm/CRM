@@ -2,6 +2,7 @@ package com.ysd.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,6 @@ public class RolesServiceImp implements RolesService {
 	private RolesMapper rolesMapper;
 	@Autowired
 	private ModulesMapper modulesMapper;
-	@Autowired
-	private Roles roles;
 	//查询所有
 	@Override
 	public Fenye<Roles> selectshowAll(Fenye<Roles> fenye) {
@@ -34,8 +33,18 @@ public class RolesServiceImp implements RolesService {
 	}
 	//删除
 	@Override
-	public Integer delRoles(int role_id) {
-		return rolesMapper.delRoles(role_id);
+	public Map<String, Object> delRoles(int role_id) {
+		Map<String, Object> map = CommonUtil.getResultMap();
+		List<Rolemodules> selectRolemodulesByRoleId = rolesMapper.SelectRolemodulesByRoleId(role_id);
+		if(selectRolemodulesByRoleId.size()!=0) {
+			map.put("success", false);
+			map.put("message", "该角色已被分配权限，不可删除！！！");
+		}else {
+			rolesMapper.delRoles(role_id);
+			map.put("success", true);
+			map.put("message", "删除成功！！！");
+		}
+		return map;
 	}
 	//添加
 	@Override

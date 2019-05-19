@@ -29,5 +29,7 @@ public interface RolesMapper {
 	  Integer addRolesQX(Rolemodules rolemodules);
 	  //删除角色下所有模块
 	  Integer delRolesQX(Integer role_id);
+	  //
+	  List<Rolemodules> SelectRolemodulesByRoleId(Integer role_id);
 	  
 }

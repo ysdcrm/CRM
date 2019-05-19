@@ -253,13 +253,17 @@
 				user_id:data.user_id,
 				role_id:roleRow.role_id
 			},function(res){
-				if(res>0){
-					$.messager.alert("提示","角色设置成功")
+				if(res.success==true){
+					$.messager.alert({
+						title:'提示信息',
+						msg:res.message
+					});
 					$("#User-juese").datagrid("reload");
-				}else if(res==0){
-	            	 $.messager.alert("提示","角色设置失败");
 				}else{
-					$.messager.alert("提示","该角色已存在！！！")
+					$.messager.alert({
+						title:'提示信息',
+						msg:res.message
+					});
 				}
 			},"json")
 		}else{
@@ -296,7 +300,7 @@
 	}
   	//是否签到
   function formatterQD(value,row,index) {
-		return value==0? "是":"否"
+		return value==0? "否":"是"
 	}
 </script>
 </head>
