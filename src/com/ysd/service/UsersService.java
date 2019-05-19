@@ -3,6 +3,8 @@ package com.ysd.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ysd.entity.Fenye;
 import com.ysd.entity.Roles;
 import com.ysd.entity.Userroles;
@@ -41,9 +43,6 @@ public interface UsersService {
 	Integer updatePerson(Users users);	 
 	//修改密码
 	Integer updatePw(Users users);
-
-
-	
 	
 	
 }

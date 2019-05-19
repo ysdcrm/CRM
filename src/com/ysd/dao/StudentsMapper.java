@@ -18,21 +18,22 @@ public interface StudentsMapper {
 	
 	Integer delStu(Integer student_id);
 	/**
-	 * 	查询我的所有学生总数
+	 * 	查询我的所有网络学生总数
 	 * @param fenye
 	 * @return
 	 */
 	Integer selectCountMyStu(Fenye<Students> fenye);
 	/**
-	 * 	查询我的所有学生集合
+	 * 	查询我的所有网络学生集合
 	 * @param fenye
 	 * @return
 	 */
     List<Students> selectAllMyStu(Fenye<Students> fenye);
     /**
-     * 查询所有的咨询师
+     * 查询所有的网络咨询师
      * @return
      */
     List<Users> selectAllRolesUsers();
-	
+   
+    
 }

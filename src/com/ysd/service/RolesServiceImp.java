@@ -21,6 +21,8 @@ public class RolesServiceImp implements RolesService {
 	private RolesMapper rolesMapper;
 	@Autowired
 	private ModulesMapper modulesMapper;
+	@Autowired
+	private Roles roles;
 	//查询所有
 	@Override
 	public Fenye<Roles> selectshowAll(Fenye<Roles> fenye) {
@@ -38,12 +40,26 @@ public class RolesServiceImp implements RolesService {
 	//添加
 	@Override
 	public Integer addRoles(Roles roles) {
-		return rolesMapper.addRoles(roles);
+		Integer addRoles=null;
+		List<Roles> selectByName = rolesMapper.selectByName(roles);
+		if(selectByName.size()==0) {
+			addRoles = rolesMapper.addRoles(roles);
+		}else {
+			addRoles=-1;
+		}
+		 return addRoles;
 	}
 	//修改
 	@Override
 	public Integer updateRoles(Roles roles) {
-		return rolesMapper.UpdateRoles(roles);
+		Integer updateRoles=null;
+		List<Rolemodules> selectRolemodulesByName = rolesMapper.selectRolemodulesByName(roles);
+		if(selectRolemodulesByName.size()==0) {
+			updateRoles= rolesMapper.UpdateRoles(roles);
+		}else {
+			updateRoles=-1;
+		}
+		return updateRoles;
 	}
 	@Override
 	public List<SingleTree> selectRolesByIdQX(Integer role_id) {

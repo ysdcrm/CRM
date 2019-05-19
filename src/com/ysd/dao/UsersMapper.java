@@ -2,6 +2,8 @@ package com.ysd.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ysd.entity.Fenye;
 import com.ysd.entity.Roles;
 import com.ysd.entity.Userroles;
@@ -38,6 +40,8 @@ public interface UsersMapper {
 	 	 * @return
 	 	 */
 	 	Integer addUsers(Users users);
+	 	//查询已添加的用户名
+	 	List<Users> selectByName(Users users);
 	 	/**
 	 	 * 修改
 	 	 * @param users
@@ -80,6 +84,8 @@ public interface UsersMapper {
 	 	 * @return
 	 	 */
 	 	Integer addUserRoles(Userroles userRoles);
+	 	//查询已设置的角色名
+	 	List<Userroles> selectUserrolesByName(Userroles userroles);
 	 	/**
 	 	 * 移除用户角色
 	 	 * @param role_id

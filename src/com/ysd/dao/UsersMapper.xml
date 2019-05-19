@@ -79,6 +79,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delUsers" parameterType="int">
 	 delete from users where user_id=#{user_id}
 	</delete>
+	<!-- 查询已添加的用户名 --> 
+	<select id="selectByName" parameterType="users" resultType="users">
+	select * from users where login_name=#{login_name}
+	</select> 
 	<!-- 添加 -->
 	<insert id="addUsers" parameterType="users">
 	 insert into users(login_name,password,create_time,protect_email,protect_tel,weight)
@@ -127,6 +131,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <insert id="addUserRoles" parameterType="userRoles" >
     INSERT INTO userroles(user_id,role_id) VALUES(#{user_id},#{role_id})
 </insert> 
+
+<select id="selectUserrolesByName" parameterType="userroles" resultType="userroles">
+ select * from userroles where role_id=#{role_id}
+</select>
 <!-- 移除用户角色 -->
 <delete id="delUserRoles" parameterType="int">
    delete from userroles where role_id=#{role_id}
@@ -150,6 +158,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updatePw" parameterType="users">
 	 update users set password=#{password} where user_id=#{user_id}
 </update>
-	
 	
 </mapper>

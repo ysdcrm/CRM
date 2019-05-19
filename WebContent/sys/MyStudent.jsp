@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Insert title here</title>
+<title>我的学生</title>
+<script src="../js/global.js"></script>
 </head>
 <body>
 

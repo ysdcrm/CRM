@@ -36,6 +36,9 @@
 	<insert id="addRoles" parameterType="roles">
 	insert into roles(role_name) values(#{role_name});
 	</insert>
+	<select id="selectByName" parameterType="roles" resultType="roles">
+	 select * from roles where role_name=#{role_name}
+	</select>
 	<!--修改  -->
 	<update id="UpdateRoles" parameterType="roles">
 	update roles 
@@ -46,6 +49,10 @@
 		role_id=#{role_id}
 		</where>
 	</update>
+	<!--查询要修改的角色是否已分配权限 -->
+	<select id="selectRolemodulesByName" parameterType="roles" resultType="roles">
+	 select * from rolemodules WHERE role_id=#{role_id}
+	</select>
 	<!-- 根据角色名查询当前角色的权限 -->
 	 <select id="selectRolesByIdQX" parameterType="int" resultType="modules">
 		 SELECT * from  rolemodules WHERE role_id=#{role_id}

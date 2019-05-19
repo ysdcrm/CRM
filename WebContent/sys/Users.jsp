@@ -83,13 +83,36 @@
 	 	                 $.messager.alert("提示","添加成功");
 	 	                 $('#dg').datagrid('reload'); //刷新
 	 	                 $("#addDialog").dialog("close");
+	 	              }else if(res==0){
+	 	            	 $.messager.alert("提示","添加失败");
+	 	              }else{
+	 	            	 $.messager.alert("提示","该用户名已存在！");
 	 	              }
 	    	    },'json')
 	     }
 	}
 	function closeAdd(){
 		 $("#addDialog").dialog("close");
-	} 	
+	} 
+	/* 手机号验证 */
+	$.extend($.fn.validatebox.defaults.rules, {    
+	    minLength: {    
+	        validator: function(value, param){    
+	            return value.length >= param[0];    
+	        },    
+	        message: '长度不能小于11位数' 
+	    }    
+	});  
+	$.extend($.fn.validatebox.defaults.rules, {    
+	    maxLength: {    
+	        validator: function(value, param){    
+	            return value.length <= param[0];    
+	        },    
+	        message: '长度不能大于11位数' 
+	    }    
+	});  
+	
+	
 	//修改
 	function UpdateUsers(index){
 	      var data = $("#dg").datagrid("getData");
@@ -233,8 +256,10 @@
 				if(res>0){
 					$.messager.alert("提示","角色设置成功")
 					$("#User-juese").datagrid("reload");
+				}else if(res==0){
+	            	 $.messager.alert("提示","角色设置失败");
 				}else{
-					$.messager.alert("提示","角色设置失败")
+					$.messager.alert("提示","该角色已存在！！！")
 				}
 			},"json")
 		}else{
@@ -336,12 +361,12 @@
 				 <tr>
 					<td>邮箱:</td>
 					<td><input class="easyui-textbox" type="text" id="protect_emails"
-						name="protect_emails" data-options="required:true"></input></td>
+						name="protect_emails" data-options="required:true,validType:'email'"></input></td>
 				</tr> 
 				<tr>
 					<td>手机号:</td>
 					<td><input class="easyui-textbox" type="text" id="protect_tels"
-						name="protect_tels" data-options="required:true"></input></td>
+						name="protect_tels" data-options="required:true,validType:['minLength[11]','maxLength[11]']"></input></td>
 				</tr>
 				<tr>
 					<td>权重:</td>

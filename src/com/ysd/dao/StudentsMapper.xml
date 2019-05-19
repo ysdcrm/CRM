@@ -100,4 +100,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <select id="selectAllRolesUsers" resultType="users">
   SELECT u.user_id,u.login_name FROM users u,roles s,userroles us WHERE u.user_id=us.user_id AND us.role_id=s.role_id AND s.role_name='咨询师'
   </select>
+  
+  
 </mapper>

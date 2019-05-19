@@ -14,10 +14,15 @@ public interface RolesMapper {
 	  List<Roles> selectShowAll(Fenye<Roles> fenye);
 	  //添加角色
 	  Integer addRoles(Roles roles);
+	  //查询已添加的角色
+	  List<Roles> selectByName(Roles roles);
 	  //修改角色
 	  Integer UpdateRoles(Roles roles);
+	  //查询要修改的角色是否已分配权限
+	  List<Rolemodules> selectRolemodulesByName(Roles roles);
 	  //删除角色
 	  Integer delRoles(int role_id);
+	 
 	  //根据角色名设置角色权限
 	  List<Modules> selectRolesByIdQX(Integer role_id);
 	  //保存角色权限

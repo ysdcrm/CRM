@@ -74,12 +74,20 @@ public class UsersServiceImp implements UsersService {
 		fenye.setRows(selectShowAllUsers);
 		return fenye;
 	}
+	//添加
 	@Override
 	public Integer addUsers(Users users) {
-		users.setCreate_time(last_time_login);
-		Integer addUsers = usersMapper.addUsers(users);
+		Integer addUsers=null;
+		 List<Users> selectByName = usersMapper.selectByName(users);
+		 if(selectByName.size()==0) {
+			    users.setCreate_time(last_time_login);
+				addUsers = usersMapper.addUsers(users);
+		 }else {
+			 addUsers=-1;
+		 }
 		return addUsers;
 	}
+	
 	@Override
 	public Integer UpdateUsers(Users users) {
 		Integer updateUsers = usersMapper.UpdateUsers(users);
@@ -108,14 +116,24 @@ public class UsersServiceImp implements UsersService {
 	public Integer NoSoudingUser(String login_name) {
 		return usersMapper.NoSoudingUser(login_name);
 	}
+	//根据用户名查询该用户的角色
 	@Override
 	public List<Roles> selectRoles(String login_name) {
 		return usersMapper.selectRoles(login_name);
 	}
+	//设置角色添加
 	@Override
-	public Integer addUserRoles(Userroles userRoles) {
-		return usersMapper.addUserRoles(userRoles);
+	public Integer addUserRoles(Userroles userroles) {
+		Integer addUserRoles=null;
+		List<Userroles> selectUserrolesByName = usersMapper.selectUserrolesByName(userroles);
+		if(selectUserrolesByName.size()==0) {
+			addUserRoles =usersMapper.addUserRoles(userroles);
+		}else {
+			addUserRoles=-1;
+		}
+		return addUserRoles;
 	}
+	//移除角色
 	@Override
 	public Integer delUserRoles(Integer role_id) {
 		return usersMapper.delUserRoles(role_id);
@@ -129,8 +147,5 @@ public class UsersServiceImp implements UsersService {
 	public Integer updatePw(Users users) {
 		return usersMapper.updatePw(users);
 	}
-
-
-	
 	
 }

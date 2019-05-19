@@ -62,6 +62,10 @@
 	 	                 $.messager.alert("提示","添加成功");
 	 	                 $('#dg').datagrid('reload'); //刷新
 	 	                 $("#addDialog").dialog("close");
+	 	              }else if(res==0){
+	 	            	 $.messager.alert("提示","添加失败");
+	 	              }else{
+	 	            	 $.messager.alert("提示","该角色已存在！！");
 	 	              }
 	    	    },'json')
 	     }
@@ -92,6 +96,10 @@
 					$('#dg').datagrid('reload'); //刷新
 					$("#updateDialog").dialog("close");//关闭弹窗
 					$.messager.alert("提示","修改成功");//提示
+				}else if(res==0){
+					$.messager.alert("提示","修改失败");//提示
+				}else{
+					$.messager.alert("提示","该角色已有权限不能修改");//提示
 				}
 	     },'json')
 	   }
