@@ -25,6 +25,18 @@ public class Users {
 	private Userroles userRoles;
 	
 	
+	//分量设置是否开启
+	private String allotSetting;
+	
+	
+	
+	
+	public String getAllotSetting() {
+		return allotSetting;
+	}
+	public void setAllotSetting(String allotSetting) {
+		this.allotSetting = allotSetting;
+	}
 	public Roles getRoles() {
 		return roles;
 	}

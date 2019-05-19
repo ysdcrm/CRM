@@ -2,7 +2,6 @@ package com.ysd.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 
 import com.ysd.entity.Fenye;
 import com.ysd.entity.Roles;
@@ -96,4 +95,11 @@ public interface UsersMapper {
 	    Integer updatePerson(Users users);
 	    //修改密码
 	    Integer updatePw(Users users);
+	    //
+		Users selectByPrimaryKey(Integer user_id);
+		/**
+		  * 自动分配时候得到要分配的咨询师用户
+		 * @return
+		 */
+		List<Users> getAlotInfo();
 }

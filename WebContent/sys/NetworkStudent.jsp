@@ -50,68 +50,43 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 	var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData)
 			: JSONData;
 	var CSV = '';
-
 	//在第一行拼接标题
 	CSV += ReportTitle + '\r\n\n';
-
 	//产生数据标头
 	if (ShowLabel) {
 		var row = "";
 		//此循环将从数组的第一个索引中提取标签
 		for ( var index in arrData[0]) {
-
 			//现在将每个值转换为字符串和逗号分隔
 			row += index + ',';
 		}
-
 		row = row.slice(0, -1);
-
 		//添加带换行符的标签行
 		CSV += row + '\r\n';
 	}
-
 	//第一个循环是提取每一行
 	for (var i = 0; i < arrData.length; i++) {
 		var row = "";
-
 		//第二个循环将提取每个列并将其转换为以逗号分隔的字符串
 		for ( var index in arrData[i]) {
 			row += '"' + arrData[i][index] + '",';
 		}
-
 		row.slice(0, row.length - 1);
-
 		//每行后添加换行符
 		CSV += row + '\r\n';
 	}
-
 	if (CSV == '') {
 		alert("Invalid data");
 		return;
 	}
-
-	//Generate a file name
-	//var fileName = "我的学生_";
-	//this will remove the blank-spaces from the title and replace it with an underscore
-	//fileName += ReportTitle.replace(/ /g, "_");
-
-	//Initialize file format you want csv or xls
 	//var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
 	var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURI(CSV);
-
-	// Now the little tricky part.
-	// you can use either>> window.open(uri);
-	// but this will not work in some browsers
-	// or you will not get the correct file extension    
-
 	//this trick will generate a temp <a /> tag
 	var link = document.createElement("a");
 	link.href = uri;
-
 	//set the visibility hidden so it will not effect on your web-layout
 	link.style = "visibility:hidden";
 	link.download = ReportTitle + ".csv";
-
 	//this part will append the anchor tag and remove it after automatic click
 	document.body.appendChild(link);
 	link.click();
@@ -194,6 +169,10 @@ var columns = [ [
 				title : '来源渠道'
 			},
 			{
+				field : 'create_time',
+				title : '创建时间'
+			},
+			{
 				field : 'source_site',
 				title : '来源网址'
 			},
@@ -260,6 +239,19 @@ function dongtai2() {
 	$("#dg").datagrid({
 		columns : columns
 	});
+}
+function addMyStu() {
+	$("#win-add").window("open");
+}
+function submitAdd() {
+	var data = $("#form-add").serializeArray();//获取form表单数据
+	$.post("/CRM/addStudents", data, function(res) {
+		if (res) {
+			$.messager.alert("系统信息", "添加成功");
+			$("#win-add").window("close");
+			$("#dg").datagrid("reload"); //通过调用reload方法，让datagrid刷新显示数据
+		}
+	}, "json");
 }
 </script>
 </head>
@@ -397,5 +389,118 @@ function dongtai2() {
 			</tr>
 		</table>
 	</div>
+	 <%--  添加的窗口  --%>
+    <div id="win-add" class="easyui-window" title="添加学生" style="width:600px;height:400px"   
+         data-options="iconCls:'icon-save',modal:true,closed:true">   
+        <form id="form-add">
+			<table cellpadding="10">
+				<tr>
+					<td>
+					<label for="name">姓名:</label> 
+					<input id="name-add" class="easyui-textbox" name="name" type="text" style="width:200px">
+					</td>
+					<td>
+					<label for="sex">性别:</label>
+					<select id="sex-add" class="easyui-combobox" name="sex" style="width:200px;">   
+    					<option value="未知">----未知-----</option>   
+   					    <option value="1">男</option>   
+   						<option value="0">女</option>   
+					</select> 
+					</td>
+				</tr>
+					<tr>
+					<td>
+					<label for="age">年龄:</label> 
+					<input id="age-add" class="easyui-textbox" name="age" type="text" style="width:200px">
+					</td>
+					<td>
+					<label for="phone">电话:</label> 
+					<input id="phone-add" class="easyui-textbox" name="phone" type="text" style="width:200px">
+					</td>
+				</tr>
+					<tr>
+					<td>
+					<label for="education">学历:</label> 
+				<!-- 	<input id="education" class="easyui-textbox" name="education" type="text" style="width:200px"> -->
+					<select id="education-add" class="easyui-combobox" name="education" style="width:200px;">   
+    					<option value="未知">----未知-----</option>   
+   					    <option value="大专">大专</option>   
+   						<option value="本科">本科</option>   
+    					<option value="研究生">研究生</option>   
+    					<option value="博士">博士</option>   
+					</select>
+					</td>
+					<td>
+					<label for="state">状态:</label> 
+					<input id="state-add" class="easyui-textbox" name="state" type="text" style="width:200px">
+					</td>
+				</tr>
+					<tr>
+					<td>
+					<label for="sources">来源渠道:</label> 
+					<!-- <input id="sources" class="easyui-textbox" name="sources" type="text" style="width:200px"> -->
+						<select id="sources-add" class="easyui-combobox" name="sources" style="width:200px;">   
+    					<option value="未知">----未知-----</option>   
+   					    <option value="熟人介绍">熟人介绍</option>   
+   						<option value="网上宣传">网上宣传</option>   
+    					<option value="老师介绍">老师介绍</option>   
+    					<option value="现场宣传">现场宣传</option>   
+					</select>
+					</td>
+					<td>
+					<label for="source_site">来源网站:</label> 
+					<!-- <input id="sourceSite" class="easyui-textbox" name="sourceSite" type="text" style="width:200px"> -->
+						<select id="source_site-add" class="easyui-combobox" name="source_site" style="width:200px;">   
+    					<option value="未知">----未知-----</option>   
+   					    <option value="百度">大专</option>   
+   						<option value="搜狐">本科</option>   
+    					<option value="腾讯">腾讯</option>   
+    					<option value="抖音">抖音</option>   
+					</select>
+					</td>
+				</tr>
+					<tr>
+					<td>
+					<label for="sourcekeyword">来源关键字:</label> 
+					<!-- <input id="sourcekeyword" class="easyui-textbox" name="sourcekeyword" type="text" style="width:200px"> -->
+						<select id="sourcekeyword-add" class="easyui-combobox" name="sourcekeyword" style="width:200px;">   
+    					<option value="未知">----未知-----</option>   
+   					    <option value="java">java</option>   
+   						<option value="大数据">大数据</option>   
+    					<option value="Python">Python</option>   
+    					<option value="人工智能">人工智能</option>
+    					<option value="全栈工程师">全栈工程师</option>
+    					<option value="架构师">架构师</option>     
+					</select>
+					</td>
+					<td>
+					<label for="qq">学员qq:</label> 
+					<input id="qq-add" class="easyui-textbox" name="qq" type="text" style="width:200px">
+					</td>
+				</tr>
+					<tr>
+					<td>
+					<label for="we_chat">微信号:</label> 
+					<input id="we_chat-add" class="easyui-textbox" name="we_chat" type="text" style="width:200px">
+					</td>
+					<td>
+					<label for="is_report">是否报备:</label> 
+					<input id="isReport-add" class="easyui-textbox" name="is_report" type="text" style="width:200px">
+					</td>
+				</tr>
+					<tr>
+					<td>
+					<label for="remark">在线备注:</label> 
+					<input id="remark-add" class="easyui-textbox" name="remark" type="text" style="width:200px">
+					</td>
+				</tr>
+				<tr>
+				 <td>
+				    <a  id="btn" onclick="submitAdd()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a> 
+				 </td>
+				</tr>
+			</table>
+		</form>
+</div> 
 </body>
 </html>

@@ -221,7 +221,7 @@ function setQXRoles(index) {
 				</tr>
 			</table>
 		</form>
-		   <div style="text-align: center; padding: 5px">
+		 <div style="text-align: center; padding: 5px">
 				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitUpdate()" data-options="iconCls:'icon-ok'">保存</a>
 				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeUpdate()" data-options="iconCls:'icon-no'">取消</a>
 		</div>

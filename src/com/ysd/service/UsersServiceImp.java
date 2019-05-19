@@ -150,5 +150,16 @@ public class UsersServiceImp implements UsersService {
 	public Integer updatePw(Users users) {
 		return usersMapper.updatePw(users);
 	}
+	@Override
+	public Users selectByPrimaryKey(Integer user_id) {
+		// TODO Auto-generated method stub
+		return usersMapper.selectByPrimaryKey(user_id);
+	}
+	//自动分配时候得到要分配的咨询师用户
+	@Override
+	public List<Users> getAlotInfo() {
+		// TODO Auto-generated method stub
+		return usersMapper.getAlotInfo();
+	}
 	
 }

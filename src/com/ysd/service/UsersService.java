@@ -43,5 +43,11 @@ public interface UsersService {
 	//修改密码
 	Integer updatePw(Users users);
 	
-	
+	//
+	Users selectByPrimaryKey(Integer user_id);
+	/**
+	  * 自动分配时候得到要分配的咨询师用户
+	 * @return
+	 */
+	List<Users> getAlotInfo();
 }

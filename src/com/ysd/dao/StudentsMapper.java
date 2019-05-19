@@ -34,6 +34,11 @@ public interface StudentsMapper {
      * @return
      */
     List<Users> selectAllRolesUsers();
-   
+    /**
+     * 网络咨询师添加学生自动分配
+     * @param students
+     * @return
+     */
+    Integer addNetWorkStu(Students students);
     
 }

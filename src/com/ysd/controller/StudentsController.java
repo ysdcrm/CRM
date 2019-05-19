@@ -1,5 +1,7 @@
 package com.ysd.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +16,8 @@ import com.ysd.entity.Fenye;
 import com.ysd.entity.Students;
 import com.ysd.entity.Users;
 import com.ysd.service.StudentsService;
+import com.ysd.service.UsersService;
+import com.ysd.util.AlotSetting;
 
 @Controller
 public class StudentsController {
@@ -21,6 +25,8 @@ public class StudentsController {
 	private StudentsService studentsService;
 	@Autowired
 	private Fenye<Students> fenye;
+	@Autowired
+	private UsersService usersService;
 	
 	@RequestMapping(value="/showStu",method=RequestMethod.POST)
 	@ResponseBody
@@ -50,6 +56,22 @@ public class StudentsController {
     	List<Users> selectAllRolesUsers = studentsService.selectAllRolesUsers();
 		return selectAllRolesUsers;
     }
-  
+    //添加学生并自动分配
+    @RequestMapping(value="/addStudents",method=RequestMethod.POST)
+	@ResponseBody
+    public  Integer addStudents(Students students,HttpSession session){
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		String creatTime = sdf.format(new Date());
+		System.out.println(creatTime);
+		
+		Integer network_user_id = (Integer) session.getAttribute("user_id");
+		students.setNetwork_user_id(network_user_id);
+		AlotSetting as =  new AlotSetting();
+		int alot = as.alot(network_user_id, usersService);
+		if(alot!=0) {
+			students.setRefer_user_id(alot);
+		}
+		return studentsService.addNetWorkStu(students);
+    }
 
 }

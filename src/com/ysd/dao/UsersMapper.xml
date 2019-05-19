@@ -158,5 +158,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updatePw" parameterType="users">
 	 update users set password=#{password} where user_id=#{user_id}
 </update>
-	
+<!-- 自动分配时候得到要分配的咨询师用户 -->
+	<select id="getAlotInfo" resultType="users"> 
+		SELECT s.refer_user_id AS
+		user_id,COUNT(s.refer_user_id) AS num,u.weight
+		FROM
+		students s
+		LEFT JOIN users
+		u
+		ON s.refer_user_id=u.user_id
+		GROUP BY s.refer_user_id
+		ORDER BY num ASC,u.weight
+		DESC
+	</select>
+	<!-- 查询该用户是否拥有自动分配权限 -->
+	<select id="selectByPrimaryKey" parameterType="int" resultType="users">
+		SELECT * FROM users WHERE user_id=#{user_id}
+	</select>
 </mapper>

@@ -100,6 +100,102 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <select id="selectAllRolesUsers" resultType="users">
   SELECT u.user_id,u.login_name FROM users u,roles s,userroles us WHERE u.user_id=us.user_id AND us.role_id=s.role_id AND s.role_name='咨询师'
   </select>
-  
+  <insert id="addNetWorkStu" parameterType="students">
+  	insert into students
+  	<trim prefix="(" suffix=")" suffixOverrides="," >
+  		<if test="name!=null and name!=''">
+  			name,
+  		</if>
+  		<if test="age!=null and age!=''">
+  			age,
+  		</if>
+  		<if test="sex!=null and sex!=''">
+  			sex,
+  		</if>
+  		<if test="phone!=null and phone!=''">
+  			phone,
+  		</if>
+  		<if test="education!=null and education!=''">
+  			education,
+  		</if>
+  		<if test="state!=null and state!=''">
+  			state,
+  		</if>
+  		<if test="sources!=null and sources!=''">
+  			sources,
+  		</if>
+  		<if test="source_site!=null and source_site!=''">
+  			source_site,
+  		</if>
+  		<if test="sourcekeyword!=null and sourcekeyword!=''">
+  			sourcekeyword,
+  		</if>
+  		<if test="qq!=null and qq!=''">
+  			qq,
+  		</if>
+  		<if test="we_chat!=null and we_chat!=''">
+  			we_chat,
+  		</if>
+  		<if test="is_report!=null and is_report!=''">
+  			is_report,
+  		</if>
+  		<if test="remark!=null and remark!=''">
+  			remark,
+  		</if>
+  		<if test="refer_user_id!=null and refer_user_id!=''">
+  			refer_user_id,
+  		</if>
+  		<if test="network_user_id!=null and network_user_id!=''">
+  			network_user_id
+  		</if>
+  	</trim>
+  	<trim prefix="values (" suffix=")" suffixOverrides="," >
+  		<if test="name!=null and name!=''">
+  			#{name},
+  		</if>
+  		<if test="age!=null and age!=''">
+  			#{age},
+  		</if>
+  		<if test="sex!=null and sex!=''">
+  			#{sex},
+  		</if>
+  		<if test="phone!=null and phone!=''">
+  			#{phone},
+  		</if>
+  		<if test="education!=null and education!=''">
+  			#{education},
+  		</if>
+  		<if test="state!=null and state!=''">
+  			#{state},
+  		</if>
+  		<if test="sources!=null and sources!=''">
+  			#{sources},
+  		</if>
+  		<if test="source_site!=null and source_site!=''">
+  			#{source_site},
+  		</if>
+  		<if test="sourcekeyword!=null and sourcekeyword!=''">
+  			#{sourcekeyword},
+  		</if>
+  		<if test="qq!=null and qq!=''">
+  			#{qq},
+  		</if>
+  		<if test="we_chat!=null and we_chat!=''">
+  			#{we_chat},
+  		</if>
+  		<if test="is_report!=null and is_report!=''">
+  			#{is_report},
+  		</if>
+  		<if test="remark!=null and remark!=''">
+  			#{remark},
+  		</if>
+  		<if test="refer_user_id!=null and refer_user_id!=''">
+  			#{refer_user_id},
+  		</if>
+  		<if test="network_user_id!=null and network_user_id!=''">
+  			#{network_user_id}
+  		</if>
+  	</trim>
+  </insert>
   
 </mapper>

@@ -40,5 +40,11 @@ public class StudentsServiceImp implements StudentsService {
 			List<Users> selectAllRolesUsers = studentsMapper.selectAllRolesUsers();
 			return selectAllRolesUsers;
 		}
+		//网络咨询师添加学生自动分配
+		@Override
+		public Integer addNetWorkStu(Students students) {
+			// TODO Auto-generated method stub
+			return studentsMapper.addNetWorkStu(students);
+		}
 		
 }
