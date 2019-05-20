@@ -11,19 +11,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select u.* from users u,userroles ur,roles r 
 	<where>
 	  <if test="users.login_name!=null and users.login_name!=''">
-	    and users.login_name like "%"#{users.login_name}"%"
+	    and u.login_name like "%"#{users.login_name}"%"
 	  </if>
-	   <if test="users.is_Lockout!=null and users.is_Lockout!=''">
-	    and users.is_Lockout = #{users.is_Lockout}
+	   <if test="users.allotSetting!=null and users.allotSetting!=''">
+	    and u.allotSetting = #{users.allotSetting}
 	   </if>
 	     <if test="users.sign_in_state!=null and users.sign_in_state!=''">
-	     and users.sign_in_state = #{users.sign_in_state}
+	     and u.sign_in_state = #{users.sign_in_state}
 	    </if>
 	   <if test="users.startcreat_time>0">
-	    and users.create_time &gt;=#{users.startcreat_time}
+	    and u.create_time &gt;=#{users.startcreat_time}
 	   </if>
 	    <if test="users.endcreat_time>0">
-	    and users.create_time &lt;=#{users.endcreat_time}
+	    and u.create_time &lt;=#{users.endcreat_time}
 	  </if>
 	  and u.user_id=ur.user_id and r.role_id=ur.role_id AND (r.role_name='网络咨询师' or r.role_name='咨询师')
 	</where>
