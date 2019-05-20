@@ -28,9 +28,17 @@ public class Users {
 	//分量设置是否开启
 	private String allotSetting;
 	
+	//0：正常，1：迟到，2：早退
+	private String sign_state;
 	
 	
 	
+	public String getSign_state() {
+		return sign_state;
+	}
+	public void setSign_state(String sign_state) {
+		this.sign_state = sign_state;
+	}
 	public String getAllotSetting() {
 		return allotSetting;
 	}
