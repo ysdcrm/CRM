@@ -3,6 +3,7 @@ package com.ysd.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 
 import com.ysd.entity.Fenye;
 import com.ysd.entity.Roles;
@@ -11,7 +12,7 @@ import com.ysd.entity.Users;
 
 public interface UsersService {
 	//登录功能
-	Map<String, Object>  getLogin(Users users);
+	Map<String, Object>  getLogin(Users users,HttpSession session);
 	//查询登录当前用户的个人信息
 	List<Users>  getUsersAll(String login_name);
 

@@ -26,16 +26,12 @@ public class UsersController {
   //用户登录
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> getLogin(Users users,HttpServletRequest request) {
+	public Map<String, Object> getLogin(Users users,HttpSession session) {
 		String buildTreeEncryption = Md5.buildTreeEncryption(users.getPassword());
 		users.setPassword(buildTreeEncryption);
-		Map<String, Object> login = usersService.getLogin(users);
-		HttpSession session = request.getSession();
+		Map<String, Object> login = usersService.getLogin(users, session);
 		session.setAttribute("login_name", users.getLogin_name());
-		
-		
 		List<Users> usersAll = usersService.getUsersAll(users.getLogin_name());
-		session.setAttribute("user_id", usersAll.get(0).getUser_id());
 		session.setAttribute("user", usersAll);
 		return login;
 	}

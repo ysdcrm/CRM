@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class UsersServiceImp implements UsersService {
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 	String last_time_login=sdf.format(new Date());
 	@Override
-	public java.util.Map<String, Object> getLogin(Users users) {
+	public java.util.Map<String, Object> getLogin(Users users,HttpSession session) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = CommonUtil.getResultMap();
 		Users login = usersMapper.getLogin(users);
@@ -37,6 +38,8 @@ public class UsersServiceImp implements UsersService {
 					user.setPsd_wrong_time(psd_wrong_time);
 					user.setLogin_name(login.getLogin_name());
 					usersMapper.updateUsersLast_time(user);
+					session.setAttribute("login_name", users.getLogin_name());
+					session.setAttribute("user_id", login.getUser_id());
 				}else {
 					map.put("success", false);
 					map.put("message", "您的账户在锁定状态，请联系管理员！");

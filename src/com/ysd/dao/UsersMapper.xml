@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	</resultMap>
   <!-- 登录用户  -->
 	<select id="getLogin" parameterType="users" resultType="users">
-		select login_name,password,is_Lockout,psd_wrong_time from users
+		select user_id,login_name,password,is_Lockout,psd_wrong_time from users
 		<where>
 			<if test="login_name!=null and login_name!=''">
 				and login_name=#{login_name}
@@ -160,7 +160,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update>
 <!-- 自动分配时候得到要分配的咨询师用户 -->
 	<select id="getAlotInfo" resultType="users"> 
-		SELECT s.refer_user_id AS
+		<!-- SELECT s.refer_user_id AS
 		user_id,COUNT(s.refer_user_id) AS num,u.weight
 		FROM
 		students s
@@ -168,6 +168,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		u
 		ON s.refer_user_id=u.user_id
 		GROUP BY s.refer_user_id
+		ORDER BY num ASC,u.weight
+		DESC -->
+		SELECT u.user_id,COUNT(s.refer_user_id) AS num,u.weight FROM
+		users u,userroles ur,roles r,students s
+		where 
+		u.user_id=ur.user_id and r.role_id=ur.role_id AND  r.role_name='咨询师' AND u.user_id=s.refer_user_id 
+		GROUP BY u.user_id
 		ORDER BY num ASC,u.weight
 		DESC
 	</select>

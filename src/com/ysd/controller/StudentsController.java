@@ -65,6 +65,7 @@ public class StudentsController {
 		System.out.println(creatTime);
 		
 		Integer network_user_id = (Integer) session.getAttribute("user_id");
+		System.out.println(network_user_id);
 		students.setNetwork_user_id(network_user_id);
 		AlotSetting as =  new AlotSetting();
 		int alot = as.alot(network_user_id, usersService);
