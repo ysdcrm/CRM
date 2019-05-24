@@ -35,7 +35,7 @@ public class Students {
 	//
 	private String is_effective;//是否有效
 	private String scoring;//打分
-	private String is_visit;//是否回访
+	private String ibs_visit;//是否回访
 	private String first_visit_time;//首次回访时间
 	private String is_door;//是否上门
 	private String door_time;//上门时间
@@ -186,11 +186,12 @@ public class Students {
 	public void setScoring(String scoring) {
 		this.scoring = scoring;
 	}
-	public String getIs_visit() {
-		return is_visit;
+	
+	public String getIbs_visit() {
+		return ibs_visit;
 	}
-	public void setIs_visit(String is_visit) {
-		this.is_visit = is_visit;
+	public void setIbs_visit(String ibs_visit) {
+		this.ibs_visit = ibs_visit;
 	}
 	public String getFirst_visit_time() {
 		return first_visit_time;
@@ -302,7 +303,7 @@ public class Students {
 				+ sourcekeyword + ", is_report=" + is_report + ", course=" + course + ", remark=" + remark
 				+ ", refer_user_id=" + refer_user_id + ", network_user_id=" + network_user_id + ", create_time="
 				+ create_time + ", startcreat_time=" + startcreat_time + ", endcreat_time=" + endcreat_time
-				+ ", is_effective=" + is_effective + ", scoring=" + scoring + ", is_visit=" + is_visit
+				+ ", is_effective=" + is_effective + ", scoring=" + scoring + ", ibs_visit=" + ibs_visit
 				+ ", first_visit_time=" + first_visit_time + ", is_door=" + is_door + ", door_time=" + door_time
 				+ ", Is_invalid=" + Is_invalid + ", invalid_reason=" + invalid_reason + ", is_pay=" + is_pay
 				+ ", pay_time=" + pay_time + ", amount=" + amount + ", is_refund=" + is_refund + ", refund_reason="
@@ -310,6 +311,7 @@ public class Students {
 				+ ", class_entry_remark=" + class_entry_remark + ", is_deposit=" + is_deposit + ", deposit_amount="
 				+ deposit_amount + ", deposit_time=" + deposit_time + ", users=" + users + "]";
 	}
+
 	
 	
 	

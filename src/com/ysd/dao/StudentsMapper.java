@@ -2,20 +2,29 @@ package com.ysd.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ysd.entity.Fenye;
 import com.ysd.entity.Students;
 import com.ysd.entity.Users;
 
 public interface StudentsMapper {
-	
+	//分页查询总条数
 	Integer selectCountStu(Fenye<Students> fenye);
-	
+	//分页查询所有数据
     List<Students> selectAllStu(Fenye<Students> fenye);
-	
+    //查询已分配的学生
+    List<Students> selectYifenpeiStu(Fenye<Students> fenye);
+    Integer selectYifenpeiStuCount(Fenye<Students> fenye);
+    //查询未分配的学生
+    List<Students> selectWeifenpeiStu(Fenye<Students> fenye);
+    //查询所有用户
+    List<Users> selectUserName();
+    //批量分配咨询师
+    Integer updateUserId(Students students);
+    //添加
 	Integer addStu(Students students);
-	
-	Integer updateStu(Students students);
-	
+	//将学生的有效状态改为失效状态
 	Integer delStu(Integer student_id);
 	/**
 	 * 	查询我的所有网络学生总数

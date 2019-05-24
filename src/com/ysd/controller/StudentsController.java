@@ -27,15 +27,57 @@ public class StudentsController {
 	private Fenye<Students> fenye;
 	@Autowired
 	private UsersService usersService;
-	
+	//查询所有的学生
 	@RequestMapping(value="/showStu",method=RequestMethod.POST)
 	@ResponseBody
-	public Fenye<Students> showStu(Integer page,Integer rows) {
+	public Fenye<Students> showStu(Integer page,Integer rows,Students students) {
 		fenye.setPage((page-1)*rows);
 		fenye.setPageSize(rows);
+		fenye.setStudents(students);
 		Fenye<Students> selectAllStu = studentsService.selectAllStu(fenye);
 		return selectAllStu;
 	}
+	//查询已分配的学生
+	@RequestMapping(value="/yifenpeiStu",method=RequestMethod.POST)
+	@ResponseBody
+	public Fenye<Students> yiFenPeiStu(Integer page,Integer rows,Students students) {
+		fenye.setPage((page-1)*rows);
+		fenye.setPageSize(rows);
+		fenye.setStudents(students);
+		Fenye<Students> selectYifenpeiStu = studentsService.selectYifenpeiStu(fenye);
+		return selectYifenpeiStu;
+		
+	}
+	//查询未分配的学生
+		@RequestMapping(value="/weifenpeiStu",method=RequestMethod.POST)
+		@ResponseBody
+		public Fenye<Students> weiFenPeiStu(Integer page,Integer rows,Students students) {
+			fenye.setPage((page-1)*rows);
+			fenye.setPageSize(rows);
+			fenye.setStudents(students);
+			Fenye<Students> selectWeifenpeiStu = studentsService.selectWeifenpeiStu(fenye);
+			return selectWeifenpeiStu;
+		}
+	@RequestMapping(value="/getUserName",method=RequestMethod.POST)
+	@ResponseBody 	
+     public List<Users> selectUserName(){
+		List<Users> selectUserName = studentsService.selectUserName();
+		
+		return selectUserName;
+    	 
+     }
+	
+	//添加学生信息
+	SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	String creat_time=sdf.format(new Date());
+	 @RequestMapping(value="/addStu",method=RequestMethod.POST)
+	 @ResponseBody 
+	 public Integer addStu(Students students) {
+		 students.setCreate_time(creat_time);
+	     Integer i = studentsService.addStu(students);
+	     return i;
+	 
+	 }
 	
 	//查询网络学生
 	@RequestMapping(value="/getMyStu",method=RequestMethod.POST)
@@ -74,5 +116,28 @@ public class StudentsController {
 		}
 		return studentsService.addNetWorkStu(students);
     }
+    //批量分配咨询师
+	
+	  @RequestMapping(value="/fenpeiZXS",method=RequestMethod.POST)
+	  @ResponseBody
+	  public Integer updateUserId(String student_id,Integer refer_user_id){
+		
+		  Integer i = studentsService.updateUserId(student_id, refer_user_id);
+		  return i;
+				
+		  
+	  }
+	  
+	  //将学生的有效状态改为失效状态
+	  @RequestMapping(value="/delStu",method=RequestMethod.POST)
+	  @ResponseBody
+	  public Integer delStu(Integer student_id){
+		
+		  Integer i = studentsService.delStu(student_id);
+		  return i;
+				
+		  
+	  }
+    
 
 }
