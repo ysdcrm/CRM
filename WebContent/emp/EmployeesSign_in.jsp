@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>员工分量</title>
+<title>员工签到</title>
 <script src="../js/global.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -19,7 +19,7 @@ function initUsers(){
 		queryParams:{
 			login_name:$("#login_name").val(),
 			sign_in_state:$('#sign_in_state').combobox('getValue'),
-			allotSetting:$('#allotSetting').combobox('getValue'),
+			sign_state:$('#sign_state').combobox('getValue'),
 			startcreat_time:$('#startcreat_time').datetimebox('getValue'),
 			endcreat_time:$('#endcreat_time').datetimebox('getValue')
 		}
@@ -28,13 +28,12 @@ function initUsers(){
 }
 //格式化操作 
 function formatterCZ2(value,row,index) {
-	if(value==0){
-		return '<a  href="javascript:void(0)" class="easyui-linkbutton" onclick="OpenAllotSetting('+index+')" >已关闭自动分配</a>';
-	}else{
-		 return '<a  href="javascript:void(0)" class="easyui-linkbutton" onclick="CloseAllotSetting('+index+')" >已开启自动分配</a>';
-	}
+		return '<a  href="javascript:void(0)" class="easyui-linkbutton" onclick="OpenAllotSetting('+index+')" >签到</a>';
+	/* }else{
+		 return '<a  href="javascript:void(0)" class="easyui-linkbutton" onclick="CloseAllotSetting('+index+')" >签退</a>';
+	} */
 }
-//分量关闭
+//签到
 function CloseAllotSetting(index) {
 	var data = $("#dg").datagrid("getData");
    	var row = data.rows[index];
@@ -49,7 +48,7 @@ function CloseAllotSetting(index) {
    	},"json")
 	
 }
-//分量开启
+//签退
 function OpenAllotSetting(index) {
 	var data = $("#dg").datagrid("getData");
    	var row = data.rows[index];
@@ -68,6 +67,16 @@ function OpenAllotSetting(index) {
 function formatterQD(value,row,index) {
 		return value==0? "否":"是"
 	}
+//签到状态
+function formatterQDsign_state(value,row,index) {
+		if(value==0){
+			return value==0? "正常":"";
+		}else if(value==1){
+			return value==1? '迟到':"";
+		}else{
+			return value==2? '早退':"";
+		}
+	}
 </script>
 </head>
 <body>
@@ -79,10 +88,11 @@ function formatterQD(value,row,index) {
 					    <option value="0">否</option>   
 					   <option value="1">是</option>  
 				</select>
-			是否开启自动分配：<select id="allotSetting" class="easyui-combobox" name="allotSetting" style="width:120px;">   
+			签到状态：<select id="sign_state" class="easyui-combobox" name="sign_state" style="width:120px;">   
 					    <option value="">----请选择-----</option>   
-					    <option value="0">否</option>   
-					   <option value="1">是</option>  
+					    <option value="0">正常</option>   
+					   <option value="1">迟到</option>
+					   <option value="2">早退</option>   
 			</select>
         	创建时间：<input id="startcreat_time"  type= "text" class= "easyui-datetimebox">~<input id="endcreat_time"  type= "text" class= "easyui-datetimebox"></input>   
         	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="initUsers()" data-options="iconCls:'icon-search'">搜索</a> 
@@ -91,14 +101,15 @@ function formatterQD(value,row,index) {
 <table id="dg" class="easyui-datagrid" style="width:100%;height:480px"   
         data-options="toolbar:'#usertab'">   
     <thead>   
-        <tr>   
-			<th data-options="field:'xz',checkbox : true"></th>  
+        <tr> 
+        	<th data-options="field:'xz',checkbox : true"></th>    
             <th data-options="field:'user_id'">用户id</th>   
             <th data-options="field:'login_name'">登录名</th> 
             <th data-options="field:'last_time_login'">最后一次登录时间</th> 
             <th data-options="field:'create_time'">创建时间</th> 
-            <th data-options="field:'sign_in_state',formatter:formatterQD">签到状态</th> 
-            <th data-options="field:'allotSetting',formatter:formatterCZ2">分量设置</th>
+            <th data-options="field:'sign_in_state',formatter:formatterQD">是否签到</th>
+            <th data-options="field:'sign_state',formatter:formatterQDsign_state">签到状态</th>  
+            <th data-options="field:'aa',formatter:formatterCZ2">签到设置</th>
         </tr>   
     </thead>   
 </table> 

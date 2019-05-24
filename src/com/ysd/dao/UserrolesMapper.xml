@@ -16,13 +16,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   <if test="users.allotSetting!=null and users.allotSetting!=''">
 	    and u.allotSetting = #{users.allotSetting}
 	   </if>
+	   <if test="users.sign_state!=null and users.sign_state!=''">
+	    and u.sign_state = #{users.sign_state}
+	   </if>
 	     <if test="users.sign_in_state!=null and users.sign_in_state!=''">
 	     and u.sign_in_state = #{users.sign_in_state}
 	    </if>
-	   <if test="users.startcreat_time>0">
+	   <if test="users.startcreat_time!=null and users.startcreat_time!=''">
 	    and u.create_time &gt;=#{users.startcreat_time}
 	   </if>
-	    <if test="users.endcreat_time>0">
+	    <if test="users.endcreat_time!=null and users.endcreat_time!=''">
 	    and u.create_time &lt;=#{users.endcreat_time}
 	  </if>
 	  and u.user_id=ur.user_id and r.role_id=ur.role_id AND (r.role_name='网络咨询师' or r.role_name='咨询师')
@@ -49,4 +52,86 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			user_id=#{user_id}
 		</where>
 	</update>
+	<!-- 查询总数据网络咨询师 -->
+	<select id="selectAllNetworkEmpCounts" parameterType="fenye" resultType="int">
+		select count(*) from users u,userroles ur,roles r where u.user_id=ur.user_id and r.role_id=ur.role_id AND r.role_name='网络咨询师' 
+	</select>
+	<select id="selectAllNetworkEmp" parameterType="fenye" resultType="users"> 
+	select u.* from users u,userroles ur,roles r 
+	<where>
+	  <if test="users.login_name!=null and users.login_name!=''">
+	    and u.login_name like "%"#{users.login_name}"%"
+	  </if>
+	     <if test="users.startcreat_time!=null and users.startcreat_time!=''">
+	    and u.create_time &gt;=#{users.startcreat_time}
+	   </if>
+	    <if test="users.endcreat_time!=null and users.endcreat_time!=''">
+	    and u.create_time &lt;=#{users.endcreat_time}
+	  </if>
+	  and u.user_id=ur.user_id and r.role_id=ur.role_id AND r.role_name='网络咨询师' 
+	</where>
+	limit #{page},#{pageSize}
+	</select>
+	<!--查询网络咨询师该用户下拥有的学生  -->
+	<select id="selectAllNetworkEmpByIdStuCounts" parameterType="fenye" resultType="int">
+		SELECT COUNT(*) FROM students WHERE network_user_id=#{students.network_user_id}
+	</select>
+	<select id="selectAllNetworkEmpByIdStu" parameterType="fenye" resultType="students">
+		SELECT * FROM students
+		<where>
+			  <if test="students.name!=null and students.name!=''">
+			    	and name like "%"#{students.name}"%"
+			  </if>
+		      <if test="students.startcreat_time!=null and students.startcreat_time!=''">
+		   	 	and create_time &gt;=#{students.startcreat_time}
+		  	  </if>
+		      <if test="students.endcreat_time!=null and students.endcreat_time!=''">
+		    	and create_time &lt;=#{students.endcreat_time}
+		      </if>
+		      and network_user_id=#{students.network_user_id}
+	</where>
+		limit #{page},#{pageSize}
+	</select>
+	
+	
+	<!-- 查询总数据咨询师 -->
+	<select id="selectAllReferEmpCounts" parameterType="fenye" resultType="int">
+		select count(*) from users u,userroles ur,roles r where u.user_id=ur.user_id and r.role_id=ur.role_id AND r.role_name='咨询师' 
+	</select>
+	<select id="selectAllReferEmp" parameterType="fenye" resultType="users"> 
+	select u.* from users u,userroles ur,roles r 
+	<where>
+	  <if test="users.login_name!=null and users.login_name!=''">
+	    and u.login_name like "%"#{users.login_name}"%"
+	  </if>
+	     <if test="users.startcreat_time!=null and users.startcreat_time!=''">
+	    and u.create_time &gt;=#{users.startcreat_time}
+	   </if>
+	    <if test="users.endcreat_time!=null and users.endcreat_time!=''">
+	    and u.create_time &lt;=#{users.endcreat_time}
+	  </if>
+	  and u.user_id=ur.user_id and r.role_id=ur.role_id AND r.role_name='咨询师' 
+	</where>
+	limit #{page},#{pageSize}
+	</select>
+	<!--查询咨询师该用户下拥有的学生  -->
+	<select id="selectAllReferEmpByIdStuCounts" parameterType="fenye" resultType="int">
+		SELECT COUNT(*) FROM students WHERE refer_user_id=#{students.refer_user_id}
+	</select>
+	<select id="selectAllReferEmpByIdStu" parameterType="fenye" resultType="students">
+		SELECT * FROM students
+		<where>
+			  <if test="students.name!=null and students.name!=''">
+			    	and name like "%"#{students.name}"%"
+			  </if>
+		      <if test="students.startcreat_time!=null and students.startcreat_time!=''">
+		   	 	and create_time &gt;=#{students.startcreat_time}
+		  	  </if>
+		      <if test="students.endcreat_time!=null and students.endcreat_time!=''">
+		    	and create_time &lt;=#{students.endcreat_time}
+		      </if>
+		      and refer_user_id=#{students.refer_user_id}
+	</where>
+		limit #{page},#{pageSize}
+	</select>
 </mapper>

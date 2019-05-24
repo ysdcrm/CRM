@@ -66,10 +66,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	     <if test="users.sign_in_state!=null and users.sign_in_state!=''">
 	     and users.sign_in_state = #{users.sign_in_state}
 	    </if>
-	   <if test="users.startcreat_time>0">
+	   <if test="users.startcreat_time!=null and users.startcreat_time!=''">
 	    and users.create_time &gt;=#{users.startcreat_time}
 	   </if>
-	    <if test="users.endcreat_time>0">
+	    <if test="users.endcreat_time!=null and users.endcreat_time!=''">
 	    and users.create_time &lt;=#{users.endcreat_time}
 	  </if>
 	</where>
