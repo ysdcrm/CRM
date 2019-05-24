@@ -45,6 +45,10 @@ public interface ModulesMapper {
 	 * @return
 	 */
 	Integer addModules(Modules modules);
+	//查询模块已有的所有模块名
+	
+	
+	
 	/**
 	 * 	根据ID进行删除模块信息
 	 * @param module_id

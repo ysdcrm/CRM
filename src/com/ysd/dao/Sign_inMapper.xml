@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="UpdateUserSignstate" parameterType="sign_in">
 		update users 
 		<set>
-				sign_in_state='1'
+				sign_in_state='1',sign_state='0'
 		</set>
 		<where>
 				user_id=#{user_id}
@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	<!-- 查询当天是否已经签到 -->
 	<select id="selectBySigntime" parameterType="sign_in" resultType="sign_in"> 
-	select * from sign_in where user_id=#{user_id} and create_time >#{create_time}
+	select * from sign_in where user_id=#{user_id} and create_time like #{create_time}"%"
 	</select>
 	<!--签退  -->
 	<update id="updateSign" parameterType="sign_in">
@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="UpdateUserSignstateIn" parameterType="sign_in">
 		update users 
 		<set>
-				sign_in_state='0'
+				sign_in_state='0',sign_state='2'
 		</set>
 		<where>
 				user_id=#{user_id}

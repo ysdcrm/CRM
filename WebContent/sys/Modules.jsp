@@ -21,6 +21,7 @@ $(function(){
 		}
 	})
 })
+//添加
 function append(){
 	var nodes = $('#tre').tree('getSelected');
 	if(nodes!=null){
@@ -49,12 +50,15 @@ function subimtaddfm(){
 			$("#tre").tree("reload");
 		}
 	}, "json")
+	$("#append-fm").form("reset");//添加后清除表单数据
 	}
 }
+//关闭弹窗
 function exitfm(){
 	$("#add").window("close");
 	$("#edit").window("close");
 }
+//修改
 function edit(){
 	var nodes = $('#tre').tree('getSelected');
 	if(nodes!=null){
@@ -96,6 +100,7 @@ function subimtEditfm(){
 	}, "json")
 	}
 }
+//删除
 function del(){
 	var nodes = $('#tre').tree('getSelected');
 	if(nodes!=null){
