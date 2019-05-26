@@ -2,12 +2,14 @@ package com.ysd.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ysd.dao.ModulesMapper;
 import com.ysd.entity.Modules;
+import com.ysd.entity.Rolemodules;
 import com.ysd.entity.SingleTree;
 import com.ysd.util.CommonUtil;
 
@@ -69,16 +71,27 @@ public class ModulesServiceImp implements ModulesService {
 	//添加模块信息
 	@Override
 	public Integer addModules(Modules modules) {
-		// TODO Auto-generated method stub
-		Integer addModules = modulesMapper.addModules(modules);
+		Integer addModules=null;
+		List<Modules> selectModulesByName = modulesMapper.selectModulesByName(modules);
+		if(selectModulesByName.size()==0){
+			addModules = modulesMapper.addModules(modules);
+		}else {
+			return -1;
+		}
 		return addModules;
 	}
 	//根据ID删除模块信息
 	@Override
 	public Integer delmodulesById(Integer module_id) {
-		// TODO Auto-generated method stub
-		Integer delmodulesById = modulesMapper.delmodulesById(module_id);
-		return delmodulesById;
+		Integer delModules=null;
+		List<Rolemodules> selectRoleModulesById = modulesMapper.selectRoleModulesById(module_id);
+		List<Modules> selectChildren = modulesMapper.selectChildren(module_id);
+		if(selectRoleModulesById.size()==0 && selectChildren.size()==0){
+			delModules = modulesMapper.delmodulesById(module_id);
+		}else {
+			return -1;
+		}
+		return delModules;
 	}
 
 

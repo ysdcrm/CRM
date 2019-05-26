@@ -32,10 +32,20 @@
 	<delete id="delRoles" parameterType="int">
 	delete from roles where role_id=#{role_id}
 	</delete>
+	<!-- 查询要删除的角色下的模块 -->
+	<select id="SelectRolemodulesByRoleId" parameterType="int" resultType="rolemodules">
+		select * from rolemodules WHERE role_id=#{role_id}
+	</select>
+	<!-- 查询该角色是否已分配了用户 -->
+	<select id="selectUserRolesById" parameterType="int" resultType="userroles">
+  SELECT user_id,login_name FROM `users` WHERE user_id  in(
+		SELECT user_id FROM userroles WHERE role_id=#{role_id} )
+	</select>
 	<!--添加  -->
 	<insert id="addRoles" parameterType="roles">
 	insert into roles(role_name) values(#{role_name});
 	</insert>
+	<!--查询已添加的角色  -->
 	<select id="selectByName" parameterType="roles" resultType="roles">
 	 select * from roles where role_name=#{role_name}
 	</select>
@@ -63,7 +73,5 @@
 	<insert id="delRolesQX" parameterType="int">
 		delete from rolemodules where role_id=#{role_id}
 	</insert>
-	<select id="SelectRolemodulesByRoleId" parameterType="int" resultType="rolemodules">
-		select * from rolemodules WHERE role_id=#{role_id}
-	</select>
+	
 	</mapper>

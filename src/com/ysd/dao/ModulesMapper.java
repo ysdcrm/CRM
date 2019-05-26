@@ -3,6 +3,7 @@ package com.ysd.dao;
 import java.util.List;
 
 import com.ysd.entity.Modules;
+import com.ysd.entity.Rolemodules;
 
 public interface ModulesMapper {
 	/**
@@ -46,13 +47,15 @@ public interface ModulesMapper {
 	 */
 	Integer addModules(Modules modules);
 	//查询模块已有的所有模块名
-	
-	
-	
+	List<Modules> selectModulesByName(Modules modules);
 	/**
 	 * 	根据ID进行删除模块信息
 	 * @param module_id
 	 * @return
 	 */
 	Integer delmodulesById(Integer module_id);
+	//查询该模块是否被角色所引用
+	List<Rolemodules> selectRoleModulesById(Integer module_id);
+	//查询该模块下是否有子模块
+	List<Modules> selectChildren(Integer module_id);
 }

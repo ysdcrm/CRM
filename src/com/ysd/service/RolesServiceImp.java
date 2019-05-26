@@ -14,6 +14,7 @@ import com.ysd.entity.Modules;
 import com.ysd.entity.Rolemodules;
 import com.ysd.entity.Roles;
 import com.ysd.entity.SingleTree;
+import com.ysd.entity.Userroles;
 import com.ysd.util.CommonUtil;
 
 @Service
@@ -36,9 +37,10 @@ public class RolesServiceImp implements RolesService {
 	public Map<String, Object> delRoles(int role_id) {
 		Map<String, Object> map = CommonUtil.getResultMap();
 		List<Rolemodules> selectRolemodulesByRoleId = rolesMapper.SelectRolemodulesByRoleId(role_id);
-		if(selectRolemodulesByRoleId.size()!=0) {
+		List<Userroles> selectUserRolesById = rolesMapper.selectUserRolesById(role_id);
+		if(selectRolemodulesByRoleId.size()!=0 || selectUserRolesById.size()!=0) {   //(   ||或者：满足其一)
 			map.put("success", false);
-			map.put("message", "该角色已被分配权限，不可删除！！！");
+			map.put("message", "该角色已被分配权限或已有用户拥有此角色，不可删除！！！");
 		}else {
 			rolesMapper.delRoles(role_id);
 			map.put("success", true);

@@ -6,6 +6,7 @@ import com.ysd.entity.Fenye;
 import com.ysd.entity.Modules;
 import com.ysd.entity.Rolemodules;
 import com.ysd.entity.Roles;
+import com.ysd.entity.Userroles;
 
 public interface RolesMapper {
 	//查询总条数
@@ -22,14 +23,16 @@ public interface RolesMapper {
 	  List<Rolemodules> selectRolemodulesByName(Roles roles);
 	  //删除角色
 	  Integer delRoles(int role_id);
-	 
+	  //查询要删除的角色下的模块
+	  List<Rolemodules> SelectRolemodulesByRoleId(Integer role_id);
+	  //查询该角色是否已分配了用户
+	  List<Userroles> selectUserRolesById(Integer role_id);
 	  //根据角色名设置角色权限
 	  List<Modules> selectRolesByIdQX(Integer role_id);
 	  //保存角色权限
 	  Integer addRolesQX(Rolemodules rolemodules);
 	  //删除角色下所有模块
 	  Integer delRolesQX(Integer role_id);
-	  //
-	  List<Rolemodules> SelectRolemodulesByRoleId(Integer role_id);
+	 
 	  
 }

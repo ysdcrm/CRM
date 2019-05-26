@@ -48,9 +48,13 @@ function subimtaddfm(){
 			$.messager.alert("提示", "添加成功!");
 			$("#add").window("close");
 			$("#tre").tree("reload");
-		}
-	}, "json")
-	$("#append-fm").form("reset");//添加后清除表单数据
+		}else if(res==0){
+        	 $.messager.alert("提示","添加失败");
+         }else{
+       	 $.messager.alert("提示","该模块已存在！！");
+         }
+	   }, "json")
+	 $("#append-fm").form("reset");//添加后清除表单数据
 	}
 }
 //关闭弹窗
@@ -100,23 +104,25 @@ function subimtEditfm(){
 	}, "json")
 	}
 }
-//删除
-function del(){
-	var nodes = $('#tre').tree('getSelected');
-	if(nodes!=null){
-		$.post("/CRM/delmodulesById", {
-		module_id:nodes.id
-	}, function(res) {
-		if(res>0){
-			$.messager.alert("提示", "删除成功!");
-			$("#edit").window("close");
-			$("#tre").tree("reload");
+	//删除
+	function del(){
+		var nodes = $('#tre').tree('getSelected');
+		if(nodes!=null){
+			$.post("/CRM/delmodulesById", {
+			module_id:nodes.id
+		},function(res) {
+			if(res>0){
+				$.messager.alert("提示", "删除成功!");
+				$("#edit").window("close");
+				$("#tre").tree("reload");
+			}else if(res=0){
+				$.messager.alert("提示", "删除失败!");
+			}else{
+				$.messager.alert("提示", "该模块已被分配或已被引用，不能删除！！！!");
+			}
+		}, "json")
 		}
-	}, "json")
-	}else{
-		$.messager.alert("请选择要删除的节点！")
 	}
-}
 </script>
 </head>
 <body>

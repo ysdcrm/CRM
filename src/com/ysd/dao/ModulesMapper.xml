@@ -48,8 +48,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="addModules" parameterType="modules">
 		insert into modules(module_name,parent_id,path,weight)values(#{module_name},#{parent_id},#{path},#{weight})
 	</insert>
+	<!-- 查询模块已有的所有模块名 -->
+	<select id="selectModulesByName" parameterType="modules" resultType="modules">
+	SELECT  * FROM modules WHERE module_name=#{module_name}
+	</select>
 	<!-- 根据ID进行模块删除 -->
 	<delete id="delmodulesById" parameterType="int">
 		delete from modules where module_id=#{module_id}
 	</delete>
+	<!--查询该模块是否被角色所引用  -->
+	<select id="selectRoleModulesById" parameterType="int" resultType="rolemodules">
+          SELECT * from rolemodules where module_id=#{module_id}
+	</select>
+	<!-- 查询该模块下是否有子模块 -->
+	<select id="selectChildren" parameterType="int" resultType="modules">
+       select * from modules where parent_id=#{parent_id}
+	</select>
 </mapper>
