@@ -12,6 +12,7 @@ import com.ysd.entity.Tracking;
 @Service
 public class TrackingServiceImp implements TrackingService {
 
+
 	@Autowired
 	private TrackingMapper trackingMapper;
     //查询所有跟踪数据
