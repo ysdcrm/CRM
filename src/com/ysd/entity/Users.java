@@ -19,7 +19,7 @@ public class Users {
 	private String protect_email;//注册邮箱
 	private String protect_tel;//手机号
 	private Integer weight;//权重
-	private String sign_in_state;//签到状态
+	private String sign_in_state;//签到状态(0:签到，1：签退)
 	
 	private Roles roles;
 	private Userroles userRoles;

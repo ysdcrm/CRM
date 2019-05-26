@@ -105,7 +105,6 @@ public class StudentsController {
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		String creatTime = sdf.format(new Date());
 		System.out.println(creatTime);
-		
 		Integer network_user_id = (Integer) session.getAttribute("user_id");
 		System.out.println(network_user_id);
 		students.setNetwork_user_id(network_user_id);
@@ -140,4 +139,10 @@ public class StudentsController {
 	  }
     
 
+    //修改
+    @RequestMapping(value="/updateStudent",method=RequestMethod.POST)
+	@ResponseBody
+    public  Integer updateStudent(Students students){
+		return studentsService.updateStudent(students);
+    }
 }

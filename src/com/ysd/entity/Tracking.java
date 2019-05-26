@@ -13,6 +13,22 @@ public class Tracking {
 	private String content_time;//回访时间
 	private String content_visit;//回访情况
 	private String remark;//备注
+	private Users users;
+	private Students students;
+	
+	
+	public Users getUsers() {
+		return users;
+	}
+	public void setUsers(Users users) {
+		this.users = users;
+	}
+	public Students getStudents() {
+		return students;
+	}
+	public void setStudents(Students students) {
+		this.students = students;
+	}
 	public Integer getTracking_id() {
 		return tracking_id;
 	}

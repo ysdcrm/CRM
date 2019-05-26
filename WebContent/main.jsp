@@ -57,25 +57,44 @@
 	function qiandao(){
 		$.post("/CRM/signon",{},function(res){
 			if(res>0){
-				 $.messager.show({
+				if(res==2){
+					$.messager.show({
 						title : '提示信息',	
-						msg : "签到成功",
+						msg : "亲，你今天已经签到过啦！！！",
 						showType : 'show'
 					});
-				 $("#qiandaodiv").html("<a href='javascript:void(0)' onclick='qiantui()' class='easyui-linkbutton' data-options='iconCls:'icon-cut''>签退</a>");
-			}else if(res<0){
-				$.messager.show({
-					title : '提示信息',	
-					msg : "亲，你今天已经签到过啦！",
-					showType : 'show'
-				});
-				$("#qiandaodiv").html("<a href='javascript:void(0)' onclick='qiantui()' class='easyui-linkbutton' data-options='iconCls:'icon-cut''>签退</a>");
+					$("#qiandaodiv").html("<a href='javascript:void(0)' onclick='qiantui()' class='easyui-linkbutton' data-options='iconCls:'icon-cut''>签退</a>");
+				}else if(res==3){
+					$.messager.show({
+						title : '提示信息',	
+						msg : "亲，还没到上班时间，请八点后签到！！！",
+						showType : 'show'
+					});
+				}else{
+					 $.messager.show({
+							title : '提示信息',	
+							msg : "恭喜，签到成功了！！！",
+							showType : 'show'
+						});
+					 $("#qiandaodiv").html("<a href='javascript:void(0)' onclick='qiantui()' class='easyui-linkbutton' data-options='iconCls:'icon-cut''>签退</a>");
+				}
+				
 			}else{
-				 $.messager.show({
-						title : '提示信息',	
-						msg : "签到失败",
-						showType : 'show'
-					});
+				if(res==0){
+					 $.messager.show({
+							title : '提示信息',	
+							msg : "签到失败",
+							showType : 'show'
+						});
+				}else{
+					 $.messager.show({
+							title : '提示信息',	
+							msg : "亲，你迟到了哦,但是还是不能回家休息哟！！！！",
+							showType : 'show'
+						});
+					 $("#qiandaodiv").html("<a href='javascript:void(0)' onclick='qiantui()' class='easyui-linkbutton' data-options='iconCls:'icon-cut''>签退</a>");
+				}
+				
 			}
 		},"json")
 	}
@@ -99,7 +118,7 @@
 			}else{
 				 $.messager.show({
 						title : '提示信息',	
-						msg : "签到十分钟内不能签退！",
+						msg : "未到下班时间！不能签退！！！",
 						showType : 'show'
 					});
 			}

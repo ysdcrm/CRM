@@ -201,7 +201,7 @@ var columns = [ [
 				formatter : function(value, row, index) {
 					return "<span onclick='update(" + index
 							+ ")'>修改</span>&nbsp;&nbsp;"
-							+ "<span onclick='del(" + index + ")'>删除</span>&nbsp;&nbsp;"+"<span onclick='detail(" + index + ")'>查看</span>&nbsp;&nbsp;"+"<span onclick='TailAfter(" + index + ")'>跟踪</span>&nbsp;&nbsp";
+							+"<span onclick='TailAfter(" + index + ")'>跟踪</span>&nbsp;&nbsp";
 				}
 			} ] ]; 
 function dongtai() {
@@ -240,19 +240,131 @@ function dongtai2() {
 		columns : columns
 	});
 }
-function addMyStu() {
-	$("#win-add").window("open");
-}
-function submitAdd() {
-	var data = $("#form-add").serializeArray();//获取form表单数据
-	$.post("/CRM/addStudents", data, function(res) {
-		if (res) {
-			$.messager.alert("系统信息", "添加成功");
-			$("#win-add").window("close");
-			$("#dg").datagrid("reload"); //通过调用reload方法，让datagrid刷新显示数据
+  //添加网络学生
+	function addMyStu() {
+		$("#win-add").dialog("open");
+	}
+	function submitAdd() {
+		var data = $("#form-add").serializeArray();//获取form表单数据
+		var flag = $("#form-add").form('validate');
+		if(flag){
+			$.post("/CRM/addStudents", data, function(res) {
+				if (res) {
+					$.messager.alert("系统信息", "添加成功");
+					$("#win-add").window("close");
+					$("#dg").datagrid("reload"); //通过调用reload方法，让datagrid刷新显示数据
+				}
+			}, "json");
+		}else{
+			$.messager.alert("系统信息", "亲，你的信息没有填写完整哟！！不能添加！！！");
 		}
-	}, "json");
+		$("#form-add").form("reset");
+	}
+	//修改
+	function update(index) {
+		var data = $("#dg").datagrid("getData"); 
+		var row = data.rows[index];
+		$("#form-update").form("load",row);
+		$("#win-update").window("open");
+	}	
+  function submitStudent() {
+		 var flag=$("#form-update").form("validate");//验证
+		 var data = $("#dg").datagrid("getSelected");
+	     var gzname=$("#gzname").val();
+	     var pay_time=$('#pay_time').datetimebox('getValue'); 
+		 var is_pay=$("#is_pay").combobox('getValue');
+		 var amount=$("#amount").val();
+		 var is_refund=$("#is_refund").combobox('getValue');
+		 var refund_reason=$("#refund_reason").val();
+		 var class_entry_remark=$("#class_entry_remark").val();
+		 var is_class_entry=$("#is_class_entry").combobox('getValue');
+		 var class_entry_time=$('#class_entry_time').datetimebox('getValue');
+		 var is_deposit=$("#is_deposit").combobox('getValue');
+		 var deposit_amount=$("#deposit_amount").val();
+		 var deposit_time=$('#deposit_time').datetimebox('getValue');
+    if(flag){
+   	 $.post(
+   		'/CRM/updateStudent',
+   		{
+   			student_id:data.student_id,
+   			gzname:gzname,
+   			pay_time:pay_time,
+   			is_pay:is_pay,
+   			amount:amount,
+   			is_refund:is_refund,
+   			refund_reason:refund_reason,
+   			is_class_entry:is_class_entry,
+   			class_entry_time:class_entry_time,
+   			is_deposit:is_deposit,
+   			class_entry_remark:class_entry_remark,
+   			deposit_amount:deposit_amount,
+   			deposit_time:deposit_time
+   		},function(res){
+   			 if(res>0){
+	                 $.messager.alert("提示","修改成功");
+	                 $('#dg').datagrid('reload'); //刷新
+	                 $("#win-update").dialog("close");
+	              }else{
+		            	 $.messager.alert("提示","修改失败！");
+		              }
+	   	    },'json')
+	    }
+    $("#form-genzong").form("reset");
+	}
+	function closeupdate(){
+		 $("#win-update").window("close");
+	} 
+ //网络跟踪
+	function TailAfter(index){
+		 var data = $("#dg").datagrid("getData");
+		 var row = data.rows[index];
+		 $("#form-genzong").form("load",row);//填充进表单
+		 $("#win-genzong").window("open");
+		/*  $("#gz").combobox({
+				url:'/CRM/getUserName',
+				method:'post',
+				valueField:'user_id',//填充进 <option value='id'>text</option>
+				textField:'login_name'//标签中间（<option>text</option>） 
+			}); */
+	}
+	function submitGenzong(){
+		/*  var gzuserid=$("#gz").combobox("getValue"); */
+		 /* if(gzuserid=="----请选择----"){
+			 gzuserid="";
+			} ;
+		 alert(gzuserid) */
+		 var flag=$("#form-genzong").form("validate");//验证
+		 var student_id=$("#student_id").val();
+		 var tracking_time=$("#tracking_time").datetimebox("getValue");
+		 var tracking_way=$("#tracking_way").combobox("getValue");
+		 var content_time=$("#content_time").datetimebox("getValue");
+		 var remark=$("#remark").val();
+		 var content_visit =$("#content_visit").combobox("getValue");
+		 if(flag){
+		   	 $.post(
+		   		'/CRM/genzongStu',
+		   		{   student_id:student_id,
+		   			tracking_time:tracking_time,
+		   			tracking_way:tracking_way,
+		   			content_time:content_time,
+		   			remark:remark,
+		   			content_visit:content_visit
+		   		},function(res){
+		   			 if(res>0){
+			                 $.messager.alert("提示","添加成功");
+			                 $('#dg').datagrid('reload'); //刷新
+			                 $("#form-genzong").form("clear");
+			                 $("#win-genzong").window("close");
+			              }
+		   	    },'json')
+		    }
+	}
+function closeadd() {
+	 $("#win-genzong").window("close");
 }
+	
+	
+	
 </script>
 </head>
 <body>
@@ -390,18 +502,19 @@ function submitAdd() {
 		</table>
 	</div>
 	 <%--  添加的窗口  --%>
-    <div id="win-add" class="easyui-window" title="添加学生" style="width:600px;height:400px"   
+    <div id="win-add" class="easyui-dialog" title="添加学生" style="width:600px;height:400px"   
          data-options="iconCls:'icon-save',modal:true,closed:true">   
-        <form id="form-add">
+        <form id="form-add" class="easyui-form">
 			<table cellpadding="10">
+			
 				<tr>
 					<td>
 					<label for="name">姓名:</label> 
-					<input id="name-add" class="easyui-textbox" name="name" type="text" style="width:200px">
+					<input id="name-add" class="easyui-textbox" name="name" type="text" style="width:200px" data-options="required:true">
 					</td>
 					<td>
 					<label for="sex">性别:</label>
-					<select id="sex-add" class="easyui-combobox" name="sex" style="width:200px;">   
+					<select id="sex-add" class="easyui-combobox" name="sex" style="width:200px;" data-options="required:true">   
     					<option value="未知">----未知-----</option>   
    					    <option value="1">男</option>   
    						<option value="0">女</option>   
@@ -411,18 +524,17 @@ function submitAdd() {
 					<tr>
 					<td>
 					<label for="age">年龄:</label> 
-					<input id="age-add" class="easyui-textbox" name="age" type="text" style="width:200px">
+					<input id="age-add" class="easyui-textbox" name="age" type="text" style="width:200px" data-options="required:true">
 					</td>
 					<td>
 					<label for="phone">电话:</label> 
-					<input id="phone-add" class="easyui-textbox" name="phone" type="text" style="width:200px">
+					<input id="phone-add" class="easyui-textbox" name="phone" type="text" style="width:200px" data-options="required:true">
 					</td>
 				</tr>
 					<tr>
 					<td>
 					<label for="education">学历:</label> 
-				<!-- 	<input id="education" class="easyui-textbox" name="education" type="text" style="width:200px"> -->
-					<select id="education-add" class="easyui-combobox" name="education" style="width:200px;">   
+					<select id="education-add" class="easyui-combobox" name="education" style="width:200px;" data-options="required:true">   
     					<option value="未知">----未知-----</option>   
    					    <option value="大专">大专</option>   
    						<option value="本科">本科</option>   
@@ -432,14 +544,13 @@ function submitAdd() {
 					</td>
 					<td>
 					<label for="state">状态:</label> 
-					<input id="state-add" class="easyui-textbox" name="state" type="text" style="width:200px">
+					<input id="state-add" class="easyui-textbox" name="state" type="text" style="width:200px" data-options="required:true">
 					</td>
 				</tr>
 					<tr>
 					<td>
 					<label for="sources">来源渠道:</label> 
-					<!-- <input id="sources" class="easyui-textbox" name="sources" type="text" style="width:200px"> -->
-						<select id="sources-add" class="easyui-combobox" name="sources" style="width:200px;">   
+						<select id="sources-add" class="easyui-combobox" name="sources" style="width:200px;" data-options="required:true">   
     					<option value="未知">----未知-----</option>   
    					    <option value="熟人介绍">熟人介绍</option>   
    						<option value="网上宣传">网上宣传</option>   
@@ -449,8 +560,7 @@ function submitAdd() {
 					</td>
 					<td>
 					<label for="source_site">来源网站:</label> 
-					<!-- <input id="sourceSite" class="easyui-textbox" name="sourceSite" type="text" style="width:200px"> -->
-						<select id="source_site-add" class="easyui-combobox" name="source_site" style="width:200px;">   
+						<select id="source_site-add" class="easyui-combobox" name="source_site" style="width:200px;" data-options="required:true">   
     					<option value="未知">----未知-----</option>   
    					    <option value="百度">大专</option>   
    						<option value="搜狐">本科</option>   
@@ -462,8 +572,7 @@ function submitAdd() {
 					<tr>
 					<td>
 					<label for="sourcekeyword">来源关键字:</label> 
-					<!-- <input id="sourcekeyword" class="easyui-textbox" name="sourcekeyword" type="text" style="width:200px"> -->
-						<select id="sourcekeyword-add" class="easyui-combobox" name="sourcekeyword" style="width:200px;">   
+						<select id="sourcekeyword-add" class="easyui-combobox" name="sourcekeyword" style="width:200px;" data-options="required:true">   
     					<option value="未知">----未知-----</option>   
    					    <option value="java">java</option>   
    						<option value="大数据">大数据</option>   
@@ -475,23 +584,23 @@ function submitAdd() {
 					</td>
 					<td>
 					<label for="qq">学员qq:</label> 
-					<input id="qq-add" class="easyui-textbox" name="qq" type="text" style="width:200px">
+					<input id="qq-add" class="easyui-textbox" name="qq" type="text" style="width:200px" data-options="required:true">
 					</td>
 				</tr>
 					<tr>
 					<td>
 					<label for="we_chat">微信号:</label> 
-					<input id="we_chat-add" class="easyui-textbox" name="we_chat" type="text" style="width:200px">
+					<input id="we_chat-add" class="easyui-textbox" name="we_chat" type="text" style="width:200px" data-options="required:true">
 					</td>
 					<td>
 					<label for="is_report">是否报备:</label> 
-					<input id="isReport-add" class="easyui-textbox" name="is_report" type="text" style="width:200px">
+					<input id="isReport-add" class="easyui-textbox" name="is_report" type="text" style="width:200px" data-options="required:true">
 					</td>
 				</tr>
 					<tr>
 					<td>
 					<label for="remark">在线备注:</label> 
-					<input id="remark-add" class="easyui-textbox" name="remark" type="text" style="width:200px">
+					<input id="remark-add" class="easyui-textbox" name="remark" type="text" style="width:200px" data-options="required:true">
 					</td>
 				</tr>
 				<tr>
@@ -501,6 +610,175 @@ function submitAdd() {
 				</tr>
 			</table>
 		</form>
-</div> 
+</div>
+<!-- 修改 -->
+	<div id="win-update" class="easyui-window" title="修改学生" style="width:550px;height:450px;"    
+         data-options="iconCls:'icon-save',modal:true,closed:true"> 
+         <form id="form-update"  method="post">
+          <table  cellpadding="5">
+             <tr>
+					<td>学生名:</td>
+					<td><input class="easyui-textbox" type="text" readonly="readonly" id="gzname" name="name"  data-options="required:true"></input></td>
+				</tr>
+             <tr>
+              <td>是否缴费</td>
+              <td>
+                  <select id="is_pay" class="easyui-combobox" data-options="required:true,showSeconds:false">   
+	    			<option>----请选择----</option> 
+	    			<option value="0">是</option>
+	    			<option value="1">否</option>    
+	    		  </select> 
+              </td>
+            </tr>
+            <tr>
+              <td> 缴费时间</td>
+              <td>
+                 <input class="easyui-datetimebox" id="pay_time" data-options="required:true,showSeconds:false" >  
+              </td>
+            </tr>
+            <tr>
+              <td> 金额</td>
+              <td>
+                 <input class="easyui-textbox" id="amount" data-options="required:true,showSeconds:false" >  
+              </td>
+            </tr>
+            <tr>
+              <td>是否退费</td>
+              <td>
+               	  <select id="is_refund" class="easyui-combobox"  style="width:80px" data-options="required:true,showSeconds:false">   
+	    			<option>----未知-----</option>   
+	    			<option value="0">是</option>
+	    			<option value="1">否</option>   
+	    		  </select>
+              </td>
+            </tr>
+            <tr>
+              <td>退费原因</td>
+              <td>
+                 <input class="easyui-textbox" id="refund_reason" data-options="required:true,showSeconds:false" >  
+              </td>
+            </tr>
+            <tr>
+              <td>是否进班</td>
+              <td>
+               	  <select id="is_class_entry" class="easyui-combobox"  style="width:80px" data-options="required:true,showSeconds:false">   
+	    			<option>----未知-----</option>   
+	    			<option value="0">是</option>
+	    			<option value="1">否</option>   
+	    		  </select>
+              </td>
+            </tr>
+            <tr>
+              <td>进班时间</td>
+              <td>
+                 <input class="easyui-datetimebox" id="class_entry_time" data-options="required:true,showSeconds:false" >  
+              </td>
+            </tr>
+             <tr>
+              <td>进班备注</td>
+              <td>
+                 <input class="easyui-textbox" id="class_entry_remark" data-options="required:true,showSeconds:false" >  
+              </td>
+            </tr>
+            <tr>
+              <td>是否定金</td>
+              <td>
+               	  <select id="is_deposit" class="easyui-combobox"  style="width:80px" data-options="required:true,showSeconds:false">   
+	    			<option>----未知-----</option>   
+	    			<option value="0">是</option>
+	    			<option value="1">否</option>   
+	    		  </select>
+              </td>
+            </tr>
+            <tr>
+              <td>定金金额</td>
+              <td>
+               	<input id="deposit_amount" class="easyui-textbox"  type="text" data-options="required:true,showSeconds:false">
+              </td>
+            </tr>
+            <tr>
+              <td>定金时间</td>
+              <td>
+                 <input class="easyui-datetimebox" id="deposit_time" data-options="required:true,showSeconds:false" >  
+              </td>
+            </tr>
+          </table>
+         </form>
+         <div style="text-align: center; padding: 5px">
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitStudent()" data-options="iconCls:'icon-ok'">保存</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeupdate()" data-options="iconCls:'icon-no'">取消</a>
+		</div>  
+   </div>
+<!-- 网络跟踪 -->
+	<div id="win-genzong" class="easyui-window" title="跟踪学生" style="width:500px;height:400px;"    
+         data-options="iconCls:'icon-save',modal:true,closed:true"> 
+         <form id="form-genzong"  method="post">
+          <table  cellpadding="5">
+            <tr>
+					<td><input class="easyui-textbox" type="hidden" id="student_id" name="student_id"></input></td>
+				</tr>
+             <tr>
+					<td>学生名:</td>
+					<td><input class="easyui-textbox" type="text" readonly="readonly" id="gzname" name="name"  ></input></td>
+				</tr>
+             <!-- <tr>
+              <td>跟踪人</td>
+              <td><input class="easyui-textbox" type="text" id="gzuser" 
+						 data-options="reload:true"></input>
+                  <select id="gz" class="easyui-combobox"  >   
+	    			<option>----请选择----</option>     
+	    		  </select> 
+              </td>
+            </tr> -->
+            <tr>
+              <td> 跟踪时间</td>
+              <td>
+                 <input class="easyui-datetimebox" id="tracking_time" data-options="required:true,showSeconds:false" >  
+              </td>
+            </tr>
+            <tr>
+              <td>跟踪方式</td>
+              <td>
+               	  <select id="tracking_way" class="easyui-combobox"  style="width:80px">
+               	     <option>--请选择--</option> 
+	    			<option value="上门">上门</option>   
+	    			<option value="邮箱">邮箱</option>
+	    			<option value="电话">电话</option>   
+	    		  </select>
+              </td>
+            </tr>
+            <tr>
+              <td>回访时间</td>
+              <td>
+                 <input class="easyui-datetimebox" id="content_time" data-options="required:true,showSeconds:false" >  
+              </td>
+            </tr>
+            <tr>
+              <td>回访内容</td>
+              <td>
+               	<input id="remark" class="easyui-textbox" type="text" data-options="required:true,showSeconds:false">
+              </td>
+            </tr>
+            <tr>
+             <td>回访情况 </td>
+             <td>
+              <select id="content_visit" class="easyui-combobox" style="width:80px">
+                    <option>---请选择--</option>   
+	    			<option value="有效">有效</option>   
+	    			<option value="非常有效">非常有效</option>
+	    			<option value="无效">无效</option>   
+	    			<option value="下次跟进">下次跟进</option> 
+    		   </select>
+             </td>
+            </tr>
+          </table>
+         </form>
+         <div style="text-align: center; padding: 5px">
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitGenzong()" data-options="iconCls:'icon-ok'">保存</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeadd()" data-options="iconCls:'icon-no'">取消</a>
+		</div>  
+   </div>
+
+ 
 </body>
 </html>

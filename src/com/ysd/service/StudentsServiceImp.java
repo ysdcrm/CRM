@@ -88,6 +88,11 @@ public class StudentsServiceImp implements StudentsService {
 			// TODO Auto-generated method stub
 			return studentsMapper.addNetWorkStu(students);
 		}
+	//修改
+		@Override
+		public Integer updateStudent(Students students) {
+			return studentsMapper.updateStudent(students);
+		}
 		
 		//批量分配咨询师
 		@Override

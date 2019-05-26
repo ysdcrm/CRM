@@ -49,5 +49,7 @@ public interface StudentsMapper {
      * @return
      */
     Integer addNetWorkStu(Students students);
+    //修改
+    Integer updateStudent(Students students);
     
 }

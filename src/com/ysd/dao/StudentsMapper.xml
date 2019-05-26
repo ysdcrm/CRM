@@ -263,5 +263,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		</if>
   	</trim>
   </insert>
-  
+  <!-- 修改 -->
+  <update id="updateStudent" parameterType="students">
+    update students set pay_time=#{pay_time},is_pay=#{is_pay},amount=#{amount},is_refund=#{is_refund},refund_reason=#{refund_reason},
+    is_class_entry=#{is_class_entry},class_entry_time=#{class_entry_time},class_entry_remark=#{class_entry_remark},is_deposit=#{is_deposit},
+    deposit_amount=#{deposit_amount},deposit_time=#{deposit_time} where student_id=#{student_id}
+  </update>
 </mapper>

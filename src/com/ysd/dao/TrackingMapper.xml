@@ -3,5 +3,32 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ysd.dao.TrackingMapper">
+     <resultMap type="tracking" id="selectTrack">
+ 		<id property="tracking_id" column="tracking_id"/>
+ 		<result property="tracking_time" column="tracking_time"/>
+ 		<result property="tracking_end_time" column="tracking_end_time"/>
+ 		<result property="tracking_way" column="tracking_way"/>
+ 		<result property="content_time" column="content_time"/>
+ 		<result property="content_visit" column="content_visit"/>
+ 		<result property="remark" column="remark"/>
+ 		<result property="users.user_id" column="user_id"/>
+ 		<result property="users.login_name" column="login_name"/>
+ 		<result property="students.student_id" column="student_id"/>
+ 		<result property="students.name" column="name"/>
+ 	</resultMap>
+	 <!-- 查询总条数 -->
+	<select id="selectCountTrack" parameterType="fenye" resultType="int">
+	     select count(*) from tracking
+	</select>
+	<!-- 分页查询所有数据 -->
+	<select id="selectTrack" parameterType="fenye" resultMap="selectTrack">
+   select t.tracking_id,s.`name`,u.login_name,t.tracking_time,t.tracking_way,t.content_time,t.content_visit,t.remark from users u,students s,tracking t WHERE u.user_id=t.user_id and t.student_id=s.student_id
+	     limit #{page},#{pageSize} 
+	</select>
+	<!-- 添加跟踪记录 -->
+	<insert id="addTracking" parameterType="tracking">
+	    insert into tracking(student_id,user_id,tracking_time,tracking_way,content_time,content_visit,remark)
+	    values(#{student_id},#{user_id},#{tracking_time},#{tracking_way},#{content_time},#{content_visit},#{remark})
+	</insert>
 
 </mapper>
