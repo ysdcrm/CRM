@@ -297,4 +297,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  	</where>
 	  	limit #{page},#{pageSize}
   </select>
+  <!-- 统计图饼状图 -->
+  <select id="selectYFPCountStu" resultType="int">
+  	select count(*) from students where refer_user_id is not null
+  </select>
+  <select id="selectWFPCountStu" resultType="int">
+  select count(*) from students where refer_user_id is  null
+  </select>
+  <select id="selectALLCountStu" resultType="int">
+  select count(*) from students 
+  </select>
 </mapper>

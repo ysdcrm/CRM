@@ -7,6 +7,11 @@
 <meta charset="utf-8">
 <title>CRM教育系统</title>
 <script src="js/global.js"></script>
+<script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+<script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+<script src="https://code.highcharts.com.cn/highcharts/modules/series-label.js"></script>
+<script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
+<script src="https://code.highcharts.com.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
 <script type="text/javascript">
 		var login_names=window.localStorage.getItem("login_name");
 		var webscoket=new WebSocket("ws:localhost:8080/CRM/websocket/" + login_names);
@@ -203,15 +208,16 @@
 		$('#openSend-window').window("open");
 	}
 	function send() {
-		var text = document.getElementById('msg');
+		var msg = $("#msg").combobox("getValue");
 		var UsersAll=$("#UsersAll").combobox("getValue");
 		if(UsersAll=="----请选择-----"){
 			alert("请选择联系人发送信息！")
 		}else{
-			message=login_names+","+UsersAll+","+text.value;
+			message=login_names+","+UsersAll+","+msg;
 			webscoket.send(message);
 			//接收到消息的回调方法  
-			alert("发送成功");
+			$.messager.alert("提示","发送成功！");//提示
+			$('#openSend-window').window("close");
 		}
 	}
 </script>
@@ -255,6 +261,51 @@
         	</div>
         	<div id="center_1" data-options="region:'center',iconCls:'icon-ok'" style="width: 500px;" >
 	            <div id="tt" class="easyui-tabs"  > <!--这个地方采用tabs控件进行布局-->
+		            <div title="默认页" closable="false" style="">
+						<div id="container2" style="max-width:700px;height:400px"></div>
+						  <script>
+					         $.ajax({
+					         	url:'wangluotongjitubing',
+					             type:'post',
+					             dataType:"json",
+					             success:function(res) {
+					            	 
+					            	 Highcharts.chart('container2', {
+					             		chart: {
+					             				plotBackgroundColor: null,
+					             				plotBorderWidth: null,
+					             				plotShadow: false,
+					             				type: 'pie'
+					             		},
+					             		title: {
+					             				text: '所有学生是否分配比例图'
+					             		},
+					             		tooltip: {
+					             				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+					             		},
+					             		plotOptions: {
+					             				pie: {
+					             						allowPointSelect: true,
+					             						cursor: 'pointer',
+					             						dataLabels: {
+					             								enabled: true,
+					             								format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+					             								style: {
+					             										color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+					             								}
+					             						}
+					             				}
+					             		},
+					             		series: [{
+					             				name: '比例',
+					             				colorByPoint: true,
+					             				data: res.data
+					             		}]
+					             });
+					             }
+					         })
+			        </script>
+	           		</div>
 	            </div>
         	</div>
     		</div>
@@ -338,15 +389,17 @@
 		</div>
 	</div>
 		<!-- 通讯录 -->
-			<div id="openSend-window" class="easyui-window" title="个人信息" style="width:500px;height:500px" data-options="iconCls:'icon-save',modal:true,closed:true">
-							<input type="text" id="msg" style="width: 200px;" />
+			<div id="openSend-window" class="easyui-window" title="个人信息" style="width:500px;height:200px" data-options="iconCls:'icon-save',modal:true,closed:true">
+							提示语：<select id="msg" class="easyui-combobox"  style="width:120px;">   
+								    <option >----请选择-----</option> 
+								    <option value="您有新增的学生，请注意查看！">您有新增的学生，请注意查看！</option> 
+								    <option value="您有未跟踪的学生，请注意跟踪！">您有未跟踪的学生，请注意跟踪！</option>
+								 </select>
 							联系人：<select id="UsersAll" class="easyui-combobox"  style="width:120px;">   
 								    <option >----请选择-----</option>   
 								 </select>
 							<input type="button" value="发送" onclick="send()" />
-							<input type="button" value="重新连接" onclick="re()" />
-							<br />
-							<textarea cols="70" rows="40" id="contents"></textarea>
-			</div>				
+			</div>	
+						
 </body>
 </html>

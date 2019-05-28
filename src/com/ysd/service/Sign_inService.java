@@ -15,5 +15,11 @@ public interface Sign_inService {
 	
 	//查询该用户当天签到信息
 	Sign_in selectSignByUserids(Sign_in sign_in);
+	/**
+	 * 	批量签退
+	 * @param user_id
+	 * @return
+	 */
+	Integer upsignon(String user_id);
 	
 }

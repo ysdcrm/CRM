@@ -30,8 +30,6 @@ public class SocketTest {
           
         addOnlineCount();  
         clients.put(username, this);
-        System.out.println(username);
-        System.out.println("已连接");  
     }  
   
     @OnClose  
@@ -42,18 +40,15 @@ public class SocketTest {
   
     @OnMessage  
     public void onMessage(String message) throws IOException {  
-    	System.out.println(message);
     	String[] split = message.split(",");
 		String formName=split[0];
 		String tomName=split[1];
 		String content=split[2];
 		if(clients.containsKey(tomName)) {
 			//李四在线
-			System.out.println(tomName);
 			clients.get(tomName).session.getAsyncRemote().sendText(content);
 		}else {
 			//离线消息
-			System.out.println(1);
 		}
     }  
   

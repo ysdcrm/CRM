@@ -424,7 +424,7 @@ function bgdaochu() {
 		if(fpid=="----请选择----"){
 			fpid="";
 		} ;
-		var ids='';
+	var ids='';
     var datas= $("#wfpdg").datagrid("getSelections"); 
 	for(var i=0;i<datas.length;i++){
         var data=datas[i];

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.ysd.dao.Sign_inMapper;
 import com.ysd.entity.Sign_in;
+import com.ysd.entity.Students;
 
 @Service
 public class Sign_inServiceImp implements Sign_inService {
@@ -36,6 +37,17 @@ public class Sign_inServiceImp implements Sign_inService {
 	@Override
 	public Sign_in selectSignByUserids(Sign_in sign_in) {
 		return sign_inMapper.selectSignByUserids(sign_in);
+	}
+	@Override
+	public Integer upsignon(String user_id) {
+		// TODO Auto-generated method stub
+		String[] ids = user_id.split(",");
+		Integer j = 0;
+		for(int i=0;i<ids.length;i++) {
+			Integer user_ids = Integer.parseInt(ids[i]);
+			 j = sign_inMapper.upsignon(user_ids);
+		}
+		return j;
 	}
 
 }

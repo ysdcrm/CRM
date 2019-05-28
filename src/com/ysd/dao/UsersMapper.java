@@ -9,6 +9,7 @@ import com.ysd.entity.Userroles;
 import com.ysd.entity.Users;
 
 public interface UsersMapper {
+	
 	/**
 	 * 查询不包括当前登陆者的所以用户 
 	 * @param login_name

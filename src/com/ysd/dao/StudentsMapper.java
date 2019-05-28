@@ -63,4 +63,19 @@ public interface StudentsMapper {
 	 * @return
 	 */
     List<Students> selectAllZXSMyStu(Fenye<Students> fenye);
+    /**
+     * 	饼状图 已分配
+     * @return
+     */
+    Integer selectYFPCountStu();
+    /**
+     * 	饼状图 未分配
+     * @return
+     */
+    Integer selectWFPCountStu();
+    /**
+     * 	饼状图 所有
+     * @return
+     */
+    Integer selectALLCountStu();
 }

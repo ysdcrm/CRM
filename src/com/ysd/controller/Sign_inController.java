@@ -3,6 +3,7 @@ package com.ysd.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpSession;
@@ -115,5 +116,12 @@ public class Sign_inController {
 				Integer i = sign_inService.updateSign(selectSignByUserids);
 				return i;
 			}
-		}	
+		}
+		
+		@RequestMapping(value="/upsignon",method=RequestMethod.POST)
+		@ResponseBody
+		public Integer upsignon(String user_id){
+			
+			return sign_inService.upsignon(user_id);
+		}
 }

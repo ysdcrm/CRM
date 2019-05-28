@@ -44,5 +44,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   			select * from sign_in where user_id=#{user_id} and create_time>#{create_time}
   		
   		</select>
-	
+	<!-- 批量签退 -->
+	<update id="upsignon" parameterType="int">
+		update users
+		<set>
+				sign_in_state='0'
+		</set>
+		<where>
+				user_id=#{user_id}
+		</where>
+	</update>
 </mapper>
