@@ -23,6 +23,17 @@ import com.ysd.util.Md5;
 public class UsersController {
 	@Autowired
 	private UsersService usersService;
+	
+	@RequestMapping(value="/UsersAll",method=RequestMethod.POST)
+	@ResponseBody
+	public List<Users> UsersAll(HttpSession session) {
+		// TODO Auto-generated method stub
+		String login_name = (String) session.getAttribute("login_name");
+		return usersService.UsersAll(login_name);
+	}
+	
+	
+	
   //用户登录
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ResponseBody

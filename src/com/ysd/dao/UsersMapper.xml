@@ -3,6 +3,10 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ysd.dao.UsersMapper">
+<!-- 查询不包括当前登陆者的所以用户 -->
+<select id="UsersAll" parameterType="string" resultType="users">
+	select * from users where login_name !=#{login_name}
+</select>
    <resultMap type="users" id="selectUser">
  		<id property="user_id" column="user_id"/>
  		<result property="login_name" column="login_name"/>

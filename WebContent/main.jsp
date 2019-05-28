@@ -44,6 +44,15 @@
 			}
 		})
 		$("#UName").text(login_name);
+        $("#UsersAll").combobox({
+    		url:'UsersAll',
+    		method:'post',
+    		valueField:'login_name',//填充进 <option value='id'>text</option>
+    		textField:'login_name'//标签中间（<option>text</option>） 
+    	})
+        
+        
+        
 	})
 	function clearTuichu() {
 		$.messager.confirm('确认','您确认要退出吗？',function(r){    

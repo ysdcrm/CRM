@@ -164,5 +164,11 @@ public class UsersServiceImp implements UsersService {
 		// TODO Auto-generated method stub
 		return usersMapper.getAlotInfo();
 	}
+	//查询不包括当前登陆者的所以用户
+	@Override
+	public List<Users> UsersAll(String login_name) {
+		// TODO Auto-generated method stub
+		return usersMapper.UsersAll(login_name);
+	}
 	
 }

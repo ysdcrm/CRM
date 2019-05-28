@@ -9,6 +9,12 @@ import com.ysd.entity.Userroles;
 import com.ysd.entity.Users;
 
 public interface UsersMapper {
+	/**
+	 * 查询不包括当前登陆者的所以用户 
+	 * @param login_name
+	 * @return
+	 */
+	 List<Users> UsersAll(String login_name);
 	 //登录用户
 	 Users getLogin(Users users);
 	 //添加密码输入次数
