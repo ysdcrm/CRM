@@ -128,22 +128,16 @@ public class UsersController {
 	   String password = Md5.buildTreeEncryption(users.getPassword());
 	   String newPW1 = Md5.buildTreeEncryption(newPW);
 	  //1.对参数进行非空验证 
-	   if(password==null || password.length()==0){
-	   System.out.println("请输入旧密码！"); } 
-	   if(newPW==null ||newPW.length()==0){
-	   System.out.println("请输入新密码！");} 
-	   if(querenPW==null ||querenPW.length()==0) {
-	   System.out.println("请确认新密码！");} 
-	   if(!newPW.equals(querenPW)) { 
-	   System.out.println("新密码和确认密码不一致！"); 
-	   return -1;}
 	   if(!users.getPassword().equals(password)) { 
-	  System.out.println("输入的旧密码不正确！"); } 
-	  //2.3判断新旧密码是否一致 // *
-	  if(password.equals(newPW)) { 
-		System.out.println("新密码不能与旧密码相同！");
-		return -1;} 
-	   users.setUser_id(user_id); 
-	   users.setPassword(newPW1);
-	   Integer updatePw = usersService.updatePw(users); return updatePw; } 
+			  System.out.println("输入的旧密码不正确！");
+	   } 
+	   if(!newPW.equals(querenPW)) { 
+		    System.out.println("新密码和确认密码不一致！"); 
+		      return -2;
+		  }
+			  users.setUser_id(user_id); 
+			   users.setPassword(newPW1);
+			   Integer updatePw = usersService.updatePw(users); 
+			   return updatePw; 
+	 } 
      }

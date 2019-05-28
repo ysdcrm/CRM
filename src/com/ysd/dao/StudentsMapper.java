@@ -49,7 +49,18 @@ public interface StudentsMapper {
      * @return
      */
     Integer addNetWorkStu(Students students);
-    //修改
+    //修改学生
     Integer updateStudent(Students students);
-    
+    /**
+	 * 	查询咨询师下的我的学生总数
+	 * @param fenye
+	 * @return
+	 */
+	Integer selectCountZXSMyStu(Fenye<Students> fenye);
+	/**
+	 * 	查询咨询师下的我的学生集合
+	 * @param fenye
+	 * @return
+	 */
+    List<Students> selectAllZXSMyStu(Fenye<Students> fenye);
 }

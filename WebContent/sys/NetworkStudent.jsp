@@ -4,23 +4,13 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>我的学生</title>
+<title>网络学生</title>
 <script src="../js/global.js"></script>
 <script type="text/javascript">
 $(function(){
 	initMyStu();
-	$("#refer_user_id").combobox({
-		url: '/CRM/selectAllRolesUsers',
-		method: 'post',
-		valueField:'user_id',    
-	    textField:'login_name'  
-	})
 })
 function initMyStu(){
-	var booktype=$("#refer_user_id").combobox("getValue");
-	if(booktype=="--请选择--"){
-		booktype="";
-	}
 	$("#dg").datagrid({
 		url:'/CRM/getMyStu',
 		method:'post',
@@ -30,7 +20,6 @@ function initMyStu(){
 		queryParams:{
 			name:$("#name").textbox('getValue'),
 			sex:$("#sexs").combobox('getValue'),
-			refer_user_id:booktype,
 			startcreat_time:$("#startcreat_time").datetimebox('getValue'),
 			endcreat_time:$("#endcreat_time").datetimebox('getValue'),
 		}
@@ -119,7 +108,6 @@ function qrdaochu() {
 	}
 	var data = JSON.stringify(datarows);//转换数据为json
 	var title = $("#daochu-title").textbox("getValue");//获取标题
-	alert(title);
 	if(title!=null && title!=''){
 		JSONToCSVConvertor(data, title , true);
 		$("#win-daochu").window("close");
@@ -199,9 +187,7 @@ var columns = [ [
 				field : 'cz',
 				title : '操作',
 				formatter : function(value, row, index) {
-					return "<span onclick='update(" + index
-							+ ")'>修改</span>&nbsp;&nbsp;"
-							+"<span onclick='TailAfter(" + index + ")'>跟踪</span>&nbsp;&nbsp";
+					return "<span onclick='TailAfter(" + index + ")'>跟踪</span>&nbsp;&nbsp";
 				}
 			} ] ]; 
 function dongtai() {
@@ -260,79 +246,32 @@ function dongtai2() {
 		}
 		$("#form-add").form("reset");
 	}
-	//修改
-	function update(index) {
-		var data = $("#dg").datagrid("getData"); 
-		var row = data.rows[index];
-		$("#form-update").form("load",row);
-		$("#win-update").window("open");
-	}	
-  function submitStudent() {
-		 var flag=$("#form-update").form("validate");//验证
-		 var data = $("#dg").datagrid("getSelected");
-	     var gzname=$("#gzname").val();
-	     var pay_time=$('#pay_time').datetimebox('getValue'); 
-		 var is_pay=$("#is_pay").combobox('getValue');
-		 var amount=$("#amount").val();
-		 var is_refund=$("#is_refund").combobox('getValue');
-		 var refund_reason=$("#refund_reason").val();
-		 var class_entry_remark=$("#class_entry_remark").val();
-		 var is_class_entry=$("#is_class_entry").combobox('getValue');
-		 var class_entry_time=$('#class_entry_time').datetimebox('getValue');
-		 var is_deposit=$("#is_deposit").combobox('getValue');
-		 var deposit_amount=$("#deposit_amount").val();
-		 var deposit_time=$('#deposit_time').datetimebox('getValue');
-    if(flag){
-   	 $.post(
-   		'/CRM/updateStudent',
-   		{
-   			student_id:data.student_id,
-   			gzname:gzname,
-   			pay_time:pay_time,
-   			is_pay:is_pay,
-   			amount:amount,
-   			is_refund:is_refund,
-   			refund_reason:refund_reason,
-   			is_class_entry:is_class_entry,
-   			class_entry_time:class_entry_time,
-   			is_deposit:is_deposit,
-   			class_entry_remark:class_entry_remark,
-   			deposit_amount:deposit_amount,
-   			deposit_time:deposit_time
-   		},function(res){
-   			 if(res>0){
-	                 $.messager.alert("提示","修改成功");
-	                 $('#dg').datagrid('reload'); //刷新
-	                 $("#win-update").dialog("close");
-	              }else{
-		            	 $.messager.alert("提示","修改失败！");
-		              }
-	   	    },'json')
-	    }
-    $("#form-genzong").form("reset");
-	}
-	function closeupdate(){
-		 $("#win-update").window("close");
-	} 
+  /* 手机号验证 */
+	$.extend($.fn.validatebox.defaults.rules, {    
+	    minLength: {    
+	        validator: function(value, param){    
+	            return value.length >= param[0];    
+	        },    
+	        message: '长度不能小于11位数' 
+	    }    
+	});  
+	$.extend($.fn.validatebox.defaults.rules, {    
+	    maxLength: {    
+	        validator: function(value, param){    
+	            return value.length <= param[0];    
+	        },    
+	        message: '长度不能大于11位数' 
+	    }    
+	}); 	
+	
  //网络跟踪
 	function TailAfter(index){
 		 var data = $("#dg").datagrid("getData");
 		 var row = data.rows[index];
 		 $("#form-genzong").form("load",row);//填充进表单
 		 $("#win-genzong").window("open");
-		/*  $("#gz").combobox({
-				url:'/CRM/getUserName',
-				method:'post',
-				valueField:'user_id',//填充进 <option value='id'>text</option>
-				textField:'login_name'//标签中间（<option>text</option>） 
-			}); */
 	}
 	function submitGenzong(){
-		/*  var gzuserid=$("#gz").combobox("getValue"); */
-		 /* if(gzuserid=="----请选择----"){
-			 gzuserid="";
-			} ;
-		 alert(gzuserid) */
 		 var flag=$("#form-genzong").form("validate");//验证
 		 var student_id=$("#student_id").val();
 		 var tracking_time=$("#tracking_time").datetimebox("getValue");
@@ -363,8 +302,6 @@ function closeadd() {
 	 $("#win-genzong").window("close");
 }
 	
-	
-	
 </script>
 </head>
 <body>
@@ -377,9 +314,6 @@ function closeadd() {
 			    <option value="0">女</option>   
 				</select>
         	创建时间：<input id="startcreat_time"  type="text" class= "easyui-datetimebox">~<input id="endcreat_time"  type= "text" class= "easyui-datetimebox"></input>
-        	咨询师: <select id="refer_user_id" class="easyui-combobox" style="width:200px;">   
-				    <option>--请选择--</option>   
-				 </select><br/>
         	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="initMyStu()" data-options="iconCls:'icon-search'">搜索</a> 
 			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="addMyStu()" data-options="iconCls:'icon-add'">添加</a>
 			<a href="javascript:void(0)" style="float: right;" class="easyui-linkbutton" onclick="btnExport()" data-options="iconCls:'icon-print'">导出Excel</a>    
@@ -528,7 +462,7 @@ function closeadd() {
 					</td>
 					<td>
 					<label for="phone">电话:</label> 
-					<input id="phone-add" class="easyui-textbox" name="phone" type="text" style="width:200px" data-options="required:true">
+					<input id="phone-add" class="easyui-textbox" name="phone" type="text" style="width:200px" data-options="required:true,validType:['minLength[11]','maxLength[11]']">
 					</td>
 				</tr>
 					<tr>

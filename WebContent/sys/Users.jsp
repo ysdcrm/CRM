@@ -60,14 +60,23 @@
 	}
 	function submitAdd(){
 			 var flag=$("#addForm").form("validate");//验证
-			  var data = $("#dg").datagrid("getData"); 
+			 var data = $("#dg").datagrid("getData"); 
 			 var create_time=data.create_time;
 		     var login_name=$("#login_names").val();
 		     var password=$("#passwords").val();
-		     /* var create_time=$('#create_times').datetimebox('getValue'); */
-			var protect_email=$("#protect_emails").val();
-			var protect_tel=$("#protect_tels").val();
-			var weight=$("#weights").val();
+		     var weight=$("#weights").val();
+			 var protect_email=$("#protect_emails").val();
+				var email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+				if (!email.test(protect_email)) {
+		  			alert("请输入正确格式的邮箱");
+		  			return false;
+		  		} 
+			 var protect_tel=$("#protect_tels").val();
+			 var tel = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
+			 if(!tel.test(protect_tel)){   //手机号的正则表达式
+				 alert("手机号码有误，请重新输入正常手机号！");
+		         return false;
+		     }
 	     if(flag){
 	    	 $.post(
 	    		'/CRM/addUsers',
@@ -94,25 +103,6 @@
 	function closeAdd(){
 		 $("#addDialog").dialog("close");
 	} 
-	/* 手机号验证 */
-	$.extend($.fn.validatebox.defaults.rules, {    
-	    minLength: {    
-	        validator: function(value, param){    
-	            return value.length >= param[0];    
-	        },    
-	        message: '长度不能小于11位数' 
-	    }    
-	});  
-	$.extend($.fn.validatebox.defaults.rules, {    
-	    maxLength: {    
-	        validator: function(value, param){    
-	            return value.length <= param[0];    
-	        },    
-	        message: '长度不能大于11位数' 
-	    }    
-	});  
-	
-	
 	//修改
 	function UpdateUsers(index){
 	      var data = $("#dg").datagrid("getData");
@@ -370,7 +360,7 @@
 				<tr>
 					<td>手机号:</td>
 					<td><input class="easyui-textbox" type="text" id="protect_tels"
-						name="protect_tels" data-options="required:true,validType:['minLength[11]','maxLength[11]']"></input></td>
+						name="protect_tels" data-options="required:true"></input></td>
 				</tr>
 				<tr>
 					<td>权重:</td>
@@ -402,7 +392,7 @@
 				<tr>
 					<td>邮箱:</td>
 					<td><input class="easyui-textbox" type="text" id="protect_emailss"
-						name="protect_email" data-options="required:true"></input></td>
+						name="protect_email" data-options="required:true,validType:'email'"></input></td>
 				</tr>
 				<tr>
 					<td>手机号:</td>

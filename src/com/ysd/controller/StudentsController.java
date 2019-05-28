@@ -91,6 +91,19 @@ public class StudentsController {
 		Fenye<Students> selectMyAllStu = studentsService.selectMyAllStu(fenye);
 		return selectMyAllStu;
 	}
+	//查询咨询师下的我的学生集合
+		@RequestMapping(value="/getZXSMyStu",method=RequestMethod.POST)
+		@ResponseBody
+		public Fenye<Students> getZXSMyStu(Integer page,Integer rows,Students students,HttpSession session) {
+			Integer refer_user_id=(Integer) session.getAttribute("user_id");
+			students.setRefer_user_id(refer_user_id);
+			fenye.setPage((page-1)*rows);
+			fenye.setPageSize(rows);
+			fenye.setStudents(students);
+			Fenye<Students> selectAllZXSMyStu = studentsService.selectAllZXSMyStu(fenye);
+			return selectAllZXSMyStu;
+		}
+	
 	//所有的咨询师
     @RequestMapping(value="/selectAllRolesUsers",method=RequestMethod.POST)
 	@ResponseBody
@@ -106,7 +119,6 @@ public class StudentsController {
 		String creatTime = sdf.format(new Date());
 		System.out.println(creatTime);
 		Integer network_user_id = (Integer) session.getAttribute("user_id");
-		System.out.println(network_user_id);
 		students.setNetwork_user_id(network_user_id);
 		AlotSetting as =  new AlotSetting();
 		int alot = as.alot(network_user_id, usersService);
@@ -115,31 +127,24 @@ public class StudentsController {
 		}
 		return studentsService.addNetWorkStu(students);
     }
+  
+    
     //批量分配咨询师
-	
 	  @RequestMapping(value="/fenpeiZXS",method=RequestMethod.POST)
 	  @ResponseBody
 	  public Integer updateUserId(String student_id,Integer refer_user_id){
-		
 		  Integer i = studentsService.updateUserId(student_id, refer_user_id);
 		  return i;
-				
-		  
 	  }
 	  
 	  //将学生的有效状态改为失效状态
 	  @RequestMapping(value="/delStu",method=RequestMethod.POST)
 	  @ResponseBody
 	  public Integer delStu(Integer student_id){
-		
 		  Integer i = studentsService.delStu(student_id);
 		  return i;
-				
-		  
 	  }
-    
-
-    //修改
+    //修改网络
     @RequestMapping(value="/updateStudent",method=RequestMethod.POST)
 	@ResponseBody
     public  Integer updateStudent(Students students){

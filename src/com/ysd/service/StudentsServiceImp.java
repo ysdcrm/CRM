@@ -63,7 +63,7 @@ public class StudentsServiceImp implements StudentsService {
 		return i;
 	}
 	
-	//查询我的所有学生
+	//查询所有网络学生
 	@Override
 	public Fenye<Students> selectMyAllStu(Fenye<Students> fenye) {
 		// TODO Auto-generated method stub
@@ -73,8 +73,15 @@ public class StudentsServiceImp implements StudentsService {
 		fenye.setTotal(selectCountMyStu);
 		return fenye;
 	}
-	
-	
+	//查询咨询师下的我的学生集合
+		@Override
+		public Fenye<Students> selectAllZXSMyStu(Fenye<Students> fenye) {
+			Integer selectCountZXSMyStu = studentsMapper.selectCountZXSMyStu(fenye);
+			List<Students> selectAllZXSMyStu = studentsMapper.selectAllZXSMyStu(fenye);
+			fenye.setRows(selectAllZXSMyStu);
+			fenye.setTotal(selectCountZXSMyStu);
+			return fenye;
+		}
 	//查询所有的咨询师
 		@Override
 		public List<Users> selectAllRolesUsers() {

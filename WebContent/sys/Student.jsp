@@ -180,7 +180,25 @@ function submitadd(){
 	 var education =$("#stueducation").combobox("getValue");
 	 var state =$("#stustate").combobox("getValue");
 	 var phone=$("#stuphone").val();
+	 var tel = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
+	 if(!tel.test(phone)){   //手机号的正则表达式
+         $.messager.show({
+				title:'提示信息',
+				msg:'手机号码有误，请重新输入正常手机号！！！',
+				showType:'show'
+			});
+         return false;
+     }
 	 var qq=$("#stuqq").val();
+	 var qq1 = /^[1-9]\d{4,9}$/
+		 if(!qq1.test(qq)){   //正则表达式
+	         $.messager.show({
+					title:'提示信息',
+					msg:'QQ输入错误！请重新输入正常QQ号！！！',
+					showType:'show'
+				});
+	         return false;
+	     }
      var area=$("#stuarea").combobox("getValue");
      var sources=$("#stusources").combobox("getValue");
     if(flag){
@@ -322,27 +340,6 @@ function bgdaochu() {
 	}
 }
 
-
-
-	/* 手机号验证 */
-	$.extend($.fn.validatebox.defaults.rules, {    
-	    minLength: {    
-	        validator: function(value, param){    
-	            return value.length >= param[0];    
-	        },    
-	        message: '长度不能小于11位数' 
-	    }    
-	});  
-	
-	$.extend($.fn.validatebox.defaults.rules, {    
-	    maxLength: {    
-	        validator: function(value, param){    
-	            return value.length <= param[0];    
-	        },    
-	        message: '长度不能大于11位数' 
-	    }    
-	}); 
-	
   //已分配
   function yiFenpei(){
 	  $("#yfp-window").window("open");
@@ -665,7 +662,7 @@ function bgdaochu() {
 				</tr>
 				<tr>
                         <td>手机号:</td>
-                        <td><input type="text" class="easyui-numberbox" id="stuphone" name="stuphone" data-options="required:true,validType:['minLength[11]','maxLength[11]']"></td>
+                        <td><input type="text" class="easyui-numberbox" id="stuphone" name="stuphone" data-options="required:true"></td>
                     </tr> 
 				<tr>
 					<td>QQ:</td>

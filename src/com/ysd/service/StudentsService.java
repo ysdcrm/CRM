@@ -21,13 +21,18 @@ public interface StudentsService {
     Integer updateUserId(String student_id,Integer refer_user_id);
     // 将学生的有效状态改为失效状态
     Integer delStu(Integer student_id);
-    
   	/**
-     * 	查询我得学生
+     * 	查询网络学生集合
      * @param fenye
      * @return
      */
     Fenye<Students> selectMyAllStu(Fenye<Students> fenye);
+    /**
+             * 查询咨询师下的我的学生集合
+     * @param fenye
+     * @return
+     */
+    Fenye<Students> selectAllZXSMyStu(Fenye<Students> fenye);
     /**
      * 查询所有的咨询师
      * @return

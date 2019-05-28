@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="students.refer_user_id!=null and students.refer_user_id!=''">
 	  		and students.refer_user_id=#{students.refer_user_id}
 	  	</if>
-	  	and Is_invalid='有效'
+	  	and Is_invalid='有效' ORDER BY students.student_id DESC
      </where>
       limit #{page},#{pageSize}
   </select>
@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </delete>
   
   
-  <!-- 查询我得学生总数量 -->
+  <!-- 查询网络学生总数量 -->
   <select id="selectCountMyStu" parameterType="fenye" resultType="int">
   	select count(*) from students
   	<where>
@@ -78,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		and network_user_id=#{students.network_user_id}
   	</where>
   </select>
-  <!-- 查询我得所有学生集合 -->
+  <!-- 查询所有网络学生集合 -->
   <resultMap type="students" id="studentsUserList">
   	<id column="student_id" property="student_id"/>
   	<result column="name" property="name"/>
@@ -116,7 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  		<if test="students.refer_user_id!=null and students.refer_user_id!=''">
 	  			and refer_user_id=#{students.refer_user_id}
 	  		</if>
-	  		and network_user_id=#{students.network_user_id} and s.refer_user_id=u.user_id
+	  		and s.network_user_id=#{students.network_user_id} and s.network_user_id=u.user_id ORDER BY s.student_id DESC
 	  	</where>
 	  	limit #{page},#{pageSize}
   </select>
@@ -269,4 +269,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     is_class_entry=#{is_class_entry},class_entry_time=#{class_entry_time},class_entry_remark=#{class_entry_remark},is_deposit=#{is_deposit},
     deposit_amount=#{deposit_amount},deposit_time=#{deposit_time} where student_id=#{student_id}
   </update>
+  
+ <!-- 查询咨询师下的我的学生总数 --> 
+ <select id="selectCountZXSMyStu" parameterType="fenye" resultType="int">
+  	select count(*) from students
+ </select>
+  <!-- 查询咨询师下的我的学生集合 -->
+  <select id="selectAllZXSMyStu" parameterType="fenye" resultMap="studentsUserList">
+     select * from students s,users u
+	  	<where>
+	  		<if test="students.name!=null and students.name!=''">
+  			and name like "%"#{students.name}"%"
+	  		</if> 
+	  		<if test="students.sex!=null and students.sex!=''">
+	  			and sex =#{students.sex}
+	  		</if>
+	  		<if test="students.startcreat_time!=null and students.startcreat_time!=''">
+	  			and create_time &gt;=#{students.startcreat_time}
+	  		</if>
+	  		<if test="students.endcreat_time!=null and students.endcreat_time!=''">
+	  			and create_time &lt;=#{students.endcreat_time}
+	  		</if>
+	  		<if test="students.refer_user_id!=null and students.refer_user_id!=''">
+	  			and refer_user_id=#{students.refer_user_id}
+	  		</if>
+	  		and s.refer_user_id=#{students.refer_user_id} and s.refer_user_id=u.user_id ORDER BY s.student_id DESC
+	  	</where>
+	  	limit #{page},#{pageSize}
+  </select>
 </mapper>

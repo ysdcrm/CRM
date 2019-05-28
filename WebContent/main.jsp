@@ -167,11 +167,14 @@
 			    		newPW:newPW,
 			    		querenPW:querenPW
 		 	},function(res){
-		 		 if(res>0){
+		 	   if(res>0){
 		 			$.messager.alert("提示","修改成功");//提示
 		 			$("#updateMMDialog").dialog("close");//关闭弹窗
+		 			window.location.href="login.jsp";
+					}else if(res==-2){
+						$.messager.alert("提示","新密码和确认密码不一致！");//提示
 					}else{
-						$.messager.alert("提示","修改失败");//提示
+						$.messager.alert("提示","修改失败！");//提示
 					} 
 		  },'json')
 	}
