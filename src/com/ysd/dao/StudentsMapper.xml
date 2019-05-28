@@ -140,7 +140,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="students.refer_user_id!=null and students.refer_user_id!=''">
 	  		and s.refer_user_id=#{students.refer_user_id}
 	  	</if>
-      and s.refer_user_id=u.user_id and s.Is_invalid='有效'
+      and s.refer_user_id=u.user_id and s.Is_invalid='有效' ORDER BY s.student_id DESC
      </where>
         limit #{page},#{pageSize}
   </select>
@@ -157,7 +157,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="students.endcreat_time!=null and students.endcreat_time!=''">
            and create_time &lt;=#{students.endcreat_time}
         </if>
-      and Is_invalid='有效'  and  refer_user_id is null 
+      and Is_invalid='有效'  and  refer_user_id is null ORDER BY students.student_id DESC
     </where>
         limit #{page},#{pageSize}
   </select>

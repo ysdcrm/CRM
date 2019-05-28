@@ -8,6 +8,15 @@
 <title>CRM教育系统</title>
 <script src="js/global.js"></script>
 <script type="text/javascript">
+		var login_names=window.localStorage.getItem("login_name");
+		var webscoket=new WebSocket("ws:localhost:8080/CRM/websocket/" + login_names);
+		webscoket.onopen=function(){
+		
+		}
+		webscoket.onmessage=function(event){
+			alert("提示消息："+event.data);
+		}
+
 	$(function() {
         var login_name=window.localStorage.getItem("login_name");
         $('#menuTree').tree({
@@ -180,7 +189,22 @@
 	}
 	function closeUpdateMM() {
 		$('#updateMMDialog').dialog("close");
-	}	
+	}
+	function openSend() {
+		$('#openSend-window').window("open");
+	}
+	function send() {
+		var text = document.getElementById('msg');
+		var UsersAll=$("#UsersAll").combobox("getValue");
+		if(UsersAll=="----请选择-----"){
+			alert("请选择联系人发送信息！")
+		}else{
+			message=login_names+","+UsersAll+","+text.value;
+			webscoket.send(message);
+			//接收到消息的回调方法  
+			alert("发送成功");
+		}
+	}
 </script>
 </head>
 <body>
@@ -188,6 +212,7 @@
 			云时代教育管理系统&nbsp;&nbsp;&nbsp;	欢迎您：&nbsp;<span style="font-size: 20px" id="UName"></span>&nbsp;&nbsp;老师！&nbsp;&nbsp;
 			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearTuichu()" data-options="iconCls:'icon-cancel'">安全退出</a>
 			<a href="javascript:void(0)" style="float:content;" class="easyui-linkbutton" onclick="personal()" data-options="iconCls:'icon-man'">个人中心</a> 
+			<a href="javascript:void(0)" style="float:right;" class="easyui-linkbutton" onclick="openSend()" data-options="iconCls:'icon-man'">通讯录</a>
 			<div id="qiandaodiv"><a href="javascript:void(0)" class="easyui-linkbutton" onclick="qiandao()" data-options="iconCls:'icon-sum'">签到</a></div>
 		</div>
 		<div id="" style="margin:20px 0;">
@@ -302,6 +327,17 @@
 				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitUpdateMM()" data-options="iconCls:'icon-ok'">保存</a>
 				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeUpdateMM()" data-options="iconCls:'icon-no'">取消</a>
 		</div>
-	</div>			
+	</div>
+		<!-- 通讯录 -->
+			<div id="openSend-window" class="easyui-window" title="个人信息" style="width:500px;height:500px" data-options="iconCls:'icon-save',modal:true,closed:true">
+							<input type="text" id="msg" style="width: 200px;" />
+							联系人：<select id="UsersAll" class="easyui-combobox"  style="width:120px;">   
+								    <option >----请选择-----</option>   
+								 </select>
+							<input type="button" value="发送" onclick="send()" />
+							<input type="button" value="重新连接" onclick="re()" />
+							<br />
+							<textarea cols="70" rows="40" id="contents"></textarea>
+			</div>				
 </body>
 </html>
