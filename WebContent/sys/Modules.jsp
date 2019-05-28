@@ -12,12 +12,22 @@ $(function(){
 		lines:true,
 		url:"/CRM/Allmodules",
 		onContextMenu:function(e,node){
-			e.preventDefault();
-			$("#tre").tree('select',node.target);
-			$("#mm").menu('show',{
-				left:e.pageX,
-				top:e.pageY
-			});
+		var	 fu=$("#tre").tree('getParent',node.target);
+			if(fu==null){
+				e.preventDefault();
+				$("#tre").tree('select',node.target);
+				$("#mm").menu('show',{
+					left:e.pageX,
+					top:e.pageY
+				});
+			}else{
+				e.preventDefault();
+				$("#tre").tree('select',node.target);
+				$("#nn").menu('show',{
+					left:e.pageX,
+					top:e.pageY
+				});
+			}
 		}
 	})
 })
