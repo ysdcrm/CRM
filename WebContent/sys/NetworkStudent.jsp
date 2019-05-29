@@ -177,19 +177,19 @@ var columns = [ [
 				title : '微信'
 			},
 			{
-				field : 'users',
-				title : '咨询师',
-				formatter:function(value, row, index) {
-					return row.users.login_name;
-				}
-			},
-			{
 				field : 'cz',
 				title : '操作',
 				formatter : function(value, row, index) {
 					return "<span onclick='TailAfter(" + index + ")'>跟踪</span>&nbsp;&nbsp";
 				}
-			} ] ]; 
+			},
+			{
+				field : 'ck',
+				title : '查看记录',
+				formatter : function(value, row, index) {
+					return "<span onclick='CKTailAfter(" + index + ")'>查看跟踪记录</span>&nbsp;&nbsp";
+				}
+			}] ]; 
 function dongtai() {
 	var html = new Array()
 	for (var i = 1; i < columns[0].length - 1; i++) {
@@ -301,7 +301,33 @@ function dongtai2() {
 function closeadd() {
 	 $("#win-genzong").window("close");
 }
-	
+//查看跟踪记录
+function CKTailAfter(index) {
+	var data = $("#dg").datagrid("getData");
+	 var row = data.rows[index];
+	 $("#win-CKTailAfter").window("open");
+	 initCKTailAfter(row);
+}
+function initCKTailAfter(row) {
+	var student_id=0;
+	if(row!=null){
+		student_id=row.student_id;
+	}else{
+		var data = $("#dg").datagrid("getSelected");//获取选中行
+		student_id=data.student_id;
+	}
+	$("#CKTailAfter").datagrid({
+		url:'/CRM/CKzongStu',
+		method:'post',
+		pagination:true,
+		singleSelects:true,
+		queryParams:{
+			student_id:student_id,
+			starttracking_time:$('#starttracking_time').datetimebox('getValue'),
+			endtracking_time:$('#endtracking_time').datetimebox('getValue')
+		}
+	});
+}
 </script>
 </head>
 <body>
@@ -391,7 +417,6 @@ function closeadd() {
 					微信<input type="checkbox" onclick="dongtai2()" name="we_chat" value="微信" />
 					是否报道 <input type="checkbox" onclick="dongtai2()" name="is_report" value="是否报道" />
 					备注<input type="checkbox" onclick="dongtai2()" name="remark" value="备注" />
-					咨询师<input type="checkbox" onclick="dongtai2()" name="refer_user_id" value="咨询师" />
 				</td>
 			</tr>
 			<tr>														
@@ -655,15 +680,6 @@ function closeadd() {
 					<td>学生名:</td>
 					<td><input class="easyui-textbox" type="text" readonly="readonly" id="gzname" name="name"  ></input></td>
 				</tr>
-             <!-- <tr>
-              <td>跟踪人</td>
-              <td><input class="easyui-textbox" type="text" id="gzuser" 
-						 data-options="reload:true"></input>
-                  <select id="gz" class="easyui-combobox"  >   
-	    			<option>----请选择----</option>     
-	    		  </select> 
-              </td>
-            </tr> -->
             <tr>
               <td> 跟踪时间</td>
               <td>
@@ -712,7 +728,25 @@ function closeadd() {
 				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeadd()" data-options="iconCls:'icon-no'">取消</a>
 		</div>  
    </div>
-
- 
+<!-- 查看跟踪记录 -->
+<div id="win-CKTailAfter" class="easyui-window" title="查看跟踪记录" style="height:450px;width:1000px" data-options="iconCls:'icon-save',modal:true,closed:true">
+	<div id="CKTailAftertab">
+		<form id="CKTailAfterfrm" class="easyui-form">
+        	跟踪时间：<input id="starttracking_time"  type= "text" class= "easyui-datetimebox">~<input id="endtracking_time"  type= "text" class= "easyui-datetimebox"></input>   
+        	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="initCKTailAfter()" data-options="iconCls:'icon-search'">搜索</a> 
+		</form>
+	</div>
+	<table id="CKTailAfter" class="easyui-datagrid"  data-options="toolbar:'#stutab'">   
+     <thead>   
+        <tr>   
+            <th data-options="field:'tracking_time'">跟踪时间</th>
+            <th data-options="field:'tracking_way'">跟踪方式</th> 
+            <th data-options="field:'content_time'">回访时间</th> 
+            <th data-options="field:'content_visit'">回访情况</th>
+            <th data-options="field:'remark'">回访内容</th>
+        </tr>   
+    </thead> 
+</table>
+</div>
 </body>
 </html>

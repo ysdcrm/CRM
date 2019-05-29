@@ -110,7 +110,14 @@ var columns = [ [
 		formatter : function(value, row, index) {
 			return "<a onclick='delStu(" + index + ")'>失效</a>&nbsp;&nbsp;"+"<a onclick='chakanStu(" + index + ")'>查看</a>&nbsp;&nbsp;";
 		}
-	} ] ];
+	},
+	{
+		field : 'ck',
+		title : '查看记录',
+		formatter : function(value, row, index) {
+			return "<span onclick='CKTailAfter(" + index + ")'>查看跟踪记录</span>&nbsp;&nbsp";
+		}
+	}  ] ];
 	
 $(function(){
 	initStu();
@@ -448,6 +455,37 @@ function bgdaochu() {
 				}
 		},"json") 
 }
+	//查看跟踪记录
+	function CKTailAfter(index) {
+		var data = $("#dg").datagrid("getData");
+		 var row = data.rows[index];
+		 $("#win-CKTailAfter").window("open");
+		 initCKTailAfter(row);
+	}
+	function initCKTailAfter(row) {
+		var student_id=0;
+		if(row!=null){
+			student_id=row.student_id;
+		}else{
+			var data = $("#dg").datagrid("getSelected");//获取选中行
+			student_id=data.student_id;
+		}
+		$("#CKTailAfter").datagrid({
+			url:'/CRM/CKzongStuBYUser',
+			method:'post',
+			pagination:true,
+			singleSelects:true,
+			queryParams:{
+				student_id:student_id,
+				starttracking_time:$('#starttracking_time').datetimebox('getValue'),
+				endtracking_time:$('#endtracking_time').datetimebox('getValue')
+			}
+		});
+	}
+	//负责人
+	  function formatterFZ(value,row,index) {
+	  return row.users.login_name;
+	}
 </script>
 </head>
 <body>
@@ -839,13 +877,28 @@ function bgdaochu() {
 				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closepl()" data-options="iconCls:'icon-no'">取消</a>
 		</div>
        </div> 
-        	
-		
   </div> 
-       
 </div>
- 
- 
+   <!-- 查看跟踪记录 -->
+<div id="win-CKTailAfter" class="easyui-window" title="查看跟踪记录" style="height:450px;width:1000px" data-options="iconCls:'icon-save',modal:true,closed:true">
+	<div id="CKTailAftertab">
+		<form id="CKTailAfterfrm" class="easyui-form">
+        	跟踪时间：<input id="starttracking_time"  type= "text" class= "easyui-datetimebox">~<input id="endtracking_time"  type= "text" class= "easyui-datetimebox"></input>   
+        	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="initCKTailAfter()" data-options="iconCls:'icon-search'">搜索</a> 
+		</form>
+	</div>
+	<table id="CKTailAfter" class="easyui-datagrid"  data-options="toolbar:'#stutab'">   
+     <thead>   
+        <tr>   
+            <th data-options="field:'tracking_time'">跟踪时间</th>
+            <th data-options="field:'tracking_way'">跟踪方式</th> 
+            <th data-options="field:'content_time'">回访时间</th> 
+            <th data-options="field:'content_visit'">回访情况</th>
+            <th data-options="field:'remark'">回访内容</th>
+            <th data-options="field:'user_id',formatter:formatterFZ">负责人</th>
+        </tr>   
+    </thead> 
+</table>
+</div>
 </body>
-
 </html>

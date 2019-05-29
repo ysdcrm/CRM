@@ -144,6 +144,10 @@ function subimtEditfm(){
 			<div onclick="edit()"  data-options="iconCls:'icon-edit'">修改</div>
 			<div onclick="del()"  data-options="iconCls:'icon-remove'">删除</div>
 		</div>
+		<div id="nn" class="easyui-menu"  style="width: 160px;">
+			<div onclick="edit()"  data-options="iconCls:'icon-edit'">修改</div>
+			<div onclick="del()"  data-options="iconCls:'icon-remove'">删除</div>
+		</div>
 		<div id="add" class="easyui-window" title="添加信息" style="width:400px;height:300px" data-options="iconCls:'icon-save',modal:true,closed:true">
 			<form id="append-fm" class="easyui-form" style="text-align: center;">
 				<table cellpadding="5">

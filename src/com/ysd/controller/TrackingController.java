@@ -37,5 +37,26 @@ public class TrackingController {
 		 Integer i = trackingService.addTracking(tracking);
 		return i;
 	 }
-
+		//查看跟踪记录
+		@RequestMapping(value="/CKzongStu",method=RequestMethod.POST)
+		@ResponseBody
+		 public Fenye<Tracking> CKzongStu(Integer page,Integer rows,Tracking tracking,HttpSession session) {
+			Integer user_id=(Integer) session.getAttribute("user_id");
+			 tracking.setUser_id(user_id);
+			 fenye.setPage((page-1)*rows); 
+			 fenye.setPageSize(rows);
+			 fenye.setTrackings(tracking);
+			 Fenye<Tracking> cKzongStu = trackingService.CKzongStu(fenye);
+			return cKzongStu;
+		 }
+		//查看跟踪记录
+				@RequestMapping(value="/CKzongStuBYUser",method=RequestMethod.POST)
+				@ResponseBody
+				 public Fenye<Tracking> CKzongStuBYUser(Integer page,Integer rows,Tracking tracking) {
+					 fenye.setPage((page-1)*rows); 
+					 fenye.setPageSize(rows);
+					 fenye.setTrackings(tracking);
+					 Fenye<Tracking> cKzongStuBYUser = trackingService.CKzongStuBYUser(fenye);
+					return cKzongStuBYUser;
+				 }
 }

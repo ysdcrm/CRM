@@ -29,21 +29,21 @@ function initUsers(){
 function formatterCZ2(value,row,index) {
 		return '<a  href="javascript:void(0)" class="easyui-linkbutton" onclick="OpenAllotSetting('+index+')" >签到</a>';
 } */
-//签到
+//一键签退
 function OpenAllotSetting() {
 	var ids='';
-	var rows = $("#dg").datagrid("getSelections");
-	if (rows.length == 0) {
+	var rows = $("#dg").datagrid("getSelections");//获取表格签退数据
+	if (rows.length == 0) { //当未选中数据就点击签退时，会提示“请选择要签退的员工”
 		$.messager.alert("系统信息", "请选择要签退的员工！");
 		return;
 	}
-	for(var i=0;i<rows.length;i++){
+	for(var i=0;i<rows.length;i++){ //将获取到的数据循还输出
         var data=rows[i];
-        if(data.sign_in_state==0){
+        if(data.sign_in_state==0){  //如果选中的数据中存在没有签到的员工，就提示。
         	$.messager.alert("系统信息", "请选择已经签到的员工进行签退！");
         	return;
         }else{
-        	ids=ids+data.user_id+",";
+        	ids=ids+data.user_id+",";  //将选中数据的id拼接成字符串给变量ids。
         }
     }
    	$.post("/CRM/upsignon",{
@@ -56,7 +56,7 @@ function OpenAllotSetting() {
    	},"json")
 	
 }
-	//是否签到
+//格式化签到
 function formatterQD(value,row,index) {
 		return value==0? "否":"是"
 	}

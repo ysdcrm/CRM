@@ -58,10 +58,6 @@ function initStu(rows) {
 	});
 	$("#stutabfrm").form("reset");
 }
-//格式化操作 
-function formatterCZ(value,row,index) {
-		return '<a  href="javascript:void(0)" class="easyui-linkbutton" onclick="" >操作</a>';
-}
 //导出表格
 function btnExport() {
 	var rows = $("#stu").datagrid("getSelections");
@@ -192,7 +188,6 @@ function qrdaochu() {
             <th data-options="field:'we_chat'">微信</th>   
             <th data-options="field:'area'">地区</th>  
             <th data-options="field:'create_time'">创建时间</th> 
-            <th data-options="field:'CZ',formatter:formatterCZ">操作</th>
         </tr>   
     </thead> 
 </table>

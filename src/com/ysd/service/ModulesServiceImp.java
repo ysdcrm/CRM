@@ -41,7 +41,6 @@ public class ModulesServiceImp implements ModulesService {
 		// TODO Auto-generated method stub
 		//所有模块
 		List<Modules> allModule = modulesMapper.getAllModule();
-		
 		List<SingleTree> trees=new ArrayList<SingleTree>();
 		for(Modules module:allModule) {
 			SingleTree tree=new SingleTree();

@@ -23,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 分页查询所有数据 -->
 	<select id="selectTrack" parameterType="fenye" resultMap="selectTrack">
    select t.tracking_id,s.`name`,u.login_name,t.tracking_time,t.tracking_way,t.content_time,t.content_visit,t.remark from users u,students s,tracking t WHERE u.user_id=t.user_id and t.student_id=s.student_id
+	ORDER BY t.tracking_id DESC     
 	     limit #{page},#{pageSize} 
 	</select>
 	<!-- 添加跟踪记录 -->
@@ -30,5 +31,68 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    insert into tracking(student_id,user_id,tracking_time,tracking_way,content_time,content_visit,remark)
 	    values(#{student_id},#{user_id},#{tracking_time},#{tracking_way},#{content_time},#{content_visit},#{remark})
 	</insert>
-
+	
+	<select id="CKzongStu" parameterType="fenye" resultType="tracking">
+		select * from tracking
+		<where>
+			<if test="trackings.starttracking_time !=null and trackings.starttracking_time!=''">
+			 and tracking_time &gt;=#{trackings.starttracking_time}
+			</if>
+			<if test="trackings.endtracking_time!=null and trackings.endtracking_time!=''">
+			 and tracking_time &lt;=#{trackings.endtracking_time}
+			</if>
+			<if test=""></if>
+			and student_id=#{trackings.student_id} and user_id=#{trackings.user_id}
+		</where>
+		limit #{page},#{pageSize}
+	</select>
+	<select id="CKzongStuCountTrack" parameterType="fenye" resultType="int">
+		select count(*) from tracking
+		<where>
+			<if test="trackings.starttracking_time !=null and trackings.starttracking_time!=''">
+			 and tracking_time &gt;=#{trackings.starttracking_time}
+			</if>
+			<if test="trackings.endtracking_time!=null and trackings.endtracking_time!=''">
+			 and tracking_time &lt;=#{trackings.endtracking_time}
+			</if>
+			and student_id=#{trackings.student_id} and user_id=#{trackings.user_id}
+		</where>
+	</select>
+	
+	<resultMap type="tracking" id="trackinglistByUser">
+		<id property="tracking_id" column="tracking_id"/>
+ 		<result property="tracking_time" column="tracking_time"/>
+ 		<result property="tracking_end_time" column="tracking_end_time"/>
+ 		<result property="tracking_way" column="tracking_way"/>
+ 		<result property="content_time" column="content_time"/>
+ 		<result property="content_visit" column="content_visit"/>
+ 		<result property="remark" column="remark"/>
+ 		<result property="users.user_id" column="user_id"/>
+ 		<result property="users.login_name" column="login_name"/>
+	</resultMap>
+	<select id="CKzongStuBYUser" parameterType="fenye" resultMap="trackinglistByUser">
+		select * from tracking t,users u
+		<where>
+			<if test="trackings.starttracking_time !=null and trackings.starttracking_time!=''">
+			 and t.tracking_time &gt;=#{trackings.starttracking_time}
+			</if>
+			<if test="trackings.endtracking_time!=null and trackings.endtracking_time!=''">
+			 and t.tracking_time &lt;=#{trackings.endtracking_time}
+			</if>
+			and t.student_id=#{trackings.student_id} and t.user_id=u.user_id
+		</where>
+		limit #{page},#{pageSize}
+	</select>
+	<select id="CCKzongStuBYUserCountTrack" parameterType="fenye" resultType="int">
+		select count(*) from tracking t,users u
+		<where>
+			<if test="trackings.starttracking_time !=null and trackings.starttracking_time!=''">
+			 and t.tracking_time &gt;=#{trackings.starttracking_time}
+			</if>
+			<if test="trackings.endtracking_time!=null and trackings.endtracking_time!=''">
+			 and t.tracking_time &lt;=#{trackings.endtracking_time}
+			</if>
+			and t.student_id=#{trackings.student_id} and t.user_id=u.user_id
+		</where>
+	</select>
 </mapper>

@@ -16,7 +16,6 @@
 				method : "post",
 				pagination : true,
 				singleSelect:false
-				
 		   })
 	}
 	function formatterXS(value,row,index) {
@@ -121,8 +120,7 @@
 			<a href="javascript:void(0)" style="float: right;" class="easyui-linkbutton" onclick="btnExport()" data-options="iconCls:'icon-print'">导出Excel</a>    
 		</form>
 	</div>
-	    <table id="dg" class="easyui-datagrid" style="width:100%;height:480px"   
-        data-options="toolbar:'#usertab'">   
+	    <table id="dg" class="easyui-datagrid" style="width:100%;height:300px;">   
     <thead>   
         <tr> 
         	<th data-options="field:'s',checkbox:true"></th>  

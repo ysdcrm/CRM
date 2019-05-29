@@ -15,8 +15,22 @@ public class Tracking {
 	private String remark;//备注
 	private Users users;
 	private Students students;
+	private String starttracking_time;
+	private String endtracking_time;
 	
 	
+	public String getStarttracking_time() {
+		return starttracking_time;
+	}
+	public void setStarttracking_time(String starttracking_time) {
+		this.starttracking_time = starttracking_time;
+	}
+	public String getEndtracking_time() {
+		return endtracking_time;
+	}
+	public void setEndtracking_time(String endtracking_time) {
+		this.endtracking_time = endtracking_time;
+	}
 	public Users getUsers() {
 		return users;
 	}

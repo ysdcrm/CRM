@@ -113,9 +113,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  		<if test="students.endcreat_time!=null and students.endcreat_time!=''">
 	  			and create_time &lt;=#{students.endcreat_time}
 	  		</if>
-	  		<if test="students.refer_user_id!=null and students.refer_user_id!=''">
-	  			and refer_user_id=#{students.refer_user_id}
-	  		</if>
 	  		and s.network_user_id=#{students.network_user_id} and s.network_user_id=u.user_id ORDER BY s.student_id DESC
 	  	</where>
 	  	limit #{page},#{pageSize}
