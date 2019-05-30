@@ -41,7 +41,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="trackings.endtracking_time!=null and trackings.endtracking_time!=''">
 			 and tracking_time &lt;=#{trackings.endtracking_time}
 			</if>
-			<if test=""></if>
 			and student_id=#{trackings.student_id} and user_id=#{trackings.user_id}
 		</where>
 		limit #{page},#{pageSize}

@@ -1,5 +1,6 @@
 package com.ysd.service;
 
+import com.ysd.entity.Fenye;
 import com.ysd.entity.Sign_in;
 
 public interface Sign_inService {
@@ -21,5 +22,10 @@ public interface Sign_inService {
 	 * @return
 	 */
 	Integer upsignon(String user_id);
-	
+	/**
+	 * 查询当天签到的员工
+	 * @param fenye
+	 * @return
+	 */
+	Fenye<Sign_in> SelectAllSignEmpByDay(Fenye<Sign_in> fenye);
 }

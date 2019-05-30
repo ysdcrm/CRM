@@ -5,6 +5,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ysd.dao.StudentsMapper">
   <select id="selectCountStu" parameterType="fenye" resultType="int">
        select count(student_id) from students
+       <where>
+        <if test="students.name!=null and students.name!=''">
+          and  students.name like "%"#{students.name}"%"
+        </if>
+        <if test="students.sex!=null and students.sex!=''">
+           and students.sex =#{students.sex}
+        </if>
+        <if test="students.education!=null and students.education!=''">
+           and students.education =#{students.education}
+        </if>
+         <if test="students.area!=null and students.area!=''">
+           and students.area =#{students.area}
+        </if>
+        <if test="students.sources!=null and students.sources!=''">
+           and students.sources =#{students.sources}
+        </if>
+         <if test="students.startcreat_time!=null and students.startcreat_time!=''">
+           and students.create_time &gt;=#{students.startcreat_time}
+        </if>
+        <if test="students.endcreat_time!=null and students.endcreat_time!=''">
+           and students.create_time &lt;=#{students.endcreat_time}
+        </if>
+        <if test="students.refer_user_id!=null and students.refer_user_id!=''">
+	  		and students.refer_user_id=#{students.refer_user_id}
+	  	</if>
+	  	and Is_invalid='有效' ORDER BY students.student_id DESC
+     </where>
   </select>
   <!--  分页查询所有学生数据 -->
   <select id="selectAllStu" parameterType="fenye" resultType="students">
@@ -44,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </select>
    <!--添加学生 -->
   <insert id="addStu" parameterType="students">
-       insert into students(name,age,sex,education,state,phone,qq,we_chat,area,sources,create_time,refer_user_id)values(#{name},#{age},#{sex},#{education},#{state},#{phone},#{qq},#{phone},#{area},#{sources},#{create_time},#{refer_user_id})
+       insert into students(name,age,sex,education,state,phone,qq,we_chat,area,sources,create_time,refer_user_id,Is_invalid)values(#{name},#{age},#{sex},#{education},#{state},#{phone},#{qq},#{phone},#{area},#{sources},#{create_time},#{refer_user_id},'有效')
   </insert>
   <!--批量分配咨询师 -->
   <update id="updateUserId" parameterType="int">
@@ -209,8 +236,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   			refer_user_id,
   		</if>
   		<if test="network_user_id!=null and network_user_id!=''">
-  			network_user_id
+  			network_user_id,
   		</if>
+  			Is_invalid
   	</trim>
   	<trim prefix="values (" suffix=")" suffixOverrides="," >
   		<if test="name!=null and name!=''">
@@ -256,8 +284,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   			#{refer_user_id},
   		</if>
   		<if test="network_user_id!=null and network_user_id!=''">
-  			#{network_user_id}
+  			#{network_user_id},
   		</if>
+  			'有效'
   	</trim>
   </insert>
   <!-- 修改 -->

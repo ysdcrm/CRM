@@ -8,14 +8,38 @@ public class Sign_in {
 	private Integer user_id;//用户id
 	private String create_time;//用户签到时间
 	private String sign_in_end_time;//用户签退时间
-	private String sign_state;//用户签到状态
+	private String start;//用户签到状态
+	
+	private String startcreate_time;//开始时间
+	private String endcreate_time;//结束时间
 	
 	
-	public String getSign_state() {
-		return sign_state;
+	private Users users;
+	
+	
+	public Users getUsers() {
+		return users;
 	}
-	public void setSign_state(String sign_state) {
-		this.sign_state = sign_state;
+	public void setUsers(Users users) {
+		this.users = users;
+	}
+	public String getStartcreate_time() {
+		return startcreate_time;
+	}
+	public void setStartcreate_time(String startcreate_time) {
+		this.startcreate_time = startcreate_time;
+	}
+	public String getEndcreate_time() {
+		return endcreate_time;
+	}
+	public void setEndcreate_time(String endcreate_time) {
+		this.endcreate_time = endcreate_time;
+	}
+	public String getstart() {
+		return start;
+	}
+	public void setstart(String start) {
+		this.start = start;
 	}
 	public Integer getSign_in_id() {
 		return sign_in_id;

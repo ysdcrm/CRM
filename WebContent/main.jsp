@@ -112,7 +112,7 @@
 				}else{
 					 $.messager.show({
 							title : '提示信息',	
-							msg : "亲，你迟到了哦,但是还是不能回家休息哟！！！！",
+							msg : "亲，你迟到了哦！！！！",
 							showType : 'show'
 						});
 					 $("#qiandaodiv").html("<a href='javascript:void(0)' onclick='qiantui()' class='easyui-linkbutton' data-options='iconCls:'icon-cut''>签退</a>");
@@ -262,7 +262,7 @@
         	<div id="center_1" data-options="region:'center',iconCls:'icon-ok'" style="width: 500px;" >
 	            <div id="tt" class="easyui-tabs"  > <!--这个地方采用tabs控件进行布局-->
 		            <div title="默认页" closable="false" style="">
-						<div id="container2" style="max-width:700px;height:400px"></div>
+						<!-- <div id="container2" style="max-width:700px;height:400px"></div>
 						  <script>
 					         $.ajax({
 					         	url:'wangluotongjitubing',
@@ -304,7 +304,7 @@
 					             });
 					             }
 					         })
-			        </script>
+			        </script> -->
 	           		</div>
 	            </div>
         	</div>

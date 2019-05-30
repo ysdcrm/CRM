@@ -5,6 +5,11 @@
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
+<script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+<script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+<script src="https://code.highcharts.com.cn/highcharts/modules/series-label.js"></script>
+<script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
+<script src="https://code.highcharts.com.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
 <script src="../js/global.js"></script>
 <script type="text/javascript">
 
@@ -489,6 +494,49 @@ function bgdaochu() {
 </script>
 </head>
 <body>
+<div id="container2" style="width:400px;height:400px;float: left;"></div>
+						  <script>
+					         $.ajax({
+					         	url:'/CRM/wangluotongjitubing',
+					             type:'post',
+					             dataType:"json",
+					             success:function(res) {
+					            	 
+					            	 Highcharts.chart('container2', {
+					             		chart: {
+					             				plotBackgroundColor: null,
+					             				plotBorderWidth: null,
+					             				plotShadow: false,
+					             				type: 'pie'
+					             		},
+					             		title: {
+					             				text: '所有学生是否分配比例图'
+					             		},
+					             		tooltip: {
+					             				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+					             		},
+					             		plotOptions: {
+					             				pie: {
+					             						allowPointSelect: true,
+					             						cursor: 'pointer',
+					             						dataLabels: {
+					             								enabled: true,
+					             								format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+					             								style: {
+					             										color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+					             								}
+					             						}
+					             				}
+					             		},
+					             		series: [{
+					             				name: '比例',
+					             				colorByPoint: true,
+					             				data: res.data
+					             		}]
+					             });
+					             }
+					         })
+			        </script>
 <div id="usertab">
 		<form id="usertabfrm" class="easyui-form">
         	学生姓名：<input id="name" type= "text" class= "easyui-textbox" style="width:60px">  
@@ -524,7 +572,7 @@ function bgdaochu() {
 		        咨询师：<select id="zx" class="easyui-combobox" style="width:90px">
 				      <option >----请选择----</option>   
 				   </select>
-		    
+		    <br/>
         	创建时间：<input id="startcreat_time"  type= "text" class= "easyui-datetimebox" style="width:100px">~
         	         <input id="endcreat_time"  type= "text" class= "easyui-datetimebox" style="width:100px">  
         	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="initStu()" data-options="iconCls:'icon-search'">搜索</a><br>

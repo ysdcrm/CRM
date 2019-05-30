@@ -3,7 +3,9 @@ package com.ysd.controller;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ysd.dao.Sign_inMapper;
 import com.ysd.dao.StudentsMapper;
+import com.ysd.entity.Highchartsbingtu;
 import com.ysd.entity.Highchartsbingzhuang;
 import com.ysd.entity.Highchartsquxian;
 import com.ysd.entity.Sign_in;
@@ -57,7 +61,46 @@ public class TongjituController {
 			Highchartsbingzhuang highchartsbingzhuang2 = new Highchartsbingzhuang(null, null,data);
 			return highchartsbingzhuang2;
 		}
-		
+		@Autowired
+		private Sign_inMapper sign_inMapper;
+		@RequestMapping(value="signByDay",method=RequestMethod.POST)
+		@ResponseBody
+		public Highchartsbingtu signByDay() {
+			Sign_in sign_in = new Sign_in();
+			String Signbacktime = "";
+	    	String Signbacktime1 = "";
+	    	Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+			Signbacktime = sdf.format(date);
+			Calendar calendar = new GregorianCalendar();
+			calendar.setTime(date);
+			calendar.add(calendar.DATE, 1);
+			Signbacktime1 = sdf.format(calendar.getTime());
+			sign_in.setStartcreate_time(Signbacktime);
+			sign_in.setEndcreate_time(Signbacktime1);
+			//所有员工
+			Integer signEmpByDayCountAll = sign_inMapper.SignEmpByDayCountAll();
+			//签到员工
+			Integer signEmpByDayCountQD = sign_inMapper.SignEmpByDayCountQD(sign_in);
+			//未签到
+			Integer signEmpByDayCountWQD = sign_inMapper.SignEmpByDayCountWQD(sign_in);
+			//正常
+			Integer signEmpByDayCountZC = sign_inMapper.SignEmpByDayCountZC(sign_in);
+			//迟到
+			Integer signEmpByDayCountCD = sign_inMapper.SignEmpByDayCountCD(sign_in);
+			//早退
+			Integer signEmpByDayCountZT = sign_inMapper.SignEmpByDayCountZT(sign_in);
+			Integer[] data=new Integer[6] ;
+			int i=0;
+			data[i]=signEmpByDayCountAll;
+			data[i+1]=signEmpByDayCountQD;
+			data[i+2]=signEmpByDayCountWQD;
+			data[i+3]=signEmpByDayCountZC;
+			data[i+4]=signEmpByDayCountCD;
+			data[i+5]=signEmpByDayCountZT;
+			Highchartsbingtu highchartsbingtu=new Highchartsbingtu(null, data);
+			return highchartsbingtu;
+		}
 
 		
 		

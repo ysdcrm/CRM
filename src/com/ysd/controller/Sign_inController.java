@@ -2,9 +2,9 @@ package com.ysd.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.GregorianCalendar;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,15 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ysd.entity.Fenye;
 import com.ysd.entity.Sign_in;
 import com.ysd.service.Sign_inService;
 
 @Controller
 public class Sign_inController {
- @Autowired
+	 @Autowired
 	 private Sign_inService sign_inService;
- @Autowired
+	 @Autowired
      private Sign_in sign_in;
+	 @Autowired
+	 private Fenye<Sign_in> fenye;
  
 //签到
 	@RequestMapping(value="/signon",method=RequestMethod.POST)
@@ -58,6 +61,8 @@ public class Sign_inController {
 						return 2;
 					}else {
 						sign_in.setCreate_time(Signtime);
+						String start="正常";
+						sign_in.setstart(start);
 						Integer i = sign_inService.addSign_in(sign_in);
 						return i;
 					}
@@ -66,6 +71,8 @@ public class Sign_inController {
 						return 2;
 					}else {
 						sign_in.setCreate_time(Signtime);
+						String start="迟到";
+						sign_in.setstart(start);
 						sign_inService.addSign_in(sign_in);
 						return -1;
 					}
@@ -117,11 +124,32 @@ public class Sign_inController {
 				return i;
 			}
 		}
-		
+		//批量签退
 		@RequestMapping(value="/upsignon",method=RequestMethod.POST)
 		@ResponseBody
 		public Integer upsignon(String user_id){
-			
 			return sign_inService.upsignon(user_id);
 		}
+		//所有当天签到的员工
+	    @RequestMapping(value="/SelectAllSignEmpByDay",method=RequestMethod.POST)
+		@ResponseBody
+	    public Fenye<Sign_in> SelectAllSignEmpByDay(Integer page,Integer rows,Sign_in sign_in){
+	    	String Signbacktime = "";
+	    	String Signbacktime1 = "";
+	    	Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+			Signbacktime = sdf.format(date);
+			Calendar calendar = new GregorianCalendar();
+			calendar.setTime(date);
+			calendar.add(calendar.DATE, 1);
+			Signbacktime1 = sdf.format(calendar.getTime());
+			sign_in.setStartcreate_time(Signbacktime);
+			sign_in.setEndcreate_time(Signbacktime1);
+			  fenye.setPage((page-1)*rows);
+			  fenye.setPageSize(rows);
+			  fenye.setSign_ins(sign_in);
+			  Fenye<Sign_in> selectAllSignEmpByDay = sign_inService.SelectAllSignEmpByDay(fenye);
+	    	return selectAllSignEmpByDay;
+	    }
+		
 }

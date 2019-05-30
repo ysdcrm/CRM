@@ -1,11 +1,15 @@
 package com.ysd.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ysd.dao.Sign_inMapper;
+import com.ysd.entity.Fenye;
 import com.ysd.entity.Sign_in;
 import com.ysd.entity.Students;
+import com.ysd.entity.Users;
 
 @Service
 public class Sign_inServiceImp implements Sign_inService {
@@ -48,6 +52,19 @@ public class Sign_inServiceImp implements Sign_inService {
 			 j = sign_inMapper.upsignon(user_ids);
 		}
 		return j;
+	}
+	/**
+	 * 查询当天签到的员工
+	 */
+	@Override
+	public Fenye<Sign_in> SelectAllSignEmpByDay(Fenye<Sign_in> fenye) {
+		// TODO Auto-generated method stub
+		List<Sign_in> selectAllSignEmpByDay = sign_inMapper.SelectAllSignEmpByDay(fenye);
+		Integer selectAllSignEmpByDayCount = sign_inMapper.SelectAllSignEmpByDayCount(fenye);
+			System.out.println(selectAllSignEmpByDayCount);
+		fenye.setTotal(selectAllSignEmpByDayCount);
+		fenye.setRows(selectAllSignEmpByDay);
+		return fenye;
 	}
 
 }
