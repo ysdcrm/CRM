@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ysd.entity.Fenye;
 import com.ysd.entity.Sign_in;
+import com.ysd.entity.Users;
 import com.ysd.service.Sign_inService;
 
 @Controller
@@ -25,7 +26,7 @@ public class Sign_inController {
 	 @Autowired
      private Sign_in sign_in;
 	 @Autowired
-	 private Fenye<Sign_in> fenye;
+	 private Fenye<Users> fenye;
  
 //签到
 	@RequestMapping(value="/signon",method=RequestMethod.POST)
@@ -62,7 +63,7 @@ public class Sign_inController {
 					}else {
 						sign_in.setCreate_time(Signtime);
 						String start="正常";
-						sign_in.setstart(start);
+						sign_in.setStart(start);
 						Integer i = sign_inService.addSign_in(sign_in);
 						return i;
 					}
@@ -72,7 +73,7 @@ public class Sign_inController {
 					}else {
 						sign_in.setCreate_time(Signtime);
 						String start="迟到";
-						sign_in.setstart(start);
+						sign_in.setStart(start);
 						sign_inService.addSign_in(sign_in);
 						return -1;
 					}
@@ -107,19 +108,13 @@ public class Sign_inController {
 			
 			//用户当天签到时间加上十分钟后的当前时间
 			Sign_in selectSignByUserid = sign_inService.selectSignByUserid(selectSignByUserids);
-			String signtime2 = selectSignByUserid.getCreate_time().substring(0,19); //截取字符串
-			long longstr2 = Long.valueOf(signtime2.replaceAll("[-\\s:]",""));  //去除日期格式里的 ‘--和：’
-			long times = 1000;
-			long time = longstr2+times;//获取签到时间加上十分钟后的系统时间
-			if(longstr1<time){
-				System.out.println("未到下班时间！不能签退！！！！");
-				return 0;
-			}
-			else if(selectSignByUserid.getSign_in_end_time()!=null){
+			if(selectSignByUserid.getSign_in_end_time()!=null){
 				System.out.println("今天已经签退过啦！");
 				return -1;
 			}else{
 				selectSignByUserids.setSign_in_end_time(Signbacktime);
+				String start="早退";
+				selectSignByUserids.setEndstart(start);
 				Integer i = sign_inService.updateSign(selectSignByUserids);
 				return i;
 			}
@@ -133,7 +128,7 @@ public class Sign_inController {
 		//所有当天签到的员工
 	    @RequestMapping(value="/SelectAllSignEmpByDay",method=RequestMethod.POST)
 		@ResponseBody
-	    public Fenye<Sign_in> SelectAllSignEmpByDay(Integer page,Integer rows,Sign_in sign_in){
+	    public Fenye<Users> SelectAllSignEmpByDay(Integer page,Integer rows,Sign_in sign_in){
 	    	String Signbacktime = "";
 	    	String Signbacktime1 = "";
 	    	Date date = new Date();
@@ -147,8 +142,7 @@ public class Sign_inController {
 			sign_in.setEndcreate_time(Signbacktime1);
 			  fenye.setPage((page-1)*rows);
 			  fenye.setPageSize(rows);
-			  fenye.setSign_ins(sign_in);
-			  Fenye<Sign_in> selectAllSignEmpByDay = sign_inService.SelectAllSignEmpByDay(fenye);
+			  Fenye<Users> selectAllSignEmpByDay = sign_inService.SelectAllSignEmpByDay(fenye);
 	    	return selectAllSignEmpByDay;
 	    }
 		

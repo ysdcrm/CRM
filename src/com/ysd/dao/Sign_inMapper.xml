@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!--签退  -->
 	<update id="updateSign" parameterType="sign_in">
-	update sign_in set sign_in_end_time=#{sign_in_end_time} where sign_in_id=#{sign_in_id}
+	update sign_in set sign_in_end_time=#{sign_in_end_time},endstart=#{endstart} where sign_in_id=#{sign_in_id}
 	</update>
 	<!-- 签退成功：修改用户签到状态 -->
 	<update id="UpdateUserSignstateIn" parameterType="sign_in">
@@ -57,23 +57,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 查询当天签到的员工集合 -->
 	<select id="SelectAllSignEmpByDayCount" parameterType="fenye" resultType="int">
-		SELECT COUNT(distinct u.user_id) FROM users u,sign_in s
-		<where>
+		SELECT COUNT(user_id) FROM users 
+<!-- 		<where>
 			and s.create_time &gt;#{sign_ins.startcreate_time} and #{sign_ins.endcreate_time}&gt; s.create_time 
-		</where>
+		</where> -->
 	</select>
-	<resultMap type="sign_in" id="signEmpByDay">
+	<!-- <resultMap type="sign_in" id="signEmpByDay">
 		<id property="sign_in_id" column="sign_in_id"/>
  		<result property="start" column="start"/>
+ 		<result property="endstart" column="endstart"/>
  		<result property="users.user_id" column="user_id"/>
  		<result property="users.login_name" column="login_name"/>
  		<result property="users.sign_in_state" column="sign_in_state"/>
-	</resultMap>
-	<select id="SelectAllSignEmpByDay" parameterType="fenye" resultMap="signEmpByDay">
-		SELECT distinct u.user_id,u.login_name,u.sign_in_state,s.`start` FROM users u,sign_in s
-		<where>
+	</resultMap> -->
+	<select id="SelectAllSignEmpByDay" parameterType="fenye" resultType="users">
+		SELECT * FROM users u
+<!-- 		<where>
 			and s.create_time &gt;#{sign_ins.startcreate_time} and  #{sign_ins.endcreate_time}&gt; s.create_time 
-		</where>
+		</where> -->
 		limit #{page},#{pageSize}
 	</select>
 	<!-- 每天签到统计图 -->
@@ -101,7 +102,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="SignEmpByDayCountZT" parameterType="sign_in" resultType="int">
 	SELECT COUNT(distinct u.user_id) FROM users u,sign_in s
 		<where>
-			and s.create_time &gt;#{startcreate_time} and #{endcreate_time}&gt; s.create_time and u.user_id=s.user_id and s.start='早退'
+			and s.create_time &gt;#{startcreate_time} and #{endcreate_time}&gt; s.create_time and u.user_id=s.user_id and s.endstart='早退'
 		</where>
 	</select>
 	<select id="SignEmpByDayCountCD" parameterType="sign_in" resultType="int">

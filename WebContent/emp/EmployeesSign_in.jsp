@@ -51,6 +51,7 @@ function OpenAllotSetting() {
         	ids=ids+data.user_id+",";  //将选中数据的id拼接成字符串给变量ids。
         }
     }
+	alert(ids);
    	$.post("/CRM/upsignon",{
    		user_id:ids
    	},function(res){
@@ -61,14 +62,14 @@ function OpenAllotSetting() {
    	},"json")
 	
 }
-function formatteruser_id(value,row,index) {
+/* function formatteruser_id(value,row,index) {
 	 return row.users.user_id;
 }
 function formatterlogin_name(value,row,index) {
 	return row.users.login_name;
-}
+} */
 function formattersign_in_state(value,row,index) {
-	return row.users.sign_in_state==0? "未签到":"已签到";
+	return value==0? "未签到":"已签到";
 	
 }
 </script>
@@ -86,7 +87,7 @@ $.post("/CRM/signByDay",{},function(res){
 		},
 		xAxis: {
 			categories: [
-				'总人数','签到人数','未签到人数','正常','迟到','早退'
+				'总人数','签到人数','正常','迟到','早退'
 			],
 			crosshair: true
 		},
@@ -135,8 +136,8 @@ $.post("/CRM/signByDay",{},function(res){
     <thead>   
         <tr> 
         	<th data-options="field:'xz',checkbox : true"></th>    
-            <th data-options="field:'user_id',formatter:formatteruser_id">用户id</th>   
-            <th data-options="field:'login_name',formatter:formatterlogin_name">登录名</th> 
+            <th data-options="field:'user_id'">用户id</th>   
+            <th data-options="field:'login_name'">登录名</th> 
            <th data-options="field:'sign_in_state',formatter:formattersign_in_state">用户是否签到</th> 
         </tr>   
     </thead>   

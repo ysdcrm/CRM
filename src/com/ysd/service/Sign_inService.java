@@ -2,6 +2,7 @@ package com.ysd.service;
 
 import com.ysd.entity.Fenye;
 import com.ysd.entity.Sign_in;
+import com.ysd.entity.Users;
 
 public interface Sign_inService {
    //签到
@@ -27,5 +28,5 @@ public interface Sign_inService {
 	 * @param fenye
 	 * @return
 	 */
-	Fenye<Sign_in> SelectAllSignEmpByDay(Fenye<Sign_in> fenye);
+	Fenye<Users> SelectAllSignEmpByDay(Fenye<Users> fenye);
 }

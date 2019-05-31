@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ysd.entity.Fenye;
 import com.ysd.entity.Sign_in;
+import com.ysd.entity.Users;
 
 public interface Sign_inMapper {
 	/**
@@ -42,14 +43,14 @@ public interface Sign_inMapper {
 	 * @param fenye
 	 * @return
 	 */
-	Integer SelectAllSignEmpByDayCount(Fenye<Sign_in> fenye);
+	Integer SelectAllSignEmpByDayCount(Fenye<Users> fenye);
 	
 	/**
 	 * 查询当天签到的员工集合
 	 * @param fenye
 	 * @return
 	 */
-	List<Sign_in> SelectAllSignEmpByDay(Fenye<Sign_in> fenye);
+	List<Users> SelectAllSignEmpByDay(Fenye<Users> fenye);
 	
 	//每天签到的统计图
 	/**

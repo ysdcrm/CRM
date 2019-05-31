@@ -57,9 +57,9 @@ public class Sign_inServiceImp implements Sign_inService {
 	 * 查询当天签到的员工
 	 */
 	@Override
-	public Fenye<Sign_in> SelectAllSignEmpByDay(Fenye<Sign_in> fenye) {
+	public Fenye<Users> SelectAllSignEmpByDay(Fenye<Users> fenye) {
 		// TODO Auto-generated method stub
-		List<Sign_in> selectAllSignEmpByDay = sign_inMapper.SelectAllSignEmpByDay(fenye);
+		List<Users> selectAllSignEmpByDay = sign_inMapper.SelectAllSignEmpByDay(fenye);
 		Integer selectAllSignEmpByDayCount = sign_inMapper.SelectAllSignEmpByDayCount(fenye);
 			System.out.println(selectAllSignEmpByDayCount);
 		fenye.setTotal(selectAllSignEmpByDayCount);

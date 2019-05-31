@@ -82,22 +82,23 @@ public class TongjituController {
 			Integer signEmpByDayCountAll = sign_inMapper.SignEmpByDayCountAll();
 			//签到员工
 			Integer signEmpByDayCountQD = sign_inMapper.SignEmpByDayCountQD(sign_in);
-			//未签到
-			Integer signEmpByDayCountWQD = sign_inMapper.SignEmpByDayCountWQD(sign_in);
-			//正常
+		/*
+		 * //未签到 Integer signEmpByDayCountWQD =
+		 * sign_inMapper.SignEmpByDayCountWQD(sign_in);
+		 */			//正常
 			Integer signEmpByDayCountZC = sign_inMapper.SignEmpByDayCountZC(sign_in);
 			//迟到
 			Integer signEmpByDayCountCD = sign_inMapper.SignEmpByDayCountCD(sign_in);
 			//早退
 			Integer signEmpByDayCountZT = sign_inMapper.SignEmpByDayCountZT(sign_in);
-			Integer[] data=new Integer[6] ;
+			Integer[] data=new Integer[5] ;
 			int i=0;
 			data[i]=signEmpByDayCountAll;
 			data[i+1]=signEmpByDayCountQD;
-			data[i+2]=signEmpByDayCountWQD;
-			data[i+3]=signEmpByDayCountZC;
-			data[i+4]=signEmpByDayCountCD;
-			data[i+5]=signEmpByDayCountZT;
+		/* data[i+2]=signEmpByDayCountWQD; */
+			data[i+2]=signEmpByDayCountZC;
+			data[i+3]=signEmpByDayCountCD;
+			data[i+4]=signEmpByDayCountZT;
 			Highchartsbingtu highchartsbingtu=new Highchartsbingtu(null, data);
 			return highchartsbingtu;
 		}

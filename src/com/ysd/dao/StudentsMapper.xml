@@ -71,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </select>
    <!--添加学生 -->
   <insert id="addStu" parameterType="students">
-       insert into students(name,age,sex,education,state,phone,qq,we_chat,area,sources,create_time,refer_user_id,Is_invalid)values(#{name},#{age},#{sex},#{education},#{state},#{phone},#{qq},#{phone},#{area},#{sources},#{create_time},#{refer_user_id},'有效')
+       insert into students(name,age,sex,education,state,phone,qq,we_chat,area,sources,create_time,refer_user_id)values(#{name},#{age},#{sex},#{education},#{state},#{phone},#{qq},#{phone},#{area},#{sources},#{create_time},#{refer_user_id})
   </insert>
   <!--批量分配咨询师 -->
   <update id="updateUserId" parameterType="int">
@@ -188,7 +188,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <!-- 查询所有的咨询师，注：是咨询师，别看错 -->
   <select id="selectAllRolesUsers" resultType="users">
-  SELECT u.user_id,u.login_name FROM users u,roles s,userroles us WHERE u.user_id=us.user_id AND us.role_id=s.role_id AND s.role_name='咨询师' and u.sign_in_state='1'
+  SELECT u.user_id,u.login_name FROM users u,roles s,userroles us WHERE u.user_id=us.user_id AND us.role_id=s.role_id AND s.role_name='咨询师' 
   </select>
   <insert id="addNetWorkStu" parameterType="students">
   	insert into students
@@ -238,7 +238,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		<if test="network_user_id!=null and network_user_id!=''">
   			network_user_id,
   		</if>
-  			Is_invalid
   	</trim>
   	<trim prefix="values (" suffix=")" suffixOverrides="," >
   		<if test="name!=null and name!=''">
@@ -286,7 +285,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		<if test="network_user_id!=null and network_user_id!=''">
   			#{network_user_id},
   		</if>
-  			'有效'
   	</trim>
   </insert>
   <!-- 修改 -->
